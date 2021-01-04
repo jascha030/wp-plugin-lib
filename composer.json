@@ -1,0 +1,30 @@
+{
+    "name": "jascha030/wp-plugin-lib",
+    "description": "Classes for Wordpress Development",
+    "version": "0.0.1",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Jascha van Aalst",
+            "email": "contact@jaschavanaalst.nl"
+        }
+    ],
+    "minimum-stability": "stable",
+    "config": {
+        "platform": {
+            "php": "7.3"
+        }
+    },
+    "autoload": {
+        "psr-4": {
+            "Jascha030\\PluginLib\\": "src/"
+        }
+    },
+    "require": {
+        "pimple/pimple": "3.3.x-dev",
+        "psr/container": "1.1.x-dev"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "9.5.x-dev"
+    }
+}
