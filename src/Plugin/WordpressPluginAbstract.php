@@ -5,10 +5,27 @@ namespace Jascha030\PluginLib\Plugin;
 use Jascha030\PluginLib\Hookable\HookableAbstract;
 use Pimple\Container;
 
+/**
+ * Class WordpressPluginAbstract
+ *
+ * Plugin class interfaces with the wp plugin api.
+ * Holds and initialises other hookable classes used by a plugin.
+ *
+ * @package Jascha030\PluginLib\Plugin
+ */
 abstract class WordpressPluginAbstract extends HookableAbstract
 {
+    /**
+     * @var Container holds other hookable classes
+     */
     private $container;
 
+    /**
+     * WordpressPluginAbstract constructor.
+     *
+     * @param  array  $classes
+     * @param  array  $classArguments
+     */
     public function __construct(array $classes = [], array $classArguments = [])
     {
         $this->container = new Container();
