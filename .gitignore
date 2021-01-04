@@ -1,0 +1,5 @@
+# Phpstorm
+/.idea/
+
+# composer
+/vendor/
