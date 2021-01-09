@@ -2,12 +2,11 @@
 
 namespace Jascha030\PluginLib\Container;
 
-use Closure;
 use Exception;
 use Jascha030\PluginLib\Hookable\DeferrableAbstract;
 use Jascha030\PluginLib\Hookable\HookableAbstract;
 
-class DeferringHookableContainer extends Psr11Container
+class DeferringHookableContainer
 {
     public const ACTION = 2;
     public const FILTER = 1;
@@ -19,9 +18,7 @@ class DeferringHookableContainer extends Psr11Container
 
     private const INVALID_CLASS_MESSAGE = '%s does not implement %s.';
 
-    protected $container;
-
-    final public function register(string $class, DeferrableAbstract $object = null): void
+    final public function registerByMap(string $class, DeferrableAbstract $object = null): void
     {
         if (! is_subclass_of($class, DeferrableAbstract::class)) {
             throw static::invalidClassException($class);
@@ -43,6 +40,13 @@ class DeferringHookableContainer extends Psr11Container
         $this->addAll($class);
     }
 
+    private static function invalidClassException(string $class): Exception
+    {
+        $msg = sprintf(self::INVALID_CLASS_MESSAGE, $class, HookableAbstract::class);
+
+        return new \Exception($msg);
+    }
+
     private function addAll(string $serviceClass): void
     {
         foreach (self::HOOK_TYPES as $key => $method) {
@@ -61,52 +65,5 @@ class DeferringHookableContainer extends Psr11Container
                 }
             }
         }
-    }
-
-    private static function invalidClassException(string $class): Exception
-    {
-        $msg = sprintf(self::INVALID_CLASS_MESSAGE, $class, HookableAbstract::class);
-
-        return new \Exception($msg);
-    }
-
-    /**
-     * Hook method as action or filter
-     *
-     * @param  string  $service
-     * @param  string  $tag
-     * @param  mixed|array|string  $arguments
-     * @param  int  $context
-     */
-    private function sanitizeAndAdd(string $service, string $tag, $arguments, int $context = self::FILTER): void
-    {
-        // $arguments can be either string containing method name or array containing method, prio and accepted arguments.
-        $method            = is_array($arguments) ? $arguments[0] : $arguments;
-        $priority          = is_array($arguments) ? $arguments[1] ?? 10 : 10;
-        $acceptedArguments = is_array($arguments) ? $arguments[2] ?? 1 : 1;
-
-        $closure = $this->wrapClosure($service, $method);
-
-        if ($context === self::ACTION) {
-            \add_action($tag, $closure, $priority, $acceptedArguments);
-        }
-
-        if ($context === self::FILTER) {
-            \add_filter($tag, $closure, $priority, $acceptedArguments);
-        }
-    }
-
-    /**
-     * Wraps class and method in a Closure
-     *
-     * @param $service
-     * @param $method
-     * @return Closure
-     */
-    private function wrapClosure(string $service, string $method): Closure
-    {
-        return function (...$args) use ($service, $method) {
-            return $this->container->get($service)->{$method}(...$args);
-        };
     }
 }

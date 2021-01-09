@@ -31,6 +31,11 @@ class PluginAbstractsTest extends TestCase
             {
                 return $this;
             }
+
+            public function getPluginFile(): string
+            {
+                // TODO: Implement getPluginFile() method.
+            }
         };
     }
 }

@@ -1,9 +1,12 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jascha030\PluginLib\Plugin;
 
-use Jascha030\PluginLib\Hookable\HookableAbstract;
-use Pimple\Container;
+use Jascha030\PluginLib\Hookable\DeferringHookableManager;
+use Jascha030\PluginLib\Hookable\HookableManagerInterface;
+use Jascha030\PluginLib\Plugin\Data\ReadsPluginData;
 
 /**
  * Class WordpressPluginAbstract
@@ -13,59 +16,51 @@ use Pimple\Container;
  *
  * @package Jascha030\PluginLib\Plugin
  */
-abstract class WordpressPluginAbstract extends HookableAbstract
+abstract class WordpressPluginAbstract
 {
+    use ReadsPluginData;
+
     /**
-     * @var Container holds other hookable classes
+     * @var array defines classes containing methods that are to be hooked
+     */
+    private $registerClasses;
+
+    /**
+     * @var HookableManagerInterface
      */
     private $container;
 
     /**
      * WordpressPluginAbstract constructor.
      *
-     * @param  array  $classes
-     * @param  array  $classArguments
+     * @param  array  $registerClasses
+     * @param  HookableManagerInterface|null  $hookableManager
      */
-    public function __construct(array $classes = [], array $classArguments = [])
+    public function __construct(array $registerClasses = [], HookableManagerInterface $hookableManager = null)
     {
-        $this->container = new Container();
+        $this->registerClasses = $registerClasses;
 
-        $this->hookClasses($classes, $classArguments);
+        $this->hookableManager = $hookableManager ?? new DeferringHookableManager();
+    }
 
-        parent::__construct();
+    final public function run(): void
+    {
+        $this->boot();
+        $this->afterBoot();
     }
 
     /**
-     * Init all classes with hookable methods
-     *
-     * @param  array  $classes
-     * @param  array  $classArguments
+     * Add all classes with hookable methods to the container
      */
-    protected function hookClasses(array $classes, array $classArguments): void
+    private function boot(): void
     {
-        foreach ($classes as $class) {
-            if (is_string($class)) {
-                if (isset($classArguments[$class]) && is_array($classArguments[$class])) {
-                    $this->container[$class] = new $class(...$classArguments[$class]);
-                } else {
-                    $this->container[$class] = new $class();
-                }
-            }
-
-            if (is_object($class)) {
-                $this->container[$class] = $class;
-            }
+        foreach ($this->registerClasses as $class => $classArguments) {
+            $this->hookableManager->registerHookable($class, $classArguments);
         }
     }
 
-    /**
-     * Returns entry from container
-     *
-     * @param  string  $className
-     * @return mixed
-     */
-    final public function get(string $className)
+    public function afterBoot(): void
     {
-        return $this->container[$className];
+        // This is optional but we don't want to open up the possibility to edit the boot method.
     }
 }
