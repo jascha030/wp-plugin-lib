@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jascha030\PluginLib\Plugin;
 
+use Jascha030\PluginLib\Container\Psr11FilterContainer;
 use Jascha030\PluginLib\Hookable\DeferringHookableManager;
 use Jascha030\PluginLib\Hookable\HookableManagerInterface;
 use Jascha030\PluginLib\Plugin\Data\ReadsPluginData;
@@ -28,7 +29,7 @@ abstract class WordpressPluginAbstract
     /**
      * @var HookableManagerInterface
      */
-    private $container;
+    private $manager;
 
     /**
      * WordpressPluginAbstract constructor.
@@ -40,7 +41,11 @@ abstract class WordpressPluginAbstract
     {
         $this->registerClasses = $registerClasses;
 
-        $this->hookableManager = $hookableManager ?? new DeferringHookableManager();
+        if (! $hookableManager) {
+            $hookableManager = $this->createDefaultManager();
+        }
+
+        $this->manager = $hookableManager;
     }
 
     final public function run(): void
@@ -49,18 +54,25 @@ abstract class WordpressPluginAbstract
         $this->afterBoot();
     }
 
+    public function afterBoot(): void
+    {
+        // This is optional but we don't want to open up the possibility to edit the boot method.
+    }
+
+    private function createDefaultManager(): HookableManagerInterface
+    {
+        $pimple = new Psr11FilterContainer(new \Pimple\Container());
+
+        return new DeferringHookableManager($pimple);
+    }
+
     /**
      * Add all classes with hookable methods to the container
      */
     private function boot(): void
     {
         foreach ($this->registerClasses as $class => $classArguments) {
-            $this->hookableManager->registerHookable($class, $classArguments);
+            $this->manager->registerHookable($class, $classArguments);
         }
-    }
-
-    public function afterBoot(): void
-    {
-        // This is optional but we don't want to open up the possibility to edit the boot method.
     }
 }

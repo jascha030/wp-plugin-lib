@@ -7,7 +7,7 @@ use Psr\Container\ContainerInterface;
 
 interface HookableManagerInterface extends ContainerInterface
 {
-    public function __construct(ContainerInterface $container);
+    public function __construct(\Jascha030\PluginLib\Container\WordpressFilterContainerInterface $container);
 
     public function addAction(
         string $tag,
