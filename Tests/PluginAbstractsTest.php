@@ -34,7 +34,7 @@ class PluginAbstractsTest extends TestCase
 
             public function getPluginFile(): string
             {
-                // TODO: Implement getPluginFile() method.
+                return dirname(__DIR__);
             }
         };
     }
