@@ -29,7 +29,7 @@ abstract class WordpressPluginAbstract
     /**
      * @var HookableManagerInterface
      */
-    private $manager;
+    private $filterManager;
 
     /**
      * WordpressPluginAbstract constructor.
@@ -45,7 +45,7 @@ abstract class WordpressPluginAbstract
             $hookableManager = $this->createDefaultManager();
         }
 
-        $this->manager = $hookableManager;
+        $this->filterManager = $hookableManager;
     }
 
     final public function run(): void
@@ -72,7 +72,7 @@ abstract class WordpressPluginAbstract
     private function boot(): void
     {
         foreach ($this->registerClasses as $class => $classArguments) {
-            $this->manager->registerHookable($class, $classArguments);
+            $this->filterManager->registerHookable($class, $classArguments);
         }
     }
 }

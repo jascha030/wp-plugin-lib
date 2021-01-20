@@ -12,12 +12,12 @@
             "source": {
                 "type": "git",
                 "url": "https://github.com/silexphp/Pimple.git",
-                "reference": "6af31d7f8025f950deedb9cc14c1dd163685ea27"
+                "reference": "3e836fcbd44fac64fa132983c2d0fdec0fd1c685"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/6af31d7f8025f950deedb9cc14c1dd163685ea27",
-                "reference": "6af31d7f8025f950deedb9cc14c1dd163685ea27",
+                "url": "https://api.github.com/repos/silexphp/Pimple/zipball/3e836fcbd44fac64fa132983c2d0fdec0fd1c685",
+                "reference": "3e836fcbd44fac64fa132983c2d0fdec0fd1c685",
                 "shasum": ""
             },
             "require": {
@@ -58,7 +58,7 @@
             "support": {
                 "source": "https://github.com/silexphp/Pimple/tree/master"
             },
-            "time": "2020-11-30T12:06:18+00:00"
+            "time": "2021-01-04T13:07:49+00:00"
         },
         {
             "name": "psr/container",

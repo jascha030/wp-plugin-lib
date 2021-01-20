@@ -9,7 +9,6 @@ use Symfony\Component\Uid\Uuid;
 final class DeferringHookableManager implements HookableManagerInterface
 {
     public const FILTER = 0;
-
     public const ACTION = 1;
 
     private const FILTER_TYPES = [
@@ -70,11 +69,11 @@ final class DeferringHookableManager implements HookableManagerInterface
         string $class,
         string $method,
         int $priority = 10,
-        int $acceptedArguments = 1
+        int $arguments = 1
     ): void {
         $closure = $this->wrapFilter($class, $method, $this->generateHookIdentifier());
 
-        \add_action($tag, $closure, $priority, $acceptedArguments);
+        \add_action($tag, $closure, $priority, $arguments);
     }
 
     public function addFilter(
@@ -82,11 +81,11 @@ final class DeferringHookableManager implements HookableManagerInterface
         string $class,
         string $method,
         int $priority = 10,
-        int $acceptedArguments = 1
+        int $arguments = 1
     ): void {
         $closure = $this->wrapFilter($class, $method, $this->generateHookIdentifier());
 
-        \add_filter($tag, $closure, $priority, $acceptedArguments);
+        \add_filter($tag, $closure, $priority, $arguments);
     }
 
     public function get(string $id)
@@ -140,11 +139,10 @@ final class DeferringHookableManager implements HookableManagerInterface
 
     /**
      * Wraps class and method in a Closure that calls our container and checks if our hook identifier still exists,
+     * In that case, the Class is retrieved from our container to execute hooked method,
      *
-     * If this is the case the Class is retrieved from our container to execute hooked method,
-     *
-     * If this is not the case the method  wil not be executed,
-     * this is used because in newer wordpress versions, it is basically impossible to unhook a closure by reference.
+     * If not, the method  wil not be executed. This is a workaround for newer wordpress versions,
+     * in which it is basically impossible to unhook a closure by reference. (It's possible, it's not failsafe)
      *
      * @param  string  $service
      * @param  string  $method

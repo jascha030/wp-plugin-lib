@@ -14,7 +14,7 @@ interface HookableManagerInterface extends ContainerInterface
         string $class,
         string $method,
         int $priority = 10,
-        int $acceptedArguments = 1
+        int $arguments = 1
     ): void;
 
     public function addFilter(
@@ -22,7 +22,7 @@ interface HookableManagerInterface extends ContainerInterface
         string $class,
         string $method,
         int $priority = 10,
-        int $acceptedArguments = 1
+        int $arguments = 1
     ): void;
 
     public function registerHookable(string $className, array $classArguments): void;
