@@ -29,6 +29,9 @@ final class DeferringHookableManager implements HookableManagerInterface
      */
     private const INVALID_CLASS_MESSAGE = '%s does not implement %s.';
 
+    /**
+     * @var \Jascha030\PluginLib\Container\WordpressFilterContainerInterface
+     */
     private $container;
 
     /**
@@ -41,6 +44,12 @@ final class DeferringHookableManager implements HookableManagerInterface
         $this->container = $container;
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param  string  $id
+     * @return bool
+     */
     public function has(string $id): bool
     {
         return isset($this->container[$id]);
@@ -71,7 +80,7 @@ final class DeferringHookableManager implements HookableManagerInterface
         int $priority = 10,
         int $arguments = 1
     ): void {
-        $closure = $this->wrapFilter($class, $method, $this->generateHookIdentifier());
+        $closure = $this->wrapFilter($tag, $class, $method, $this->generateHookIdentifier());
 
         \add_action($tag, $closure, $priority, $arguments);
     }
@@ -83,11 +92,17 @@ final class DeferringHookableManager implements HookableManagerInterface
         int $priority = 10,
         int $arguments = 1
     ): void {
-        $closure = $this->wrapFilter($class, $method, $this->generateHookIdentifier());
+        $closure = $this->wrapFilter($tag, $class, $method, $this->generateHookIdentifier());
 
         \add_filter($tag, $closure, $priority, $arguments);
     }
 
+    /**
+     * {@inheritDoc}
+     *
+     * @param  string  $id
+     * @return mixed
+     */
     public function get(string $id)
     {
         return $this->container[$id];
@@ -101,6 +116,17 @@ final class DeferringHookableManager implements HookableManagerInterface
     public function generateHookIdentifier(): string
     {
         return Uuid::v4()->toRfc4122();
+    }
+
+    public function __toString(): string
+    {
+        $string = '';
+
+        foreach ($this->hookedMethods as $tag => $hooked) {
+            $string .= sprintf('<tr><td>%s</td><td>%s</td></tr>', $tag, implode('<br />', $hooked));
+        }
+
+        return $string;
     }
 
     private static function invalidClassException(string $class): Exception
@@ -144,15 +170,16 @@ final class DeferringHookableManager implements HookableManagerInterface
      * If not, the method  wil not be executed. This is a workaround for newer wordpress versions,
      * in which it is basically impossible to unhook a closure by reference. (It's possible, it's not failsafe)
      *
+     * @param  string  $tag
      * @param  string  $service
      * @param  string  $method
      * @param  string  $identifier
      * @return Closure
      * @noinspection PhpInconsistentReturnPointsInspection
      */
-    private function wrapFilter(string $service, string $method, string $identifier): Closure
+    private function wrapFilter(string $tag, string $service, string $method, string $identifier): Closure
     {
-        $this->hookedMethods[$identifier] = [$service, $method];
+        $this->hookedMethods[$tag][$identifier] = [$service, $method];
 
         return function (...$args) use ($service, $method, $identifier) {
             if (array_key_exists($identifier, $this->hookedMethods)) {

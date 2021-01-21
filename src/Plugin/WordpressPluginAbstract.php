@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace Jascha030\PluginLib\Plugin;
 
+use Exception;
 use Jascha030\PluginLib\Container\Psr11FilterContainer;
 use Jascha030\PluginLib\Hookable\DeferringHookableManager;
 use Jascha030\PluginLib\Hookable\HookableManagerInterface;
@@ -22,6 +23,11 @@ abstract class WordpressPluginAbstract
     use ReadsPluginData;
 
     /**
+     * @var string|null plugin file's path
+     */
+    private $pluginFile;
+
+    /**
      * @var array defines classes containing methods that are to be hooked
      */
     private $registerClasses;
@@ -34,12 +40,16 @@ abstract class WordpressPluginAbstract
     /**
      * WordpressPluginAbstract constructor.
      *
-     * @param  array  $registerClasses
+     * @param  string  $file
+     * @param  array  $hookables
      * @param  HookableManagerInterface|null  $hookableManager
+     * @throws Exception
      */
-    public function __construct(array $registerClasses = [], HookableManagerInterface $hookableManager = null)
+    public function __construct(string $file, array $hookables = [], HookableManagerInterface $hookableManager = null)
     {
-        $this->registerClasses = $registerClasses;
+        $this->setPluginFile($file);
+
+        $this->registerClasses = $hookables;
 
         if (! $hookableManager) {
             $hookableManager = $this->createDefaultManager();
@@ -57,6 +67,34 @@ abstract class WordpressPluginAbstract
     public function afterBoot(): void
     {
         // This is optional but we don't want to open up the possibility to edit the boot method.
+    }
+
+    /**
+     * {@inheritDoc}
+     *
+     * @return string
+     */
+    final public function getPluginFile(): string
+    {
+        return $this->pluginFile;
+    }
+
+    /**
+     * Set plugin file,
+     * Exception on invalid path
+     *
+     * @param  string  $file
+     * @throws Exception
+     */
+    protected function setPluginFile(string $file): void
+    {
+        if (! is_readable($file)) {
+            $class = __CLASS__;
+
+            throw new Exception("Could not read {$class}->\$file Invalid path: \'{$file}\'");
+        }
+
+        $this->pluginFile = $file;
     }
 
     private function createDefaultManager(): HookableManagerInterface
