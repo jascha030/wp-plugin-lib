@@ -1,7 +1,6 @@
 {
   "name": "jascha030/wp-plugin-lib",
   "description": "Classes for Wordpress Plugin Development using more modern PHP and more OOP.",
-  "version": "0.0.1",
   "license": "MIT",
   "authors": [
     {

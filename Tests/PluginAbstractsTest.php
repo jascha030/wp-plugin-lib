@@ -23,18 +23,9 @@ class PluginAbstractsTest extends TestCase
     protected function setUp(): void
     {
         $this->anonymousPluginClass = new class extends WordpressPluginAbstract {
-            public function hookMethods(): void
-            {
-            }
-
             public function getThis(): self
             {
                 return $this;
-            }
-
-            public function getPluginFile(): string
-            {
-                return dirname(__DIR__);
             }
         };
     }
