@@ -1,9 +1,14 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Jascha030\PluginLib\Plugin;
 
-use Jascha030\PluginLib\Hookable\HookableAbstract;
-use Pimple\Container;
+use Exception;
+use Jascha030\PluginLib\Container\Psr11FilterContainer;
+use Jascha030\PluginLib\Hookable\DeferringHookableManager;
+use Jascha030\PluginLib\Hookable\HookableManagerInterface;
+use Jascha030\PluginLib\Plugin\Data\ReadsPluginData;
 
 /**
  * Class WordpressPluginAbstract
@@ -13,59 +18,99 @@ use Pimple\Container;
  *
  * @package Jascha030\PluginLib\Plugin
  */
-abstract class WordpressPluginAbstract extends HookableAbstract
+abstract class WordpressPluginAbstract
 {
+    use ReadsPluginData;
+
     /**
-     * @var Container holds other hookable classes
+     * @var string|null plugin file's path
      */
-    private $container;
+    private $pluginFile;
+
+    /**
+     * @var array defines classes containing methods that are to be hooked
+     */
+    private $registerClasses;
+
+    /**
+     * @var HookableManagerInterface
+     */
+    private $filterManager;
 
     /**
      * WordpressPluginAbstract constructor.
      *
-     * @param  array  $classes
-     * @param  array  $classArguments
+     * @param  string  $file
+     * @param  array  $hookables
+     * @param  HookableManagerInterface|null  $hookableManager
+     * @throws Exception
      */
-    public function __construct(array $classes = [], array $classArguments = [])
+    public function __construct(string $file, array $hookables = [], HookableManagerInterface $hookableManager = null)
     {
-        $this->container = new Container();
+        $this->setPluginFile($file);
 
-        $this->hookClasses($classes, $classArguments);
+        $this->registerClasses = $hookables;
 
-        parent::__construct();
-    }
-
-    /**
-     * Init all classes with hookable methods
-     *
-     * @param  array  $classes
-     * @param  array  $classArguments
-     */
-    protected function hookClasses(array $classes, array $classArguments): void
-    {
-        foreach ($classes as $class) {
-            if (is_string($class)) {
-                if (isset($classArguments[$class]) && is_array($classArguments[$class])) {
-                    $this->container[$class] = new $class(...$classArguments[$class]);
-                } else {
-                    $this->container[$class] = new $class();
-                }
-            }
-
-            if (is_object($class)) {
-                $this->container[$class] = $class;
-            }
+        if (! $hookableManager) {
+            $hookableManager = $this->createDefaultManager();
         }
+
+        $this->filterManager = $hookableManager;
+    }
+
+    final public function run(): void
+    {
+        $this->boot();
+        $this->afterBoot();
+    }
+
+    public function afterBoot(): void
+    {
+        // This is optional but we don't want to open up the possibility to edit the boot method.
     }
 
     /**
-     * Returns entry from container
+     * {@inheritDoc}
      *
-     * @param  string  $className
-     * @return mixed
+     * @return string
      */
-    final public function get(string $className)
+    final public function getPluginFile(): string
     {
-        return $this->container[$className];
+        return $this->pluginFile;
+    }
+
+    /**
+     * Set plugin file,
+     * Exception on invalid path
+     *
+     * @param  string  $file
+     * @throws Exception
+     */
+    protected function setPluginFile(string $file): void
+    {
+        if (! is_readable($file)) {
+            $class = __CLASS__;
+
+            throw new Exception("Could not read {$class}->\$file Invalid path: \'{$file}\'");
+        }
+
+        $this->pluginFile = $file;
+    }
+
+    private function createDefaultManager(): HookableManagerInterface
+    {
+        $pimple = new Psr11FilterContainer(new \Pimple\Container());
+
+        return new DeferringHookableManager($pimple);
+    }
+
+    /**
+     * Add all classes with hookable methods to the container
+     */
+    private function boot(): void
+    {
+        foreach ($this->registerClasses as $class => $classArguments) {
+            $this->filterManager->registerHookable($class, $classArguments);
+        }
     }
 }
