@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Jascha030\PluginLib\Plugin\Data;
 
+use Exception;
+
 trait ReadsPluginData
 {
     private $pluginData = [];
@@ -13,6 +15,7 @@ trait ReadsPluginData
      *
      * @param  string  $key
      * @return null|string
+     * @throws Exception
      */
     final public function getPluginData(string $key): ?string
     {
@@ -30,8 +33,21 @@ trait ReadsPluginData
      */
     abstract public function getPluginFile(): string;
 
+    /**
+     * @throws Exception
+     */
     private function fetchPluginData(): void
     {
-        $this->pluginData = get_plugin_data($this->getPluginFile(), false);
+        if (! defined('ABSPATH')) {
+            throw new Exception(
+                'Couldn\'t get Plugin data, ABSPATH not defined, make sure you are using this in an active Wordpress install'
+            );
+        }
+
+        if (! function_exists('get_plugin_data')) {
+            require_once(ABSPATH.'wp-admin/includes/plugin.php');
+        }
+
+        $this->pluginData = \get_plugin_data($this->getPluginFile(), false);
     }
 }

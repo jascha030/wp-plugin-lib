@@ -28,25 +28,26 @@ abstract class WordpressPluginAbstract
     private $pluginFile;
 
     /**
-     * @var array defines classes containing methods that are to be hooked
+     * @var array|null defines classes containing methods that are to be hooked
      */
     private $registerClasses;
 
     /**
-     * @var HookableManagerInterface
+     * @var HookableManagerInterface|null
      */
     private $filterManager;
 
     /**
-     * WordpressPluginAbstract constructor.
-     *
      * @param  string  $file
-     * @param  array  $hookables
+     * @param  array|null  $hookables
      * @param  HookableManagerInterface|null  $hookableManager
      * @throws Exception
      */
-    public function __construct(string $file, array $hookables = [], HookableManagerInterface $hookableManager = null)
-    {
+    final public function bootstrap(
+        string $file,
+        array $hookables = [],
+        HookableManagerInterface $hookableManager = null
+    ): void {
         $this->setPluginFile($file);
 
         $this->registerClasses = $hookables;
@@ -58,8 +59,18 @@ abstract class WordpressPluginAbstract
         $this->filterManager = $hookableManager;
     }
 
+    /**
+     * @throws Exception
+     */
     final public function run(): void
     {
+        if (! isset($this->file)) {
+            $class = __CLASS__;
+            throw new Exception(
+                "Unable to initialise plugin, {$class}->file not set. Make sure to use the bootstrap method"
+            );
+        }
+
         $this->boot();
         $this->afterBoot();
     }
