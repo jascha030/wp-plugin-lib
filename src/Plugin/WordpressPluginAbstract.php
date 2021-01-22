@@ -64,7 +64,7 @@ abstract class WordpressPluginAbstract
      */
     final public function run(): void
     {
-        if (! isset($this->file)) {
+        if (! isset($this->pluginFile)) {
             $class = __CLASS__;
             throw new Exception(
                 "Unable to initialise plugin, {$class}->file not set. Make sure to use the bootstrap method"
@@ -120,8 +120,12 @@ abstract class WordpressPluginAbstract
      */
     private function boot(): void
     {
-        foreach ($this->registerClasses as $class => $classArguments) {
-            $this->filterManager->registerHookable($class, $classArguments);
+        foreach ($this->registerClasses as $binding => $class) {
+            if (is_int($binding)) {
+                $binding = $class;
+            }
+
+            $this->filterManager->registerHookable($binding, $class);
         }
     }
 }

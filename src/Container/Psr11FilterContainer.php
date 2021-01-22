@@ -4,6 +4,11 @@ namespace Jascha030\PluginLib\Container;
 
 use Pimple\Container as PimpleContainer;
 
+/**
+ * Class Psr11FilterContainer
+ *
+ * @package Jascha030\PluginLib\Container
+ */
 class Psr11FilterContainer implements WordpressFilterContainerInterface
 {
     private $pimple;
@@ -18,8 +23,9 @@ class Psr11FilterContainer implements WordpressFilterContainerInterface
      *
      * @param  string  $id
      * @return mixed
+     * @noinspection MissingReturnTypeInspection
      */
-    public function get(string $id)
+    final public function get(string $id)
     {
         return $this->pimple[$id];
     }
@@ -30,7 +36,7 @@ class Psr11FilterContainer implements WordpressFilterContainerInterface
      * @param  string  $id
      * @return bool
      */
-    public function has(string $id): bool
+    final public function has(string $id): bool
     {
         return isset($this->pimple[$id]);
     }
@@ -41,7 +47,7 @@ class Psr11FilterContainer implements WordpressFilterContainerInterface
      * @param  string  $name
      * @param  mixed  $item
      */
-    public function add(string $name, $item): void
+    final public function add(string $name, $item): void
     {
         $this->pimple[$name] = $item;
     }

@@ -3,6 +3,7 @@
 
 namespace Jascha030\PluginLib\Hookable;
 
+use Closure;
 use Psr\Container\ContainerInterface;
 
 interface HookableManagerInterface extends ContainerInterface
@@ -25,5 +26,9 @@ interface HookableManagerInterface extends ContainerInterface
         int $arguments = 1
     ): void;
 
-    public function registerHookable(string $className, array $classArguments): void;
+    /**
+     * @param  string  $binding
+     * @param  mixed|string|Closure|null  $calls
+     */
+    public function registerHookable(string $binding, $calls = null): void;
 }

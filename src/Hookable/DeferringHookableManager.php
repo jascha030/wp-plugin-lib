@@ -4,6 +4,7 @@ namespace Jascha030\PluginLib\Hookable;
 
 use Closure;
 use Exception;
+use Jascha030\PluginLib\Container\WordpressFilterContainerInterface;
 use Symfony\Component\Uid\Uuid;
 
 final class DeferringHookableManager implements HookableManagerInterface
@@ -30,7 +31,7 @@ final class DeferringHookableManager implements HookableManagerInterface
     private const INVALID_CLASS_MESSAGE = '%s does not implement %s.';
 
     /**
-     * @var \Jascha030\PluginLib\Container\WordpressFilterContainerInterface
+     * @var WordpressFilterContainerInterface
      */
     private $container;
 
@@ -39,7 +40,7 @@ final class DeferringHookableManager implements HookableManagerInterface
      */
     private $hookedMethods = [];
 
-    public function __construct(\Jascha030\PluginLib\Container\WordpressFilterContainerInterface $container)
+    public function __construct(WordpressFilterContainerInterface $container)
     {
         $this->container = $container;
     }
@@ -55,22 +56,36 @@ final class DeferringHookableManager implements HookableManagerInterface
         return isset($this->container[$id]);
     }
 
-    public function registerHookable(string $className, array $classArguments): void
+    /**
+     * Register hookable class and hook its methods lazily
+     *
+     * @param  string  $binding
+     * @param  mixed|string|Closure|null  $calls
+     * @throws Exception
+     */
+    public function registerHookable(string $binding, $calls = null): void
     {
+        if ($calls instanceof \Closure) {
+            $this->container->add($binding, $calls);
+            return;
+        }
+
+        if (! $calls) {
+            $calls = $binding;
+        }
+
+        $className = $calls;
+
         if (! is_subclass_of($className, DeferrableAbstract::class)) {
-            throw self::invalidClassException($className);
+            throw new Exception("Invalid class {$className}");
         }
 
-        if (! $this->container->has($className)) {
-            $this->container->add(
-                $className,
-                function ($c) use ($className, $classArguments) {
-                    return new $className(...$classArguments);
-                }
-            );
-        }
-
-        $this->addAll($className);
+        $this->container->add(
+            $binding,
+            function () use ($className) {
+                return new $className();
+            }
+        );
     }
 
     public function addAction(
