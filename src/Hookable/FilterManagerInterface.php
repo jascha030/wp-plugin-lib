@@ -7,8 +7,6 @@ use Closure;
 
 interface FilterManagerInterface
 {
-    public function __construct();
-
     public function addAction(
         string $tag,
         string $class,

@@ -5,10 +5,16 @@ namespace Jascha030\PluginLib\Hookable;
 use Closure;
 use Exception;
 use Jascha030\PluginLib\Container\ExpandableInterface;
+use Jascha030\PluginLib\Container\InteroperablePimpleTrait;
 use Symfony\Component\Uid\Uuid;
 
-final class DeferringFilterManager implements FilterManagerInterface
+use function add_action;
+use function add_filter;
+
+final class FilterManager implements FilterManagerInterface
 {
+    use InteroperablePimpleTrait;
+
     public const FILTER = 0;
     public const ACTION = 1;
 
@@ -31,7 +37,7 @@ final class DeferringFilterManager implements FilterManagerInterface
     private const INVALID_CLASS_MESSAGE = '%s does not implement %s.';
 
     /**
-     * @var ExpandableInterface
+     * @var ExpandableInterface|null
      */
     private $container;
 
@@ -40,17 +46,6 @@ final class DeferringFilterManager implements FilterManagerInterface
      */
     private $hookedMethods = [];
 
-    public function __construct(ExpandableInterface $container)
-    {
-        $this->container = $container;
-    }
-
-    /**
-     * {@inheritDoc}
-     *
-     * @param  string  $id
-     * @return bool
-     */
     public function has(string $id): bool
     {
         return isset($this->container[$id]);
@@ -65,7 +60,7 @@ final class DeferringFilterManager implements FilterManagerInterface
      */
     public function registerHookable(string $binding, $calls = null): void
     {
-        if ($calls instanceof \Closure) {
+        if ($calls instanceof Closure) {
             $this->container->add($binding, $calls);
             return;
         }
@@ -76,8 +71,9 @@ final class DeferringFilterManager implements FilterManagerInterface
 
         $className = $calls;
 
-        if (! is_subclass_of($className, DeferrableAbstract::class)) {
-            throw new Exception("Invalid class {$className}");
+        if (! is_subclass_of($className, LazyHookableAbstract::class)) {
+            // todo: Psr11 Exception
+            throw new \RuntimeException("Invalid class {$className}");
         }
 
         $this->container->add(
@@ -97,7 +93,7 @@ final class DeferringFilterManager implements FilterManagerInterface
     ): void {
         $closure = $this->wrapFilter($tag, $class, $method, $this->generateHookIdentifier());
 
-        \add_action($tag, $closure, $priority, $arguments);
+        add_action($tag, $closure, $priority, $arguments);
     }
 
     public function addFilter(
@@ -109,7 +105,7 @@ final class DeferringFilterManager implements FilterManagerInterface
     ): void {
         $closure = $this->wrapFilter($tag, $class, $method, $this->generateHookIdentifier());
 
-        \add_filter($tag, $closure, $priority, $arguments);
+        add_filter($tag, $closure, $priority, $arguments);
     }
 
     /**
@@ -146,9 +142,9 @@ final class DeferringFilterManager implements FilterManagerInterface
 
     private static function invalidClassException(string $class): Exception
     {
-        $msg = sprintf(self::INVALID_CLASS_MESSAGE, $class, DeferrableAbstract::class);
+        $msg = sprintf(self::INVALID_CLASS_MESSAGE, $class, LazyHookableAbstract::class);
 
-        return new \Exception($msg);
+        return new Exception($msg);
     }
 
     /**

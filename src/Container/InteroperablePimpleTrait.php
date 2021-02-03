@@ -5,11 +5,10 @@ namespace Jascha030\PluginLib\Container;
 use Pimple\Container as PimpleContainer;
 
 /**
- * Trait PimpleAsPsr11Trait
- *
+ * Trait InteroperablePimpleTrait
  * @package Jascha030\PluginLib\Container
  */
-trait PimpleAsPsr11Trait
+trait InteroperablePimpleTrait
 {
     /**
      * @var PimpleContainer|null

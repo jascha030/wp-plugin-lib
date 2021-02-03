@@ -6,6 +6,8 @@ namespace Jascha030\PluginLib\Plugin\Data;
 
 use Exception;
 
+use function get_plugin_data;
+
 trait ReadsPluginData
 {
     private $pluginData = [];
@@ -39,7 +41,7 @@ trait ReadsPluginData
     private function fetchPluginData(): void
     {
         if (! defined('ABSPATH')) {
-            throw new Exception(
+            throw new \RuntimeException(
                 'Couldn\'t get Plugin data, ABSPATH not defined, make sure you are using this in an active Wordpress install'
             );
         }
@@ -48,6 +50,6 @@ trait ReadsPluginData
             require_once ABSPATH.'wp-admin/includes/plugin.php';
         }
 
-        $this->pluginData = \get_plugin_data($this->getPluginFile(), false);
+        $this->pluginData = get_plugin_data($this->getPluginFile(), false);
     }
 }
