@@ -2,9 +2,9 @@
 
 namespace Hookable;
 
-use Jascha030\PluginLib\Container\Psr11FilterContainer;
-use Jascha030\PluginLib\Hookable\DeferringHookableManager;
-use Jascha030\PluginLib\Hookable\HookableManagerInterface;
+use Jascha030\PluginLib\Container\PimpleAsPsr11Trait;
+use Jascha030\PluginLib\Hookable\DeferringFilterManager;
+use Jascha030\PluginLib\Hookable\FilterManagerInterface;
 use PHPUnit\Framework\TestCase;
 use Pimple\Container;
 
@@ -13,13 +13,13 @@ class DeferringHookableManagerTest extends TestCase
     public function testCreateManager(): void
     {
         self::assertInstanceOf(
-            DeferringHookableManager::class,
-            new DeferringHookableManager(new Psr11FilterContainer(new Container()))
+            DeferringFilterManager::class,
+            new DeferringFilterManager(new PimpleAsPsr11Trait(new Container()))
         );
 
         self::assertInstanceOf(
-            HookableManagerInterface::class,
-            new DeferringHookableManager(new Psr11FilterContainer(new Container()))
+            FilterManagerInterface::class,
+            new DeferringFilterManager(new PimpleAsPsr11Trait(new Container()))
         );
     }
 }

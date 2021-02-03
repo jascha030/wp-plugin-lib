@@ -4,11 +4,10 @@
 namespace Jascha030\PluginLib\Hookable;
 
 use Closure;
-use Psr\Container\ContainerInterface;
 
-interface HookableManagerInterface extends ContainerInterface
+interface FilterManagerInterface
 {
-    public function __construct(\Jascha030\PluginLib\Container\WordpressFilterContainerInterface $container);
+    public function __construct();
 
     public function addAction(
         string $tag,

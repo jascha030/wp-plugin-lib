@@ -4,10 +4,10 @@ namespace Jascha030\PluginLib\Hookable;
 
 use Closure;
 use Exception;
-use Jascha030\PluginLib\Container\WordpressFilterContainerInterface;
+use Jascha030\PluginLib\Container\ExpandableInterface;
 use Symfony\Component\Uid\Uuid;
 
-final class DeferringHookableManager implements HookableManagerInterface
+final class DeferringFilterManager implements FilterManagerInterface
 {
     public const FILTER = 0;
     public const ACTION = 1;
@@ -31,7 +31,7 @@ final class DeferringHookableManager implements HookableManagerInterface
     private const INVALID_CLASS_MESSAGE = '%s does not implement %s.';
 
     /**
-     * @var WordpressFilterContainerInterface
+     * @var ExpandableInterface
      */
     private $container;
 
@@ -40,7 +40,7 @@ final class DeferringHookableManager implements HookableManagerInterface
      */
     private $hookedMethods = [];
 
-    public function __construct(WordpressFilterContainerInterface $container)
+    public function __construct(ExpandableInterface $container)
     {
         $this->container = $container;
     }

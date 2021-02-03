@@ -1,12 +1,8 @@
 <?php
 
-
 namespace Jascha030\PluginLib\Container;
 
-
-use Psr\Container\ContainerInterface;
-
-interface WordpressFilterContainerInterface extends ContainerInterface
+interface ExpandableInterface
 {
     /**
      * @param  string  $name

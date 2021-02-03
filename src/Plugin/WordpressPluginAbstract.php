@@ -5,10 +5,10 @@ declare(strict_types=1);
 namespace Jascha030\PluginLib\Plugin;
 
 use Exception;
-use Jascha030\PluginLib\Container\Psr11FilterContainer;
-use Jascha030\PluginLib\Hookable\DeferringHookableManager;
-use Jascha030\PluginLib\Hookable\HookableManagerInterface;
+use Jascha030\PluginLib\Container\PimpleAsPsr11Trait;
+use Jascha030\PluginLib\Hookable\FilterManagerInterface;
 use Jascha030\PluginLib\Plugin\Data\ReadsPluginData;
+use Psr\Container\ContainerInterface;
 
 /**
  * Class WordpressPluginAbstract
@@ -18,8 +18,9 @@ use Jascha030\PluginLib\Plugin\Data\ReadsPluginData;
  *
  * @package Jascha030\PluginLib\Plugin
  */
-abstract class WordpressPluginAbstract
+abstract class WordpressPluginAbstract implements ContainerInterface
 {
+    use PimpleAsPsr11Trait;
     use ReadsPluginData;
 
     /**
@@ -33,20 +34,20 @@ abstract class WordpressPluginAbstract
     private $registerClasses;
 
     /**
-     * @var HookableManagerInterface|null
+     * @var FilterManagerInterface|null
      */
     private $filterManager;
 
     /**
      * @param  string  $file
      * @param  array|null  $hookables
-     * @param  HookableManagerInterface|null  $hookableManager
+     * @param  FilterManagerInterface|null  $hookableManager
      * @throws Exception
      */
     final public function bootstrap(
         string $file,
         array $hookables = [],
-        HookableManagerInterface $hookableManager = null
+        FilterManagerInterface $hookableManager = null
     ): void {
         $this->setPluginFile($file);
 
@@ -72,12 +73,6 @@ abstract class WordpressPluginAbstract
         }
 
         $this->boot();
-        $this->afterBoot();
-    }
-
-    public function afterBoot(): void
-    {
-        // This is optional but we don't want to open up the possibility to edit the boot method.
     }
 
     /**
@@ -97,7 +92,7 @@ abstract class WordpressPluginAbstract
      * @param  string  $file
      * @throws Exception
      */
-    protected function setPluginFile(string $file): void
+    final public function setPluginFile(string $file): void
     {
         if (! is_readable($file)) {
             $class = __CLASS__;
@@ -106,13 +101,6 @@ abstract class WordpressPluginAbstract
         }
 
         $this->pluginFile = $file;
-    }
-
-    private function createDefaultManager(): HookableManagerInterface
-    {
-        $pimple = new Psr11FilterContainer(new \Pimple\Container());
-
-        return new DeferringHookableManager($pimple);
     }
 
     /**
