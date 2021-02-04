@@ -2,6 +2,8 @@
 
 namespace Jascha030\PluginLib\Plugin\Notice;
 
+use Exception;
+
 /**
  * Trait DisplaysAdminNotices
  *
@@ -20,7 +22,7 @@ trait DisplaysAdminNotices
      * @param  string  $message
      * @param  int  $type
      */
-    public function addNotice(string $message, int $type = AdminNotice::INFO): void
+    final public function addNotice(string $message, int $type = AdminNotice::INFO): void
     {
         $this->notices[] = new AdminNotice($message, $type);
     }
@@ -28,7 +30,7 @@ trait DisplaysAdminNotices
     /**
      * Display added notices after load
      *
-     * @throws \Exception
+     * @throws Exception
      */
     final public function displayNotices(): void
     {
@@ -38,9 +40,9 @@ trait DisplaysAdminNotices
     }
 
     /**
-     * @param  \Exception  $exception
+     * @param  Exception  $exception
      */
-    final public function fromException(\Exception $exception): void
+    final public function fromException(Exception $exception): void
     {
         $this->notices[] = new AdminNotice($exception->getMessage(), AdminNotice::ERROR, false);
     }

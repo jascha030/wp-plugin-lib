@@ -4,6 +4,9 @@ namespace Jascha030\PluginLib\Post;
 
 use Jascha030\PluginLib\Hookable\HookableAbstract;
 
+use function add_action;
+use function register_post_type;
+
 /**
  * Class PostTypeAbstract
  *
@@ -28,7 +31,7 @@ abstract class PostTypeAbstract extends HookableAbstract
      */
     final public function register(): void
     {
-        \register_post_type($this->slug, $this->arguments);
+        register_post_type($this->slug, $this->arguments);
     }
 
     /**
@@ -38,6 +41,6 @@ abstract class PostTypeAbstract extends HookableAbstract
      */
     public function hookMethods(): void
     {
-        \add_action('init', [$this, 'register']);
+        add_action('init', [$this, 'register']);
     }
 }

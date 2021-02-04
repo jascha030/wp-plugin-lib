@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jascha030\PluginLib\Plugin;
 
 use Exception;
-use Jascha030\PluginLib\Container\PimpleAsPsr11Trait;
+use Jascha030\PluginLib\Container\Container;
 use Jascha030\PluginLib\Hookable\FilterManagerInterface;
 use Jascha030\PluginLib\Plugin\Data\ReadsPluginData;
 use Psr\Container\ContainerInterface;
@@ -20,7 +20,7 @@ use Psr\Container\ContainerInterface;
  */
 abstract class WordpressPluginAbstract implements ContainerInterface
 {
-    use PimpleAsPsr11Trait;
+    use Container;
     use ReadsPluginData;
 
     /**
@@ -67,7 +67,7 @@ abstract class WordpressPluginAbstract implements ContainerInterface
     {
         if (! isset($this->pluginFile)) {
             $class = __CLASS__;
-            throw new Exception(
+            throw new \RuntimeException(
                 "Unable to initialise plugin, {$class}->file not set. Make sure to use the bootstrap method"
             );
         }
@@ -97,7 +97,7 @@ abstract class WordpressPluginAbstract implements ContainerInterface
         if (! is_readable($file)) {
             $class = __CLASS__;
 
-            throw new Exception("Could not read {$class}->\$file Invalid path: \'{$file}\'");
+            throw new \RuntimeException("Could not read {$class}->\$file Invalid path: \'{$file}\'");
         }
 
         $this->pluginFile = $file;
