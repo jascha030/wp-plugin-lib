@@ -2,11 +2,9 @@
 
 namespace Hookable;
 
-use Jascha030\PluginLib\Container\InteroperablePimpleTrait;
 use Jascha030\PluginLib\Hookable\FilterManager;
 use Jascha030\PluginLib\Hookable\FilterManagerInterface;
 use PHPUnit\Framework\TestCase;
-use Pimple\Container;
 
 class DeferringHookableManagerTest extends TestCase
 {
@@ -14,12 +12,12 @@ class DeferringHookableManagerTest extends TestCase
     {
         self::assertInstanceOf(
             FilterManager::class,
-            new FilterManager(new InteroperablePimpleTrait(new Container()))
+            new FilterManager(new Container(new Container()))
         );
 
         self::assertInstanceOf(
             FilterManagerInterface::class,
-            new FilterManager(new InteroperablePimpleTrait(new Container()))
+            new FilterManager(new Container(new Container()))
         );
     }
 }

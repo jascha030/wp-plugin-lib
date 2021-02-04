@@ -4,8 +4,8 @@ namespace Jascha030\PluginLib\Hookable;
 
 use Closure;
 use Exception;
-use Jascha030\PluginLib\Container\ExpandableInterface;
-use Jascha030\PluginLib\Container\InteroperablePimpleTrait;
+use Jascha030\PluginLib\Container\Container;
+use Jascha030\PluginLib\Container\ExpandableContainerInterface;
 use Symfony\Component\Uid\Uuid;
 
 use function add_action;
@@ -13,7 +13,7 @@ use function add_filter;
 
 final class FilterManager implements FilterManagerInterface
 {
-    use InteroperablePimpleTrait;
+    use Container;
 
     public const FILTER = 0;
     public const ACTION = 1;
@@ -37,7 +37,7 @@ final class FilterManager implements FilterManagerInterface
     private const INVALID_CLASS_MESSAGE = '%s does not implement %s.';
 
     /**
-     * @var ExpandableInterface|null
+     * @var ExpandableContainerInterface|null
      */
     private $container;
 

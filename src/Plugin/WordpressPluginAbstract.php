@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Jascha030\PluginLib\Plugin;
 
 use Exception;
-use Jascha030\PluginLib\Container\InteroperablePimpleTrait;
+use Jascha030\PluginLib\Container\Container;
 use Jascha030\PluginLib\Hookable\FilterManagerInterface;
 use Jascha030\PluginLib\Plugin\Data\ReadsPluginData;
 use Psr\Container\ContainerInterface;
@@ -20,7 +20,7 @@ use Psr\Container\ContainerInterface;
  */
 abstract class WordpressPluginAbstract implements ContainerInterface
 {
-    use InteroperablePimpleTrait;
+    use Container;
     use ReadsPluginData;
 
     /**
