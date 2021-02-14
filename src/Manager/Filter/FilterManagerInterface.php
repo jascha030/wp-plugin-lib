@@ -1,7 +1,6 @@
 <?php
 
-
-namespace Jascha030\PluginLib\Hookable;
+namespace Jascha030\PluginLib\Manager\Filter;
 
 use Closure;
 
@@ -24,8 +23,15 @@ interface FilterManagerInterface
     ): void;
 
     /**
-     * @param  string  $binding
+     * @param  string  $alias
      * @param  mixed|string|Closure|null  $calls
      */
-    public function registerHookable(string $binding, $calls = null): void;
+    public function registerHookable(string $alias, $calls = null): void;
+
+    /**
+     * @param  string  $alias
+     * @return bool
+     */
+//    Todo: the whole point here (sort of).
+//    public function removeHookable(string $alias): bool;
 }
