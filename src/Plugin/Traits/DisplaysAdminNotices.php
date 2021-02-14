@@ -1,13 +1,14 @@
 <?php
 
-namespace Jascha030\PluginLib\Plugin\Notice;
+namespace Jascha030\PluginLib\Plugin\Traits;
 
 use Exception;
+use Jascha030\PluginLib\Notice\AdminNotice;
 
 /**
  * Trait DisplaysAdminNotices
  *
- * @package Jascha030\PluginLib\Plugin\Notice
+ * @package Jascha030\PluginLib\Notice
  */
 trait DisplaysAdminNotices
 {
