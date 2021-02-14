@@ -2,7 +2,7 @@
 
 declare(strict_types=1);
 
-namespace Jascha030\PluginLib\Plugin\Data;
+namespace Jascha030\PluginLib\Plugin\Traits\Traits;
 
 use Exception;
 
@@ -10,6 +10,8 @@ use function get_plugin_data;
 
 trait ReadsPluginData
 {
+    private $pluginFile;
+
     private $pluginData = [];
 
     /**
@@ -29,13 +31,6 @@ trait ReadsPluginData
     }
 
     /**
-     * Get main plugin file's path
-     *
-     * @return string
-     */
-    abstract public function getPluginFile(): string;
-
-    /**
      * @throws Exception
      */
     private function fetchPluginData(): void
@@ -52,4 +47,11 @@ trait ReadsPluginData
 
         $this->pluginData = get_plugin_data($this->getPluginFile(), false);
     }
+
+    /**
+     * Get main plugin file's path
+     *
+     * @return string
+     */
+    abstract public function getPluginFile(): string;
 }

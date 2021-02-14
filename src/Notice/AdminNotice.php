@@ -1,13 +1,13 @@
 <?php
 
-namespace Jascha030\PluginLib\Plugin\Notice;
+namespace Jascha030\PluginLib\Notice;
 
 use Exception;
 
 /**
  * Class AdminNotice
  *
- * @package Jascha030\PluginLib\Plugin\Notice
+ * @package Jascha030\PluginLib\Notice
  */
 class AdminNotice
 {
@@ -62,25 +62,6 @@ class AdminNotice
     }
 
     /**
-     * Print admin notice
-     *
-     * @return void
-     * @throws Exception
-     */
-    final public function display(): void
-    {
-        if (! is_admin()) {
-            throw new \RuntimeException('AdminNotices should only be used in the /wp-admin section.');
-        }
-
-        printf(
-            self::HTML_TEMPLATE,
-            $this->getNoticeTypeCssClass($this->type),
-            esc_html(__($this->message))
-        );
-    }
-
-    /**
      * Validate and add notice type's CSS class
      * Defaults to info when invalid classes are provided.
      *
@@ -96,6 +77,25 @@ class AdminNotice
             self::CSS_TEMPLATE,
             self::TYPES[$type],
             $this->dismissible ? 'is-dismissible' : ''
+        );
+    }
+
+    /**
+     * Print admin notice
+     *
+     * @return void
+     * @throws Exception
+     */
+    final public function display(): void
+    {
+        if (! is_admin()) {
+            throw new \RuntimeException('AdminNotices should only be used in the /wp-admin section.');
+        }
+
+        printf(
+            self::HTML_TEMPLATE,
+            $this->getNoticeTypeCssClass($this->type),
+            esc_html(__($this->message))
         );
     }
 }

@@ -1,23 +1,21 @@
 <?php
 
-namespace Jascha030\PluginLib\Hookable;
+namespace Jascha030\PluginLib\Manager\Filter;
 
 use Closure;
 use Exception;
-use Jascha030\PluginLib\Container\Container;
-use Jascha030\PluginLib\Container\ExpandableContainerInterface;
+use Jascha030\PluginLib\Hookable\LazyHookableAbstract;
+use Pimple\Container;
 use Symfony\Component\Uid\Uuid;
-
-use function add_action;
-use function add_filter;
 
 final class FilterManager implements FilterManagerInterface
 {
-    use Container;
-
     public const FILTER = 0;
     public const ACTION = 1;
 
+    /**
+     * Prefixes for Wordpress filter methods
+     */
     private const FILTER_TYPES = [
         self::ACTION => 'action',
         self::FILTER => 'filter'
@@ -37,7 +35,7 @@ final class FilterManager implements FilterManagerInterface
     private const INVALID_CLASS_MESSAGE = '%s does not implement %s.';
 
     /**
-     * @var ExpandableContainerInterface|null
+     * @var Container|null
      */
     private $container;
 
@@ -45,6 +43,18 @@ final class FilterManager implements FilterManagerInterface
      * @var array Track hooked method closures
      */
     private $hookedMethods = [];
+
+    public function __construct(Container $container)
+    {
+        $this->container = $container;
+    }
+
+    private static function invalidClassException(string $class): Exception
+    {
+        $msg = sprintf(self::INVALID_CLASS_MESSAGE, $class, LazyHookableAbstract::class);
+
+        return new Exception($msg);
+    }
 
     public function has(string $id): bool
     {
@@ -54,19 +64,19 @@ final class FilterManager implements FilterManagerInterface
     /**
      * Register hookable class and hook its methods lazily
      *
-     * @param  string  $binding
+     * @param  string  $alias
      * @param  mixed|string|Closure|null  $calls
      * @throws Exception
      */
-    public function registerHookable(string $binding, $calls = null): void
+    public function registerHookable(string $alias, $calls = null): void
     {
         if ($calls instanceof Closure) {
-            $this->container->add($binding, $calls);
+            $this->container[$alias] = $calls;
             return;
         }
 
         if (! $calls) {
-            $calls = $binding;
+            $calls = $alias;
         }
 
         $className = $calls;
@@ -76,12 +86,9 @@ final class FilterManager implements FilterManagerInterface
             throw new \RuntimeException("Invalid class {$className}");
         }
 
-        $this->container->add(
-            $binding,
-            function () use ($className) {
-                return new $className();
-            }
-        );
+        $this->container[$alias] = function () use ($className) {
+            return new $className();
+        };
     }
 
     public function addAction(
@@ -93,7 +100,42 @@ final class FilterManager implements FilterManagerInterface
     ): void {
         $closure = $this->wrapFilter($tag, $class, $method, $this->generateHookIdentifier());
 
-        add_action($tag, $closure, $priority, $arguments);
+        \add_action($tag, $closure, $priority, $arguments);
+    }
+
+    /**
+     * Wraps class and method in a Closure that calls our container and checks if our hook identifier still exists,
+     * In that case, the Class is retrieved from our container to execute hooked method,
+     *
+     * If not, the method  wil not be executed. This is a workaround for newer wordpress versions,
+     * in which it is basically impossible to unhook a closure by reference. (It's possible, it's not failsafe)
+     *
+     * @param  string  $tag
+     * @param  string  $service
+     * @param  string  $method
+     * @param  string  $identifier
+     * @return Closure
+     * @noinspection PhpInconsistentReturnPointsInspection
+     */
+    private function wrapFilter(string $tag, string $service, string $method, string $identifier): Closure
+    {
+        $this->hookedMethods[$tag][$identifier] = [$service, $method];
+
+        return function (...$args) use ($service, $method, $identifier) {
+            if (array_key_exists($identifier, $this->hookedMethods)) {
+                return $this->get($service)->{$method}(...$args);
+            }
+        };
+    }
+
+    /**
+     * Generate a string to keep track of methods that are hooked as closures
+     *
+     * @return string
+     */
+    public function generateHookIdentifier(): string
+    {
+        return Uuid::v4()->toRfc4122();
     }
 
     public function addFilter(
@@ -108,27 +150,6 @@ final class FilterManager implements FilterManagerInterface
         add_filter($tag, $closure, $priority, $arguments);
     }
 
-    /**
-     * {@inheritDoc}
-     *
-     * @param  string  $id
-     * @return mixed
-     */
-    public function get(string $id)
-    {
-        return $this->container[$id];
-    }
-
-    /**
-     * Generate a string to keep track of methods that are hooked as closures
-     *
-     * @return string
-     */
-    public function generateHookIdentifier(): string
-    {
-        return Uuid::v4()->toRfc4122();
-    }
-
     public function __toString(): string
     {
         $string = '';
@@ -138,13 +159,6 @@ final class FilterManager implements FilterManagerInterface
         }
 
         return $string;
-    }
-
-    private static function invalidClassException(string $class): Exception
-    {
-        $msg = sprintf(self::INVALID_CLASS_MESSAGE, $class, LazyHookableAbstract::class);
-
-        return new Exception($msg);
     }
 
     /**
@@ -172,30 +186,5 @@ final class FilterManager implements FilterManagerInterface
                 }
             }
         }
-    }
-
-    /**
-     * Wraps class and method in a Closure that calls our container and checks if our hook identifier still exists,
-     * In that case, the Class is retrieved from our container to execute hooked method,
-     *
-     * If not, the method  wil not be executed. This is a workaround for newer wordpress versions,
-     * in which it is basically impossible to unhook a closure by reference. (It's possible, it's not failsafe)
-     *
-     * @param  string  $tag
-     * @param  string  $service
-     * @param  string  $method
-     * @param  string  $identifier
-     * @return Closure
-     * @noinspection PhpInconsistentReturnPointsInspection
-     */
-    private function wrapFilter(string $tag, string $service, string $method, string $identifier): Closure
-    {
-        $this->hookedMethods[$tag][$identifier] = [$service, $method];
-
-        return function (...$args) use ($service, $method, $identifier) {
-            if (array_key_exists($identifier, $this->hookedMethods)) {
-                return $this->get($service)->{$method}(...$args);
-            }
-        };
     }
 }
