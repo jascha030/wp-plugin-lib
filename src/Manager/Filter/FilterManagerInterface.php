@@ -23,15 +23,18 @@ interface FilterManagerInterface
     ): void;
 
     /**
+     * Register a hookable class and hook all it's methods
+     *
      * @param  string  $alias
      * @param  mixed|string|Closure|null  $calls
      */
     public function registerHookable(string $alias, $calls = null): void;
 
     /**
+     * Remove all methods of a hookableClass
+     *
      * @param  string  $alias
      * @return bool
      */
-//    Todo: the whole point here (sort of).
-//    public function removeHookable(string $alias): bool;
+    public function removeHookable(string $alias): bool;
 }

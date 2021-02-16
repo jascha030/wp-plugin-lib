@@ -40,9 +40,18 @@ final class FilterManager implements FilterManagerInterface
     private $container;
 
     /**
-     * @var array Track hooked method closures
+     * Store hooked methods and their uuid's
+     *
+     * @var array
      */
     private $hookedMethods = [];
+
+    /**
+     * Store all uuid's associated with a HookableClass
+     *
+     * @var array
+     */
+    private $hookableReference = [];
 
     public function __construct(Container $container)
     {
@@ -89,6 +98,8 @@ final class FilterManager implements FilterManagerInterface
         $this->container[$alias] = function () use ($className) {
             return new $className();
         };
+
+        $this->hookableReference[$alias] = [];
     }
 
     public function addAction(
@@ -111,19 +122,20 @@ final class FilterManager implements FilterManagerInterface
      * in which it is basically impossible to unhook a closure by reference. (It's possible, it's not failsafe)
      *
      * @param  string  $tag
-     * @param  string  $service
+     * @param  string  $alias
      * @param  string  $method
      * @param  string  $identifier
      * @return Closure
      * @noinspection PhpInconsistentReturnPointsInspection
      */
-    private function wrapFilter(string $tag, string $service, string $method, string $identifier): Closure
+    private function wrapFilter(string $tag, string $alias, string $method, string $identifier): Closure
     {
-        $this->hookedMethods[$tag][$identifier] = [$service, $method];
+        $this->hookedMethods[$identifier]             = compact('tag', 'alias', 'method');
+        $this->hookableReference[$alias][$identifier] = $identifier;
 
-        return function (...$args) use ($service, $method, $identifier) {
+        return function (...$args) use ($alias, $method, $identifier) {
             if (array_key_exists($identifier, $this->hookedMethods)) {
-                return $this->get($service)->{$method}(...$args);
+                return $this->get($alias)->{$method}(...$args);
             }
         };
     }
@@ -159,6 +171,22 @@ final class FilterManager implements FilterManagerInterface
         }
 
         return $string;
+    }
+
+    /**
+     * @inheritDoc
+     */
+    public function removeHookable(string $alias): bool
+    {
+        foreach ($this->hookableReference[$alias] as $identifier) {
+            foreach ($this->hookedMethods as $tag) {
+                if (isset($this->hookedMethods[$identifier])) {
+                    unset($this->hookedMethods[$identifier]);
+                }
+
+                unset($this->hookableReference[$alias][$identifier]);
+            }
+        }
     }
 
     /**
