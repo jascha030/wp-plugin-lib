@@ -4,8 +4,7 @@ declare(strict_types=1);
 
 namespace Jascha030\PluginLib\Plugin;
 
-use Pimple\Container;
-use Pimple\ServiceProviderInterface;
+use Pimple\Psr11\Container as Psr11Container;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -18,20 +17,15 @@ use Psr\Container\ContainerInterface;
  */
 abstract class WordpressPluginAbstract implements ContainerInterface
 {
-    private $providers;
     private $container;
-    private $psr11;
 
-    public function __construct(Container $container, array $providers = [])
+    public function __construct(Psr11Container $container)
     {
         $this->container = $container;
-
-        $this->providers = $providers;
     }
 
     /**
-     * @param  string  $id
-     * @return mixed
+     * @inheritDoc
      */
     public function get(string $id)
     {
@@ -39,27 +33,14 @@ abstract class WordpressPluginAbstract implements ContainerInterface
             throw new \InvalidArgumentException("Invalid identifier {$id}");
         }
 
-        return $this->psr11->get($id);
+        return $this->container->get($id);
     }
 
     /**
-     * @param  string  $id
-     * @return bool
+     * @inheritDoc
      */
     public function has(string $id): bool
     {
-        return $this->psr11->has($id);
-    }
-
-    public function run(): void
-    {
-        foreach ($this->providers as $provider) {
-            if (is_subclass_of($provider, ServiceProviderInterface::class)) {
-                $provider->register($this->container);
-            }
-        }
-
-        $this->psr11     = new \Pimple\Psr11\Container($this->container);
-        $this->container = null;
+        return $this->container->has($id);
     }
 }
