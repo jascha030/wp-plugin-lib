@@ -23,7 +23,7 @@ abstract class PostTypeAbstract extends HookableAbstract
      */
     final public function register(): void
     {
-        register_post_type(static::getSlug(), $this->getPostTypeConfig());
+        register_post_type($this->getSlug(), $this->getPostTypeConfig());
     }
 
     /**
@@ -137,7 +137,7 @@ abstract class PostTypeAbstract extends HookableAbstract
     public function query(array $arguments = []): array
     {
         $args = [
-            'post_type'      => static::getSlug(),
+            'post_type'      => $this->getSlug(),
             'posts_per_page' => -1,
             'post_status'    => 'publish'
         ];
