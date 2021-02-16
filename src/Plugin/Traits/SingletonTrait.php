@@ -1,6 +1,6 @@
 <?php
 
-namespace Jascha030\PluginLib\Plugin;
+namespace Jascha030\PluginLib\Plugin\Traits;
 
 trait SingletonTrait
 {
