@@ -10,7 +10,7 @@ interface FilterManagerInterface
         string $tag,
         string $class,
         string $method,
-        int $priority = 10,
+        int $prio = 10,
         int $arguments = 1
     ): void;
 
@@ -34,7 +34,7 @@ interface FilterManagerInterface
      * Remove all methods of a hookableClass
      *
      * @param  string  $alias
-     * @return bool
+     * @return void
      */
-    public function removeHookable(string $alias): bool;
+    public function removeHookable(string $alias): void;
 }

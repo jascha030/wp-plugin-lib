@@ -5,7 +5,6 @@ declare(strict_types=1);
 namespace Jascha030\PluginLib\Plugin;
 
 use Pimple\Psr11\Container as Psr11Container;
-use Psr\Container\ContainerInterface;
 
 /**
  * Class WordpressPluginAbstract
@@ -15,32 +14,28 @@ use Psr\Container\ContainerInterface;
  *
  * @package Jascha030\PluginLib\Plugin\Traits
  */
-abstract class WordpressPluginAbstract implements ContainerInterface
+abstract class WordpressPluginAbstract
 {
     private $container;
 
-    public function __construct(Psr11Container $container)
+    private $hookableServices;
+
+    private $filterReference;
+
+    /**
+     * WordpressPluginAbstract constructor.
+     *
+     * @param  Psr11Container  $container
+     */
+    public function __construct(Psr11Container $container, array $hookableClasses)
     {
         $this->container = $container;
+
+        $this->hookableServices = $hookableClasses;
     }
 
-    /**
-     * @inheritDoc
-     */
-    public function get(string $id)
+    private function hookServicesLazily()
     {
-        if (! $this->has($id)) {
-            throw new \InvalidArgumentException("Invalid identifier {$id}");
-        }
-
-        return $this->container->get($id);
-    }
-
-    /**
-     * @inheritDoc
-     */
-    public function has(string $id): bool
-    {
-        return $this->container->has($id);
+//        foreach ()
     }
 }

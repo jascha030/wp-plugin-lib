@@ -2,10 +2,8 @@
 
 namespace Jascha030\PluginLib\Container;
 
-use Jascha030\PluginLib\Manager\Filter\FilterManager;
 use Pimple\Container;
 use Pimple\Psr11\Container as Psr11Container;
-use Pimple\ServiceProviderInterface;
 
 /**
  * Class ContainerFactory
@@ -14,25 +12,22 @@ use Pimple\ServiceProviderInterface;
 class ContainerFactory
 {
     /**
-     * @param  array|ServiceProviderInterface[]  $serviceProviders
-     * @param  array  $hookableServices
+     * @param  string  $pluginRoot
      * @return Psr11Container
      */
-    public function __invoke(array $serviceProviders = [], array $hookableServices = []): Psr11Container
+    public function __invoke(string $pluginRoot): Psr11Container
     {
         $container = new Container();
 
-        foreach ($serviceProviders as $provider) {
-            $provider->register($container);
-        }
+        // todo scan directory for service providers
+        // These service providers should add dependencies, not directly hooked to actions/filters.
 
-        $container['filters'] = function (Container $container) use ($hookableServices) {
-            $manager = new FilterManager($container);
+        // todo: scan directory for hookable classes
+        // HookableServices should strictly contain public functions that are hooked to actions/filters.
 
-            foreach ($hookableServices as $alias => $service) {
-                $manager->registerHookable($alias, $service);
-            }
-        };
+//        foreach ($serviceProviders as $provider) {
+//            $provider->register($container);
+//        }
 
         return new Psr11Container($container);
     }

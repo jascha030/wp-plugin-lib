@@ -5,10 +5,9 @@ namespace Jascha030\PluginLib\Manager\Filter;
 use Closure;
 use Exception;
 use Jascha030\PluginLib\Hookable\LazyHookableAbstract;
-use Pimple\Container;
 use Symfony\Component\Uid\Uuid;
 
-final class FilterManager implements FilterManagerInterface
+abstract class FilterManager implements FilterManagerInterface
 {
     public const FILTER = 0;
     public const ACTION = 1;
@@ -22,7 +21,7 @@ final class FilterManager implements FilterManagerInterface
     ];
 
     /**
-     * See methods defined in DeferrableAbstract.
+     * See methods defined in LazyHookableInterface.
      */
     private const FILTER_RETRIEVAL_METHODS = [
         self::ACTION => 'getActions',
@@ -35,9 +34,9 @@ final class FilterManager implements FilterManagerInterface
     private const INVALID_CLASS_MESSAGE = '%s does not implement %s.';
 
     /**
-     * @var Container|null
+     * @var array
      */
-    private $container;
+    private $hookableServices;
 
     /**
      * Store hooked methods and their uuid's
@@ -53,21 +52,23 @@ final class FilterManager implements FilterManagerInterface
      */
     private $hookableReference = [];
 
-    public function __construct(Container $container)
+    /**
+     * Store all hook identifiers under a specific tag
+     *
+     * @var array
+     */
+    private $filterTags = [];
+
+    public function __construct(array $hookableServices)
     {
-        $this->container = $container;
+        $this->hookableServices = $hookableServices;
     }
 
-    private static function invalidClassException(string $class): Exception
+    final public function registerHookables(): void
     {
-        $msg = sprintf(self::INVALID_CLASS_MESSAGE, $class, LazyHookableAbstract::class);
-
-        return new Exception($msg);
-    }
-
-    public function has(string $id): bool
-    {
-        return isset($this->container[$id]);
+        foreach ($this->hookableServices as $alias => $service) {
+            $this->registerHookable($alias, $service);
+        }
     }
 
     /**
@@ -75,7 +76,6 @@ final class FilterManager implements FilterManagerInterface
      *
      * @param  string  $alias
      * @param  mixed|string|Closure|null  $calls
-     * @throws Exception
      */
     public function registerHookable(string $alias, $calls = null): void
     {
@@ -102,42 +102,24 @@ final class FilterManager implements FilterManagerInterface
         $this->hookableReference[$alias] = [];
     }
 
+    /**
+     * @param  string  $tag
+     * @param  string  $class
+     * @param  string  $method
+     * @param  int  $prio
+     * @param  int  $arguments
+     */
     public function addAction(
         string $tag,
         string $class,
         string $method,
-        int $priority = 10,
+        int $prio = 10,
         int $arguments = 1
     ): void {
-        $closure = $this->wrapFilter($tag, $class, $method, $this->generateHookIdentifier());
+        $uid     = $this->generateHookIdentifier();
+        $closure = $this->wrap($class, $method, $uid);
 
-        \add_action($tag, $closure, $priority, $arguments);
-    }
-
-    /**
-     * Wraps class and method in a Closure that calls our container and checks if our hook identifier still exists,
-     * In that case, the Class is retrieved from our container to execute hooked method,
-     *
-     * If not, the method  wil not be executed. This is a workaround for newer wordpress versions,
-     * in which it is basically impossible to unhook a closure by reference. (It's possible, it's not failsafe)
-     *
-     * @param  string  $tag
-     * @param  string  $alias
-     * @param  string  $method
-     * @param  string  $identifier
-     * @return Closure
-     * @noinspection PhpInconsistentReturnPointsInspection
-     */
-    private function wrapFilter(string $tag, string $alias, string $method, string $identifier): Closure
-    {
-        $this->hookedMethods[$identifier]             = compact('tag', 'alias', 'method');
-        $this->hookableReference[$alias][$identifier] = $identifier;
-
-        return function (...$args) use ($alias, $method, $identifier) {
-            if (array_key_exists($identifier, $this->hookedMethods)) {
-                return $this->get($alias)->{$method}(...$args);
-            }
-        };
+        \add_action($tag, $closure, $prio, $arguments);
     }
 
     /**
@@ -157,51 +139,95 @@ final class FilterManager implements FilterManagerInterface
         int $priority = 10,
         int $arguments = 1
     ): void {
-        $closure = $this->wrapFilter($tag, $class, $method, $this->generateHookIdentifier());
+        $uuid    = $this->generateHookIdentifier();
+        $closure = $this->wrap($class, $method, $uuid);
 
-        add_filter($tag, $closure, $priority, $arguments);
+        \add_filter($tag, $closure, $priority, $arguments);
     }
 
-    public function __toString(): string
+    public function removeHookedMethodByIdentifier(string $identifier): void
     {
-        $string = '';
+        $hookReference = $this->hookedMethods[$identifier];
+        $alias         = $hookReference['alias'];
 
-        foreach ($this->hookedMethods as $tag => $hooked) {
-            $string .= sprintf('<tr><td>%s</td><td>%s</td></tr>', $tag, implode('<br />', $hooked));
-        }
-
-        return $string;
+        $this->hookableReference[$alias][$identifier] = false;
     }
 
     /**
      * @inheritDoc
      */
-    public function removeHookable(string $alias): bool
+    public function removeHookable(string $alias): void
     {
         foreach ($this->hookableReference[$alias] as $identifier) {
-            foreach ($this->hookedMethods as $tag) {
-                if (isset($this->hookedMethods[$identifier])) {
-                    unset($this->hookedMethods[$identifier]);
-                }
-
-                unset($this->hookableReference[$alias][$identifier]);
+            if (isset($this->hookedMethods[$identifier])) {
+                unset($this->hookedMethods[$identifier]);
             }
+
+            $this->hookableReference[$alias][$identifier] = false;
         }
     }
 
     /**
-     * Hooks all Actions/Filters defined in Deferrable.
+     * @param  string  $class
+     * @return Exception
+     */
+    private static function invalidClassException(string $class): Exception
+    {
+        $msg = sprintf(self::INVALID_CLASS_MESSAGE, $class, LazyHookableAbstract::class);
+
+        return new Exception($msg);
+    }
+
+    /**
+     * Wraps class and method in a Closure that calls our container and checks if our hook identifier still exists,
+     * In that case, the Class is retrieved from our container to execute hooked method,
+     *
+     * If not, the method  wil not be executed. This is a workaround for newer wordpress versions,
+     * in which it is basically impossible to unhook a closure by reference. (It's possible, it's not failsafe)
+     *
+     * @param  string  $alias
+     * @param  string  $method
+     * @param  string  $uid
+     * @return Closure
+     *
+     * @noinspection PhpInconsistentReturnPointsInspection
+     */
+    private function wrap(string $alias, string $method, string $uid): Closure
+    {
+        return function (...$args) use ($alias, $method, $uid) {
+            if (array_key_exists($uid, $this->hookedMethods)) {
+                return $this->get($alias)->{$method}(...$args);
+            }
+        };
+    }
+
+    private function storeFilterReference(
+        string $uid,
+        string $tag,
+        string $alias,
+        string $method,
+        int $prio,
+        int $arguments
+    ): void {
+        // Store all info on the hooked method.
+        $this->hookedMethods[$uid] = compact('tag', 'alias', 'method', 'prio', 'arguments');
+        // Add uid to array tracking all methods for a single alias/class.
+        $this->hookableReference[$alias][$uid] = true;
+        // Add uid to array tracking all methods for a wordpress (action/filter)tag.
+        $this->filterTags[$tag][$uid] = true;
+    }
+
+    /**
+     * Hooks all Actions/Filters defined in Hookable.
      *
      * @param  string  $serviceClass
      */
-    private function addAll(string $serviceClass): void
+    private function hookClassMethods(string $serviceClass): void
     {
         foreach (self::FILTER_RETRIEVAL_METHODS as $key => $method) {
             $addMethod = 'add'.ucfirst(self::FILTER_TYPES[$key]);
-
-            // calls static::getAction() or static::getFilter() on Deferrable.
+            // calls static::getAction() or static::getFilter() on lazy hookable.
             $hooks = $serviceClass::{$method}();
-
             // Iterates hook types and checks service for methods to hook.
             foreach ($hooks as $tag => $parameters) {
                 // Check if single or multiple methods are added to hook.
