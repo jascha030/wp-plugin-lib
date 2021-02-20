@@ -1,6 +1,6 @@
 <?php
 
-namespace Jascha030\PluginLib\Notice;
+namespace Jascha030\PluginLib\Entity\Notice;
 
 use Exception;
 
@@ -14,19 +14,28 @@ class AdminNotice
     /**
      * Keys indicating different types of notices
      */
-    public const ERROR   = 0;
+    public const ERROR = 0;
+    /**
+     *
+     */
     public const WARNING = 1;
+    /**
+     *
+     */
     public const SUCCESS = 2;
-    public const INFO    = 3;
+    /**
+     *
+     */
+    public const INFO = 3;
 
     /**
      * Notice severity types and their according CSS classnames
      */
     public const TYPES = [
-        self::ERROR   => 'notice-error',
+        self::ERROR => 'notice-error',
         self::WARNING => 'notice-warning',
         self::SUCCESS => 'notice-success',
-        self::INFO    => 'notice-info'
+        self::INFO => 'notice-info'
     ];
 
     /**
@@ -39,18 +48,27 @@ class AdminNotice
      */
     private const CSS_TEMPLATE = 'notice %s %s';
 
-    private $message;
+    /**
+     * @var string
+     */
+    private string $message;
 
-    private $type;
+    /**
+     * @var string
+     */
+    private string $type;
 
-    private $dismissible;
+    /**
+     * @var bool
+     */
+    private bool $dismissible;
 
     /**
      * AdminNotice constructor.
      *
-     * @param  string  $message
-     * @param  int  $type
-     * @param  bool  $dismissible
+     * @param string $message
+     * @param int    $type
+     * @param bool   $dismissible
      */
     public function __construct(string $message, int $type = self::INFO, bool $dismissible = true)
     {
@@ -62,10 +80,30 @@ class AdminNotice
     }
 
     /**
+     * Print admin notice
+     *
+     * @return void
+     * @throws Exception
+     */
+    final public function display(): void
+    {
+        if (!is_admin()) {
+            throw new \RuntimeException('AdminNotices should only be used in the /wp-admin section.');
+        }
+
+        echo sprintf(
+            self::HTML_TEMPLATE,
+            $this->getNoticeTypeCssClass($this->type),
+            esc_html(__($this->message))
+        );
+    }
+
+    /**
      * Validate and add notice type's CSS class
      * Defaults to info when invalid classes are provided.
      *
-     * @param  int  $type
+     * @param int $type
+     *
      * @return string
      */
     private function getNoticeTypeCssClass(int $type = self::INFO): string
@@ -77,25 +115,6 @@ class AdminNotice
             self::CSS_TEMPLATE,
             self::TYPES[$type],
             $this->dismissible ? 'is-dismissible' : ''
-        );
-    }
-
-    /**
-     * Print admin notice
-     *
-     * @return void
-     * @throws Exception
-     */
-    final public function display(): void
-    {
-        if (! is_admin()) {
-            throw new \RuntimeException('AdminNotices should only be used in the /wp-admin section.');
-        }
-
-        printf(
-            self::HTML_TEMPLATE,
-            $this->getNoticeTypeCssClass($this->type),
-            esc_html(__($this->message))
         );
     }
 }
