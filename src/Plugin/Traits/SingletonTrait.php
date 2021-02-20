@@ -1,4 +1,5 @@
 <?php
+/** @noinspection PhpMissingFieldTypeInspection */
 
 namespace Jascha030\PluginLib\Plugin\Traits;
 

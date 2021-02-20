@@ -3,25 +3,24 @@
 namespace Jascha030\PluginLib\Plugin\Traits;
 
 use Exception;
-use Jascha030\PluginLib\Notice\AdminNotice;
+use Jascha030\PluginLib\Entity\Notice\AdminNotice;
 
 /**
  * Trait DisplaysAdminNotices
- *
- * @package Jascha030\PluginLib\Notice
+ * @package Jascha030\PluginLib\Plugin\Traits
  */
 trait DisplaysAdminNotices
 {
     /**
      * @var array|AdminNotice[]
      */
-    private $notices = [];
+    private array $notices = [];
 
     /**
      * Add notice for display in wp-admin
      *
      * @param  string  $message
-     * @param  int  $type
+     * @param  int     $type
      */
     final public function addNotice(string $message, int $type = AdminNotice::INFO): void
     {

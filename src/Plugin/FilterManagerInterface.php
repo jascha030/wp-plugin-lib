@@ -2,39 +2,43 @@
 
 namespace Jascha030\PluginLib\Plugin;
 
-use Closure;
-
+/**
+ * Interface FilterManagerInterface
+ *
+ * @package Jascha030\PluginLib\Plugin
+ */
 interface FilterManagerInterface
 {
-    public function addAction(
-        string $tag,
-        string $class,
-        string $method,
-        int $prio = 10,
-        int $arguments = 1
-    ): void;
-
-    public function addFilter(
-        string $tag,
-        string $class,
-        string $method,
-        int $priority = 10,
-        int $arguments = 1
-    ): void;
+    /**
+     * Add action lazily.
+     * Wraps hookable method call in a Closure to lazily load the actual hookable upon first call.
+     *
+     * @param  string  $tag
+     * @param  string  $class
+     * @param  string  $method
+     * @param  int     $prio
+     * @param  int     $arguments
+     */
+    public function addAction(string $tag, string $class, string $method, int $prio = 10, int $arguments = 1): void;
 
     /**
-     * Register a hookable class and hook all it's methods
+     * Add filter lazily.
+     * Wraps hookable method call in a Closure to lazily load the actual hookable upon first call.
      *
-     * @param  string  $alias
-     * @param  mixed|string|Closure|null  $calls
+     * @param  string  $tag
+     * @param  string  $class
+     * @param  string  $method
+     * @param  int     $priority
+     * @param  int     $arguments
      */
-    public function registerHookable(string $alias, $calls = null): void;
+    public function addFilter(string $tag, string $class, string $method, int $priority = 10, int $arguments = 1): void;
 
     /**
      * Remove all methods of a hookableClass
      *
-     * @param  string  $alias
+     * @param  string  $id
+     *
      * @return void
      */
-    public function removeHookable(string $alias): void;
+    public function removeHookable(string $id): void;
 }

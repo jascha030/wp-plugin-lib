@@ -2,17 +2,27 @@
 
 declare(strict_types=1);
 
-namespace Jascha030\PluginLib\Plugin\Traits\Traits;
+namespace Jascha030\PluginLib\Plugin\Traits;
 
 use Exception;
 
 use function get_plugin_data;
 
+/**
+ * Trait ReadsPluginData
+ * @package Jascha030\PluginLib\Plugin\Traits
+ */
 trait ReadsPluginData
 {
-    private $pluginFile;
+    /**
+     * @var string|null
+     */
+    private ?string $pluginFile;
 
-    private $pluginData = [];
+    /**
+     * @var array
+     */
+    private array $pluginData = [];
 
     /**
      * Get data from the Plugin header by key
@@ -30,6 +40,8 @@ trait ReadsPluginData
         return $this->pluginData[$key] ?? null;
     }
 
+    abstract public function getPluginFile(): string;
+
     /**
      * @throws Exception
      */
@@ -41,17 +53,12 @@ trait ReadsPluginData
             );
         }
 
-        if (! function_exists('get_plugin_data')) {
-            require_once ABSPATH.'wp-admin/includes/plugin.php';
+        $path = ABSPATH.'wp-admin/includes/plugin.php';
+
+        if (! function_exists('get_plugin_data') || is_readable($path)) {
+            require_once $path;
         }
 
         $this->pluginData = get_plugin_data($this->getPluginFile(), false);
     }
-
-    /**
-     * Get main plugin file's path
-     *
-     * @return string
-     */
-    abstract public function getPluginFile(): string;
 }
