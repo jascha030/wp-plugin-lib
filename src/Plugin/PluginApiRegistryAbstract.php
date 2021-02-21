@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Jascha030\PluginLib\Plugin;
 
 use Closure;
+use Jascha030\PluginLib\Entity\Post\PostTypeAbstract;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceException;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException;
 use Jascha030\PluginLib\Service\Hookable\HookableAfterInitInterface;
@@ -68,6 +69,11 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     private array $filterTags = [];
 
     /**
+     * @var array 
+     */
+    private array $postTypes = [];
+
+    /**
      * @var ContainerInterface|null
      */
     private ContainerInterface $container;
@@ -79,10 +85,12 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
      * @param  array               $afterInitHookables
      * @param  ContainerInterface  $container
      */
-    public function __construct(array $hookableReference, array $afterInitHookables, ContainerInterface $container)
+    public function __construct(array $hookableReference, array $afterInitHookables, array $postTypes,
+                                ContainerInterface $container)
     {
         $this->hookableReference  = $hookableReference;
         $this->afterInitHookables = $afterInitHookables;
+        $this->postTypes          = $postTypes;
         $this->container          = $container;
     }
 
@@ -97,6 +105,15 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
         $this->hookAfterInitHookables();
 
         $this->hookLazyReferences();
+    }
+
+    private function initPostTypes(): void
+    {
+        foreach ($this->postTypes as $postType) {
+            if (is_subclass_of($postType, PostTypeAbstract::class)) {
+                $postType = $postType();
+            }
+        }
     }
 
     /**
