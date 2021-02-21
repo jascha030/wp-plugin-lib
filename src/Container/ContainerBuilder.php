@@ -3,6 +3,7 @@
 namespace Jascha030\PluginLib\Container;
 
 use Jascha030\PluginLib\Container\Config\Config;
+use Jascha030\PluginLib\Entity\Post\PostTypeInterface;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceException;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException;
 use Jascha030\PluginLib\Service\Hookable\HookableAfterInitInterface;
@@ -92,9 +93,21 @@ final class ContainerBuilder implements ContainerBuilderInterface
             }
         }
 
+        $postTypesArray = [];
+
+        foreach ($postTypes as $postType) {
+            if (is_array($postType)) {
+                $postTypesArray[$postType[0]] = $postType;
+            }
+
+            if (is_subclass_of($postType, PostTypeInterface::class)) {
+                $postTypesArray[$postType] = $postType;
+            }
+        }
+
         $container['hookable.reference'] = $reference;
         $container['hookable.afterInit'] = $afterInitHookables;
-        $container['plugin.postTypes']   = $postTypes;
+        $container['plugin.postTypes']   = $postTypesArray;
 
         $container['hookable.locator'] = function (Container $container) {
             $lazyHookables    = array_keys($container['hookable.reference']);
