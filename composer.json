@@ -17,7 +17,10 @@
   "autoload": {
     "psr-4": {
       "Jascha030\\PluginLib\\": "src/"
-    }
+    },
+    "files": [
+      'includes/plugin-initialisation.php'
+    ]
   },
   "autoload-dev": {
     "psr-4": {

@@ -19,10 +19,10 @@ use Pimple\ServiceProviderInterface;
  *
  * @package Jascha030\PluginLib\Container
  */
-final class ContainerBuilder
+final class ContainerBuilder implements ContainerBuilderInterface
 {
     /**
-     * Registers all of the plugin or theme's dependencies to a Psr11 compliant container.
+     * @inheritDoc
      *
      * @param  Config  $config
      * @param  string  $file
@@ -79,10 +79,6 @@ final class ContainerBuilder
                 }
 
                 if (is_subclass_of($className, LazyHookableInterface::class)) {
-                    $container[$className] = static function () use ($className) {
-                        return new $className();
-                    };
-
                     $reference[$className] = [];
                 }
 
@@ -97,10 +93,9 @@ final class ContainerBuilder
 
             $container['hookable.reference'] = $reference;
             $container['hookable.afterInit'] = $afterInitHookables;
-
-            $container['hookable.locator'] =  function (Container $container) {
-                $hookableServices = array_merge(array_keys($container['hookable.reference']),
-                    $container['hookable.afterInit']);
+            $container['hookable.locator']   = function (Container $container) {
+                $lazyHookables    = array_keys($container['hookable.reference']);
+                $hookableServices = array_merge($lazyHookables, $container['hookable.afterInit']);
 
                 return new ServiceLocator($container, $hookableServices);
             };
