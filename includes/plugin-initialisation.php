@@ -3,11 +3,10 @@
 namespace Jascha030\PluginLib\Functions;
 
 use Jascha030\PluginLib\Container\Config\Config;
-use Jascha030\PluginLib\Container\ContainerBuilder;
+use Jascha030\PluginLib\Container\ContainerBuilder as Builder;
 use Jascha030\PluginLib\Container\ContainerBuilderInterface;
 use Jascha030\PluginLib\Exception\DoesNotImplementInterfaceException;
 use Jascha030\PluginLib\Plugin\FilterManagerInterface;
-use Jascha030\PluginLib\Plugin\PluginApiRegistryAbstract;
 
 if (! function_exists('buildPlugin')) {
     /**
@@ -20,7 +19,7 @@ if (! function_exists('buildPlugin')) {
      * @return FilterManagerInterface
      * @throws DoesNotImplementInterfaceException
      */
-    function buildPlugin(Config $config, string $registry, string $builder = ContainerBuilder::class): FilterManagerInterface
+    function buildPlugin(Config $config, string $registry, string $builder = Builder::class): FilterManagerInterface
     {
         if (! is_subclass_of($builder, ContainerBuilderInterface::class)) {
             throw new DoesNotImplementInterfaceException($builder, ContainerBuilderInterface::class);
@@ -40,6 +39,7 @@ if (! function_exists('buildPlugin')) {
          */
         return new $registry($container->get('hookable.reference'),
             $container->get('hookable.afterInit'),
-            $container->get('hookable.locator'));
+            $container->get('hookable.locator'),
+            $container->get('plugin.postTypes'));
     }
 }
