@@ -65,5 +65,5 @@ interface PostTypeInterface
     /**
      * @return string[]
      */
-    public function supports(): array;
+    public function getSupports(): array;
 }
