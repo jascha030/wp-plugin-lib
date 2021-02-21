@@ -77,7 +77,7 @@ class Config
     /**
      * @return array|string[]
      */
-    public function getHookables(): array
+    final public function getHookables(): array
     {
         return $this->hookables;
     }
@@ -87,7 +87,7 @@ class Config
      *
      * @return Config
      */
-    public function setHookables(array $hookables): self
+    final public function setHookables(array $hookables): self
     {
         $this->hookables = $hookables;
 
@@ -97,7 +97,7 @@ class Config
     /**
      * @return array
      */
-    public function getServiceProviders(): array
+    final public function getServiceProviders(): array
     {
         return $this->serviceProviders;
     }
@@ -107,7 +107,7 @@ class Config
      *
      * @return Config
      */
-    public function setServiceProviders(array $serviceProviders): self
+    final public function setServiceProviders(array $serviceProviders): self
     {
         $this->serviceProviders = $serviceProviders;
 
