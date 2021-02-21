@@ -1,30 +1,45 @@
 {
-    "name": "jascha030/wp-plugin-lib",
-    "description": "Classes for Wordpress Development",
-    "version": "0.0.1",
-    "license": "MIT",
-    "authors": [
-        {
-            "name": "Jascha van Aalst",
-            "email": "contact@jaschavanaalst.nl"
-        }
-    ],
-    "minimum-stability": "stable",
-    "config": {
-        "platform": {
-            "php": "7.3"
-        }
-    },
-    "autoload": {
-        "psr-4": {
-            "Jascha030\\PluginLib\\": "src/"
-        }
-    },
-    "require": {
-        "pimple/pimple": "3.3.x-dev",
-        "psr/container": "1.1.x-dev"
-    },
-    "require-dev": {
-        "phpunit/phpunit": "9.5.x-dev"
+  "name": "jascha030/wp-plugin-lib",
+  "description": "Classes for Wordpress Plugin Development using more modern PHP and more OOP.",
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Jascha van Aalst",
+      "email": "contact@jaschavanaalst.nl"
     }
+  ],
+  "minimum-stability": "stable",
+  "config": {
+    "platform": {
+      "php": "7.4"
+    }
+  },
+  "autoload": {
+    "psr-4": {
+      "Jascha030\\PluginLib\\": "src/"
+    },
+    "files": [
+      "includes/plugin-initialisation.php"
+    ]
+  },
+  "autoload-dev": {
+    "psr-4": {
+      "Jascha030\\PluginLib\\": "src/",
+      "Jascha030\\Tests\\": "tests/"
+    }
+  },
+  "require": {
+    "pimple/pimple": "^3.3",
+    "psr/container": "1.0.0",
+    "symfony/uid": "^5.2"
+  },
+  "require-dev": {
+    "roave/security-advisories": "dev-master",
+    "phpunit/phpunit": "^9.5"
+  },
+  "extra": {
+    "branch-alias": {
+      "dev-develop": "1.0.x-dev"
+    }
+  }
 }

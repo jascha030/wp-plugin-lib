@@ -1,7 +1,14 @@
 <?php
+/** @noinspection PhpMissingFieldTypeInspection */
 
-namespace Jascha030\PluginLib\Plugin;
+namespace Jascha030\PluginLib\Plugin\Traits;
 
+/**
+ * Trait SingletonTrait
+ * Obsolete but still used often for simpler use cases, so I'll save the trait.
+ *
+ * @package Jascha030\PluginLib\Plugin\Traits
+ */
 trait SingletonTrait
 {
     private static $instance;

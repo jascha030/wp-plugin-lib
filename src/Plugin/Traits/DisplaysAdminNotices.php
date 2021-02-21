@@ -1,26 +1,28 @@
 <?php
 
-namespace Jascha030\PluginLib\Plugin\Notice;
+namespace Jascha030\PluginLib\Plugin\Traits;
+
+use Exception;
+use Jascha030\PluginLib\Entity\Notice\AdminNotice;
 
 /**
  * Trait DisplaysAdminNotices
- *
- * @package Jascha030\PluginLib\Plugin\Notice
+ * @package Jascha030\PluginLib\Plugin\Traits
  */
 trait DisplaysAdminNotices
 {
     /**
      * @var array|AdminNotice[]
      */
-    private $notices = [];
+    private array $notices = [];
 
     /**
      * Add notice for display in wp-admin
      *
      * @param  string  $message
-     * @param  int  $type
+     * @param  int     $type
      */
-    public function addNotice(string $message, int $type = AdminNotice::INFO): void
+    final public function addNotice(string $message, int $type = AdminNotice::INFO): void
     {
         $this->notices[] = new AdminNotice($message, $type);
     }
@@ -28,7 +30,7 @@ trait DisplaysAdminNotices
     /**
      * Display added notices after load
      *
-     * @throws \Exception
+     * @throws Exception
      */
     final public function displayNotices(): void
     {
@@ -38,9 +40,9 @@ trait DisplaysAdminNotices
     }
 
     /**
-     * @param  \Exception  $exception
+     * @param  Exception  $exception
      */
-    final public function fromException(\Exception $exception): void
+    final public function fromException(Exception $exception): void
     {
         $this->notices[] = new AdminNotice($exception->getMessage(), AdminNotice::ERROR, false);
     }
