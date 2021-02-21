@@ -19,7 +19,7 @@
       "Jascha030\\PluginLib\\": "src/"
     },
     "files": [
-      'includes/plugin-initialisation.php'
+      "includes/plugin-initialisation.php"
     ]
   },
   "autoload-dev": {
