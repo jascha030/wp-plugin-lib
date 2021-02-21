@@ -5,12 +5,13 @@ declare(strict_types=1);
 namespace Jascha030\PluginLib\Plugin;
 
 use Closure;
+use Jascha030\PluginLib\Entity\Post\PostType;
 use Jascha030\PluginLib\Entity\Post\PostTypeAbstract;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceException;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException;
 use Jascha030\PluginLib\Service\Hookable\HookableAfterInitInterface;
 use Jascha030\PluginLib\Service\Hookable\LazyHookableInterface;
-use Psr\Container\ContainerInterface;
+use Psr\Container\ContainerInterface as Locator;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -69,29 +70,29 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     private array $filterTags = [];
 
     /**
-     * @var array 
+     * @var array
      */
     private array $postTypes = [];
 
     /**
-     * @var ContainerInterface|null
+     * @var Locator|null
      */
-    private ContainerInterface $container;
+    private Locator $container;
 
     /**
      * PluginApiRegistryAbstract constructor.
      *
-     * @param  array               $hookableReference
-     * @param  array               $afterInitHookables
-     * @param  ContainerInterface  $container
+     * @param  Locator  $locator
+     * @param  array    $hookables
+     * @param  array    $afterInitHookables
+     * @param  array    $postTypes
      */
-    public function __construct(array $hookableReference, array $afterInitHookables, array $postTypes,
-                                ContainerInterface $container)
+    public function __construct(Locator $locator, array $hookables, array $afterInitHookables, array $postTypes = [])
     {
-        $this->hookableReference  = $hookableReference;
+        $this->hookableReference  = $hookables;
         $this->afterInitHookables = $afterInitHookables;
+        $this->container          = $locator;
         $this->postTypes          = $postTypes;
-        $this->container          = $container;
     }
 
     /**
@@ -107,23 +108,14 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
         $this->hookLazyReferences();
     }
 
-    private function initPostTypes(): void
-    {
-        foreach ($this->postTypes as $postType) {
-            if (is_subclass_of($postType, PostTypeAbstract::class)) {
-                $postType = $postType();
-            }
-        }
-    }
-
     /**
      * Set the container responsible for injecting hookables upon
      *
-     * @param  ContainerInterface  $container
+     * @param  Locator  $container
      *
      * @return $this|FilterManagerInterface
      */
-    final public function setContainer(ContainerInterface $container): FilterManagerInterface
+    final public function setContainer(Locator $container): FilterManagerInterface
     {
         $this->container = $container;
 
@@ -198,6 +190,22 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
             }
 
             $this->hookableReference[$id][$identifier] = false;
+        }
+    }
+
+    /**
+     * Inits PostType classes
+     */
+    private function initPostTypes(): void
+    {
+        foreach ($this->postTypes as $postType) {
+            if (is_subclass_of($postType, PostTypeAbstract::class)) {
+                $postType = new $postType();
+            }
+
+            if (is_array($postType)) {
+                $postType = new PostType(...$postType);
+            }
         }
     }
 

@@ -10,12 +10,13 @@ use function register_post_type;
 
 /**
  * Class PostTypeAbstract
+ *
  * @package Jascha030\PluginLib\Entity\Post
  */
-abstract class PostTypeAbstract
+abstract class PostTypeAbstract implements PostTypeInterface
 {
     /**
-     * Register post type
+     * @inheritDoc
      *
      * @return void
      */
@@ -25,35 +26,35 @@ abstract class PostTypeAbstract
     }
 
     /**
-     * Custom post type slug.
+     * @inheritDoc
      *
      * @return string
      */
     abstract public function getSlug(): string;
 
     /**
-     * Singular name for the 'labels' setting.
+     * @inheritDoc
      *
      * @return string
      */
     abstract public function getSingular(): string;
 
     /**
-     * Plural name for the 'labels' setting.
+     * @inheritDoc
      *
      * @return string
      */
     abstract public function getPlural(): string;
 
     /**
-     * Overrides default values.
+     * @inheritDoc
      *
      * @return array
      */
     abstract public function getArguments(): array;
 
     /**
-     * Post type specific wrapper for WP_Query
+     * @inheritDoc
      *
      * @param  array  $arguments
      *
@@ -73,7 +74,7 @@ abstract class PostTypeAbstract
     }
 
     /**
-     * Create a post
+     * @inheritDoc
      *
      * @param  array  $postData
      * @param  array  $postMeta
@@ -101,6 +102,8 @@ abstract class PostTypeAbstract
     }
 
     /**
+     * @inheritDoc
+     *
      * @return string[]
      */
     public function supports(): array
