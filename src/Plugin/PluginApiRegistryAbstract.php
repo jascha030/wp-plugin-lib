@@ -106,6 +106,8 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
         $this->hookAfterInitHookables();
 
         $this->hookLazyReferences();
+
+        $this->initPostTypes();
     }
 
     /**
