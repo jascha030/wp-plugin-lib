@@ -3,7 +3,7 @@
 namespace Jascha030\PluginLib\Exception\Psr11;
 
 use Jascha030\PluginLib\Exception\DoesNotImplementInterfaceException;
-use Jascha030\PluginLib\Hookable\HookableInterface;
+use Jascha030\PluginLib\Service\Hookable\HookableInterface;
 use Psr\Container\ContainerExceptionInterface;
 
 /**

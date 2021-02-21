@@ -1,6 +1,6 @@
 <?php
 
-namespace Jascha030\PluginLib\Hookable;
+namespace Jascha030\PluginLib\Service\Hookable;
 
 interface HookableAfterInitInterface extends HookableInterface
 {

@@ -2,7 +2,6 @@
 
 namespace Jascha030\PluginLib\Entity\Post;
 
-use Jascha030\PluginLib\Hookable\HookableAbstract;
 use RuntimeException;
 use WP_Query;
 
@@ -104,7 +103,7 @@ abstract class PostTypeAbstract
     /**
      * @return string[]
      */
-    public function getSupports(): array
+    public function supports(): array
     {
         return [
             'title', 'editor', 'author', 'thumbnail', 'excerpt'

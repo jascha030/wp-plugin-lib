@@ -28,10 +28,10 @@ interface FilterManagerInterface
      * @param  string  $tag
      * @param  string  $class
      * @param  string  $method
-     * @param  int     $priority
+     * @param  int     $prio
      * @param  int     $arguments
      */
-    public function addFilter(string $tag, string $class, string $method, int $priority = 10, int $arguments = 1): void;
+    public function addFilter(string $tag, string $class, string $method, int $prio = 10, int $arguments = 1): void;
 
     /**
      * Remove all methods of a hookableClass

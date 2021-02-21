@@ -5,9 +5,9 @@ namespace Jascha030\PluginLib\Container;
 use Jascha030\PluginLib\Container\Config\Config;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceException;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException;
-use Jascha030\PluginLib\Hookable\HookableAfterInitInterface;
-use Jascha030\PluginLib\Hookable\HookableInterface;
-use Jascha030\PluginLib\Hookable\LazyHookableInterface;
+use Jascha030\PluginLib\Service\Hookable\HookableAfterInitInterface;
+use Jascha030\PluginLib\Service\Hookable\HookableInterface;
+use Jascha030\PluginLib\Service\Hookable\LazyHookableInterface;
 use Pimple\Container;
 use Pimple\Psr11\Container as Psr11Container;
 use Pimple\Psr11\ServiceLocator;
@@ -57,7 +57,8 @@ final class ContainerBuilder
          * Other methods should be private/protected methods that are used by classes public methods.
          * Globally available methods belong in a service that is provided by a ServiceProvider.
          */
-        [$reference, $afterInitHookables] = [];
+        $afterInitHookables = [];
+        $reference          = [];
 
         if (! empty($hookables)) {
             foreach ($hookables as $className) {

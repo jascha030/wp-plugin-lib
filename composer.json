@@ -11,18 +11,23 @@
   "minimum-stability": "stable",
   "config": {
     "platform": {
-      "php": "7.3"
+      "php": "7.4"
     }
   },
   "autoload": {
     "psr-4": {
+      "Jascha030\\PluginLib\\": "src/"
+    }
+  },
+  "autoload-dev": {
+    "psr-4": {
       "Jascha030\\PluginLib\\": "src/",
-      "Tests\\": "Tests/"
+      "Jascha030\\Tests\\": "tests/"
     }
   },
   "require": {
     "pimple/pimple": "^3.3",
-    "psr/container": "1.1.x-dev",
+    "psr/container": "1.1",
     "symfony/uid": "^5.2"
   },
   "require-dev": {

@@ -35,7 +35,7 @@ class PostType extends PostTypeAbstract
      * @param  string|null  $singular
      * @param  string|null  $plural
      *
-     * @param  array  $arguments
+     * @param  array        $arguments
      */
     public function __construct(
         ?string $slug = null,
@@ -52,7 +52,7 @@ class PostType extends PostTypeAbstract
     /**
      * @inheritDoc
      */
-    public function getSlug(): string
+    final public function getSlug(): string
     {
         return $this->slug;
     }
@@ -60,7 +60,7 @@ class PostType extends PostTypeAbstract
     /**
      * @param  string|null  $slug
      */
-    public function setSlug(string $slug): void
+    final public function setSlug(string $slug): void
     {
         $this->slug = $slug;
     }
@@ -68,7 +68,7 @@ class PostType extends PostTypeAbstract
     /**
      * @inheritDoc
      */
-    public function getSingular(): string
+    final public function getSingular(): string
     {
         return $this->singular;
     }
@@ -76,7 +76,7 @@ class PostType extends PostTypeAbstract
     /**
      * @param  string|null  $singular
      */
-    public function setSingular(string $singular): void
+    final public function setSingular(string $singular): void
     {
         $this->singular = $singular;
     }
@@ -84,7 +84,7 @@ class PostType extends PostTypeAbstract
     /**
      * @inheritDoc
      */
-    public function getPlural(): string
+    final public function getPlural(): string
     {
         return $this->plural;
     }
@@ -92,7 +92,7 @@ class PostType extends PostTypeAbstract
     /**
      * @param  string|null  $plural
      */
-    public function setPlural(string $plural): void
+    final public function setPlural(string $plural): void
     {
         $this->plural = $plural;
     }
@@ -100,7 +100,7 @@ class PostType extends PostTypeAbstract
     /**
      * @inheritDoc
      */
-    public function getArguments(): array
+    final public function getArguments(): array
     {
         return $this->arguments;
     }
@@ -108,7 +108,7 @@ class PostType extends PostTypeAbstract
     /**
      * @param  array  $arguments
      */
-    public function setArguments(array $arguments): void
+    final public function setArguments(array $arguments): void
     {
         $this->arguments = $arguments;
     }

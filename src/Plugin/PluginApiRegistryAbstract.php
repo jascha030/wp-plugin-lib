@@ -7,8 +7,8 @@ namespace Jascha030\PluginLib\Plugin;
 use Closure;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceException;
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException;
-use Jascha030\PluginLib\Hookable\HookableAfterInitInterface;
-use Jascha030\PluginLib\Hookable\LazyHookableInterface;
+use Jascha030\PluginLib\Service\Hookable\HookableAfterInitInterface;
+use Jascha030\PluginLib\Service\Hookable\LazyHookableInterface;
 use Psr\Container\ContainerInterface;
 use Symfony\Component\Uid\Uuid;
 
@@ -27,11 +27,11 @@ use Symfony\Component\Uid\Uuid;
 abstract class PluginApiRegistryAbstract implements FilterManagerInterface
 {
     /**
-     *
+     * add_filter
      */
     public const FILTER = 0;
     /**
-     *
+     * add_action
      */
     public const ACTION = 1;
     /**
@@ -126,6 +126,8 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
         $uid     = $this->generateHookIdentifier();
         $closure = $this->wrap($class, $method, $uid);
 
+        $this->storeFilterReference($uid, $tag, $class, $method, $prio, $arguments);
+
         \add_action($tag, $closure, $prio, $arguments);
     }
 
@@ -146,13 +148,15 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
         string $tag,
         string $class,
         string $method,
-        int $priority = 10,
+        int $prio = 10,
         int $arguments = 1
     ): void {
-        $uuid    = $this->generateHookIdentifier();
-        $closure = $this->wrap($class, $method, $uuid);
+        $uid     = $this->generateHookIdentifier();
+        $closure = $this->wrap($class, $method, $uid);
 
-        \add_filter($tag, $closure, $priority, $arguments);
+        $this->storeFilterReference($uid, $tag, $class, $method, $prio, $arguments);
+
+        \add_filter($tag, $closure, $prio, $arguments);
     }
 
     /**
