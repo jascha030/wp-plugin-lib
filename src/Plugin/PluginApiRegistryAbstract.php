@@ -11,6 +11,7 @@ use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceExcepti
 use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException;
 use Jascha030\PluginLib\Service\Hookable\HookableAfterInitInterface;
 use Jascha030\PluginLib\Service\Hookable\LazyHookableInterface;
+use Psr\Container\ContainerInterface;
 use Psr\Container\ContainerInterface as Locator;
 use Symfony\Component\Uid\Uuid;
 
@@ -77,7 +78,12 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     /**
      * @var Locator|null
      */
-    private Locator $container;
+    private Locator $locator;
+
+    /**
+     * @var ContainerInterface
+     */
+    private ContainerInterface $container;
 
     /**
      * PluginApiRegistryAbstract constructor.
@@ -91,7 +97,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     {
         $this->hookableReference  = $hookables;
         $this->afterInitHookables = $afterInitHookables;
-        $this->container          = $locator;
+        $this->locator            = $locator;
         $this->postTypes          = $postTypes;
     }
 
@@ -117,7 +123,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
      *
      * @return $this|FilterManagerInterface
      */
-    final public function setContainer(Locator $container): FilterManagerInterface
+    final public function setLocator(ContainerInterface $container): FilterManagerInterface
     {
         $this->container = $container;
 
@@ -196,6 +202,26 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     }
 
     /**
+     * @param  string  $id
+     *
+     * @return Locator
+     */
+    final public function get(string $id)
+    {
+        return $this->container->get($id);
+    }
+
+    /**
+     * @param  string  $id
+     *
+     * @return bool
+     */
+    final public function has(string $id): bool
+    {
+        return $this->container->has($id);
+    }
+
+    /**
      * Inits PostType classes
      */
     private function initPostTypes(): void
@@ -230,7 +256,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     {
         return function (...$args) use ($id, $method, $uid) {
             if (array_key_exists($uid, $this->hookedMethods)) {
-                return $this->container->get($id)->{$method}(...$args);
+                return $this->locator->get($id)->{$method}(...$args);
             }
         };
     }
@@ -270,7 +296,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
             if (! is_subclass_of($className, HookableAfterInitInterface::class)) {
                 throw new DoesNotImplementProviderInterfaceException($className);
             }
-            $this->container->get($className)->hookMethods();
+            $this->locator->get($className)->hookMethods();
         }
     }
 
