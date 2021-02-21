@@ -234,6 +234,8 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
             if (is_array($postType)) {
                 $postType = new PostType(...$postType);
             }
+
+            $postType->register();
         }
     }
 
