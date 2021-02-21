@@ -38,6 +38,7 @@ In this example we pretend to be building a plugin, but for a theme we would jus
  * @license   GPL-2.0+
  *
  * @wordpress-plugin
+ *                  
  * Plugin Name: Package Tester
  * Plugin URI: https://github.com/jascha030/wp-plugin-lib
  * Description: Test plugin for package jascha030/wp-plugin-lib
