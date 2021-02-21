@@ -1,52 +1,44 @@
 <?php
 
-use Jascha030\PackageTest\Hookable\TestingAfterInitHookable;
-use Jascha030\PackageTest\Hookable\TestingHookable;
-use Jascha030\PackageTest\PackageTestPlugin;
+namespace Jascha030\PluginLib\Functions;
+
 use Jascha030\PluginLib\Container\Config\Config;
-use Jascha030\PluginLib\Container\ContainerBuilder as Builder;
-use Jascha030\PluginLib\Plugin\PluginApiRegistryAbstract;
+use Jascha030\PluginLib\Container\ContainerBuilderInterface as Builder;
 use Jascha030\PluginLib\Exception\DoesNotImplementInterfaceException;
-use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException;
-use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceException;
+use Jascha030\PluginLib\Plugin\FilterManagerInterface;
+use Jascha030\PluginLib\Plugin\PluginApiRegistryAbstract;
 
 if (! function_exists('buildPlugin')) {
     /**
-     * Create's your plugin or theme class and injects all of it's dependencies
+     * Creates your plugin or theme class and injects all of it's dependencies
      *
-     * @param  Config  $config        Config object containing your Hookable classes, Service Providers and Post types
-     * @param  string  $pluginClass   Class name of your main plugin or theme class
-     * @param  string  $file          Main plugin or theme file (using this in that file and passing __FILE__ is recommended)
-     * @param  string  $builderClass  Custom builder class if you want to use a different Container than Pimple
+     * @param  Config  $config    Config object containing your Hookable classes, Service Providers and Post types
+     * @param  string  $registry  Class name of your main plugin or theme class
+     * @param  string  $builder   Custom builder class if you want to use a different Container than Pimple
      *
      * @return FilterManagerInterface
-     * @throws DoesNotImplementHookableInterfaceException
-     * @throws DoesNotImplementProviderInterfaceException
-     *
      * @throws DoesNotImplementInterfaceException
      */
-    function buildPlugin(
-        Config $config,
-        string $pluginClass,
-        string $file,
-        string $builderClass = Builder::class
-    ): FilterManagerInterface {
-        $config = (new Config('Test package plugin', __FILE__))->setHookables([
-            TestingHookable::class, TestingAfterInitHookable::class
-        ]);
-
-        $container = (new $builderClass())($config);
-
-        if (isset($container)) {
-            if (! is_subclass_of(FilterManagerInterface::class, pluginClass)) {
-                throw new DoesNotImplementInterfaceException($pluginClass, PluginApiRegistryAbstract::class);
-            }
-
-            $plugin = new $pluginClass($container->get('hookable.reference'),
-                $container->get('hookable.afterInit'),
-                $container->get('hookable.locator'));
-
-            return $plugin;
+    function buildPlugin(Config $config, string $registry, string $builder = Builder::class): FilterManagerInterface
+    {
+        if (! is_subclass_of(ContainerBuilderInterface::class, $builder)) {
+            throw new DoesNotImplementInterfaceException($builder, ContainerBuilderInterface::class);
         }
+
+        if (! is_subclass_of(FilterManagerInterface::class, $registry)) {
+            throw new DoesNotImplementInterfaceException($registry, PluginApiRegistryAbstract::class);
+        }
+
+        /**
+         * Build PSR-11 Container.
+         */
+        $container = (new $builder())($config);
+
+        /**
+         * PluginApiRegistryInterface
+         */
+        return new $registry($container->get('hookable.reference'),
+            $container->get('hookable.afterInit'),
+            $container->get('hookable.locator'));
     }
 }

@@ -266,6 +266,8 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
 
     /**
      * @param  string  $serviceClass
+     *
+     * @noinspection NotOptimalIfConditionsInspection
      */
     private function hookClassMethods(string $serviceClass): void
     {
@@ -277,14 +279,16 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
             foreach ($hooks as $tag => $parameters) {
                 // Check if single or multiple methods are added to hook.
                 if (is_array($parameters) && is_array($parameters[0])) {
-                    foreach ($parameters as $params) { // multiple
+                    foreach ($parameters as $params) {
+                        // multiple hooked methods.
                         if (! is_array($params)) {
                             $params = [$params];
                         }
 
                         $this->{$addMethod}($tag, $serviceClass, ...$params);
                     }
-                } else { // single
+                } else {
+                    // single hooked method.
                     if (! is_array($parameters)) {
                         $parameters = [$parameters];
                     }
