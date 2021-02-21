@@ -47,7 +47,7 @@ final class WordpressProvider implements ServiceProviderInterface
             return new PostType();
         });
 
-        $pimple["{$this->prefix}.file"] = $this->pluginFile;
-        $pimple["{$this->prefix}.root"] = $this->dirname($this->pluginFile);
+        $pimple['plugin.file'] = $this->pluginFile;
+        $pimple['plugin.root'] = dirname($this->pluginFile);
     }
 }
