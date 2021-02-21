@@ -106,7 +106,7 @@ abstract class PostTypeAbstract implements PostTypeInterface
      *
      * @return string[]
      */
-    public function supports(): array
+    public function getSupports(): array
     {
         return [
             'title', 'editor', 'author', 'thumbnail', 'excerpt'
