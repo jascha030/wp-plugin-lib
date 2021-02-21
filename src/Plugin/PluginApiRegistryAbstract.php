@@ -12,7 +12,6 @@ use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceExcepti
 use Jascha030\PluginLib\Service\Hookable\HookableAfterInitInterface;
 use Jascha030\PluginLib\Service\Hookable\LazyHookableInterface;
 use Psr\Container\ContainerInterface;
-use Psr\Container\ContainerInterface as Locator;
 use Symfony\Component\Uid\Uuid;
 
 /**
@@ -76,9 +75,9 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     private array $postTypes = [];
 
     /**
-     * @var Locator|null
+     * @var ContainerInterface
      */
-    private Locator $locator;
+    private ContainerInterface $locator;
 
     /**
      * @var ContainerInterface
@@ -88,13 +87,17 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     /**
      * PluginApiRegistryAbstract constructor.
      *
-     * @param  Locator  $locator
-     * @param  array    $hookables
-     * @param  array    $afterInitHookables
-     * @param  array    $postTypes
+     * @param  ContainerInterface  $locator
+     * @param  array               $hookables
+     * @param  array               $afterInitHookables
+     * @param  array               $postTypes
      */
-    public function __construct(Locator $locator, array $hookables, array $afterInitHookables, array $postTypes = [])
-    {
+    public function __construct(
+        ContainerInterface $locator,
+        array $hookables,
+        array $afterInitHookables,
+        array $postTypes = []
+    ) {
         $this->hookableReference  = $hookables;
         $this->afterInitHookables = $afterInitHookables;
         $this->locator            = $locator;
@@ -119,11 +122,11 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     /**
      * Set the container responsible for injecting hookables upon
      *
-     * @param  Locator  $container
+     * @param  ContainerInterface  $container
      *
      * @return $this|FilterManagerInterface
      */
-    final public function setLocator(ContainerInterface $container): FilterManagerInterface
+    final public function setContainer(ContainerInterface $container): FilterManagerInterface
     {
         $this->container = $container;
 
@@ -208,7 +211,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
      */
     final public function get(string $id)
     {
-        return $this->container->get($id);
+        return $this->locator->get($id);
     }
 
     /**
@@ -218,7 +221,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
      */
     final public function has(string $id): bool
     {
-        return $this->container->has($id);
+        return $this->locator->has($id);
     }
 
     /**
