@@ -278,10 +278,18 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
                 // Check if single or multiple methods are added to hook.
                 if (is_array($parameters) && is_array($parameters[0])) {
                     foreach ($parameters as $params) { // multiple
-                        $this->{$addMethod}($serviceClass, $tag, $params, $key);
+                        if (! is_array($params)) {
+                            $params = [$params];
+                        }
+
+                        $this->{$addMethod}($tag, $serviceClass, ...$params);
                     }
                 } else { // single
-                    $this->{$addMethod}($serviceClass, $tag, $parameters, $key);
+                    if (! is_array($parameters)) {
+                        $parameters = [$parameters];
+                    }
+
+                    $this->{$addMethod}($tag, $serviceClass, ...$parameters);
                 }
             }
         }

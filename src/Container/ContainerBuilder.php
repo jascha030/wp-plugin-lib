@@ -98,9 +98,9 @@ final class ContainerBuilder
             $container['hookable.reference'] = $reference;
             $container['hookable.afterInit'] = $afterInitHookables;
 
-            $container['hookable.locator'] = static function (Container $container) {
-                $hookableServices = array_merge(array_keys($container['reference']),
-                    $container['hookable.afterInitHookables']);
+            $container['hookable.locator'] =  function (Container $container) {
+                $hookableServices = array_merge(array_keys($container['hookable.reference']),
+                    $container['hookable.afterInit']);
 
                 return new ServiceLocator($container, $hookableServices);
             };
