@@ -90,17 +90,20 @@ final class ContainerBuilder implements ContainerBuilderInterface
                     return new $className();
                 };
             }
-
-            $container['hookable.reference'] = $reference;
-            $container['hookable.afterInit'] = $afterInitHookables;
-            $container['plugin.postTypes']   = $postTypes;
-            $container['hookable.locator']   = function (Container $container) {
-                $lazyHookables    = array_keys($container['hookable.reference']);
-                $hookableServices = array_merge($lazyHookables, $container['hookable.afterInit'], $container['plugin.postTypes']);
-
-                return new ServiceLocator($container, $hookableServices);
-            };
         }
+
+        $container['hookable.reference'] = $reference;
+        $container['hookable.afterInit'] = $afterInitHookables;
+        $container['plugin.postTypes']   = $postTypes;
+
+        $container['hookable.locator'] = function (Container $container) {
+            $lazyHookables    = array_keys($container['hookable.reference']);
+            $hookableServices = array_merge($lazyHookables,
+                $container['hookable.afterInit'],
+                $container['plugin.postTypes']);
+
+            return new ServiceLocator($container, $hookableServices);
+        };
 
         /**
          * All of the dependencies are added here and afterwards we wrap the container in a PSR11 compliant container.
