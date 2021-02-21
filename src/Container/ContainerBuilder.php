@@ -8,6 +8,7 @@ use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceExcepti
 use Jascha030\PluginLib\Service\Hookable\HookableAfterInitInterface;
 use Jascha030\PluginLib\Service\Hookable\HookableInterface;
 use Jascha030\PluginLib\Service\Hookable\LazyHookableInterface;
+use Jascha030\PluginLib\Service\Provider\WordpressProvider;
 use Pimple\Container;
 use Pimple\Psr11\Container as Psr11Container;
 use Pimple\Psr11\ServiceLocator;
@@ -24,21 +25,27 @@ final class ContainerBuilder
      * Registers all of the plugin or theme's dependencies to a Psr11 compliant container.
      *
      * @param  Config  $config
+     * @param  string  $file
      *
      * @return Psr11Container
-     * @throws DoesNotImplementProviderInterfaceException
      * @throws DoesNotImplementHookableInterfaceException
+     * @throws DoesNotImplementProviderInterfaceException
      */
     public function __invoke(Config $config): Psr11Container
     {
         $serviceProviders = $config->getServiceProviders();
         $hookables        = $config->getHookables();
+        $postTypes        = $config->getPostTypes();
 
         /**
          * Create the container to be configured.
          * In this case we use Pimple (the simplest one, 9/10 times, wordpress shouldn't require anything fancier).
          */
         $container = new Container();
+
+        if (! in_array(WordpressProvider::class, $serviceProviders, true)) {
+            $serviceProviders[WordpressProvider::class] = [];
+        }
 
         /**
          * These service providers should add dependencies and methods that need to be globally available,
@@ -49,7 +56,12 @@ final class ContainerBuilder
                 throw new DoesNotImplementProviderInterfaceException($provider);
             }
 
-            $container->register($provider, $arguments);
+            if ($provider === WordpressProvider::class) {
+                $container->register(new $provider($config->getPluginName(), $config->getPluginFile()), $arguments);
+                continue;
+            }
+
+            $container->register(new $provider(), $arguments);
         }
 
         /**
@@ -92,6 +104,10 @@ final class ContainerBuilder
 
                 return new ServiceLocator($container, $hookableServices);
             };
+        }
+
+        if (! empty($postTypes)) {
+            $container['plugin.postTypes'] = $postTypes;
         }
 
         /**

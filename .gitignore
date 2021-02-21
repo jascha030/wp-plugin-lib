@@ -1,7 +1,11 @@
 # Phpstorm
 /.idea/
-
 # composer
 /vendor/
-
+# Nodejs
+/node_modules/
+# MacOS
 .DS_Store
+# PHPUnit
+.phpunit.result.cache
+.phpunit.*

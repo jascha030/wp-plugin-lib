@@ -18,12 +18,19 @@ final class WordpressProvider implements ServiceProviderInterface
     private string $pluginFile;
 
     /**
+     * @var string|null
+     */
+    private string $prefix;
+
+    /**
      * WordpressProvider constructor.
      *
+     * @param  string  $prefix
      * @param  string  $file
      */
-    public function __construct(string $file)
+    public function __construct(string $prefix, string $file)
     {
+        $this->prefix     = $prefix;
         $this->pluginFile = $file;
     }
 
@@ -34,12 +41,13 @@ final class WordpressProvider implements ServiceProviderInterface
     {
         global $wpdb, $wp_filter;
 
-        $pimple['wp.wpdb']        = $wpdb;
-        $pimple['wp.wp_filter']   = $wp_filter;
-        $pimple['plugin.file']    = $this->pluginFile;
-        $pimple['plugin.root']    = dirname($this->pluginFile);
-        $pimple['post.post_type'] = $pimple->factory(function (Container $container) {
+        $pimple['wp.wpdb']      = $wpdb;
+        $pimple['wp.wp_filter'] = $wp_filter;
+        $pimple['wp.post_type'] = $pimple->factory(function (Container $container) {
             return new PostType();
         });
+
+        $pimple["{$this->prefix}.file"] = $this->pluginFile;
+        $pimple["{$this->prefix}.root"] = $this->dirname($this->pluginFile);
     }
 }
