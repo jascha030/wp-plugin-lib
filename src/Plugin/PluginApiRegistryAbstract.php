@@ -211,7 +211,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
      */
     final public function get(string $id)
     {
-        return $this->locator->get($id);
+        return $this->container->get($id);
     }
 
     /**
@@ -221,7 +221,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
      */
     final public function has(string $id): bool
     {
-        return $this->locator->has($id);
+        return $this->container->has($id);
     }
 
     /**
