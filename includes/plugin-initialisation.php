@@ -6,7 +6,7 @@ use Jascha030\PluginLib\Container\Config\Config;
 use Jascha030\PluginLib\Container\ContainerBuilder as Builder;
 use Jascha030\PluginLib\Container\ContainerBuilderInterface;
 use Jascha030\PluginLib\Exception\DoesNotImplementInterfaceException;
-use Jascha030\PluginLib\Plugin\FilterManagerInterface;
+use Jascha030\PluginLib\Plugin\PluginApiRegistryInterface;
 
 if (! function_exists('buildPlugin')) {
     /**
@@ -16,17 +16,17 @@ if (! function_exists('buildPlugin')) {
      * @param  string  $registry  Class name of your main plugin or theme class
      * @param  string  $builder   Custom builder class if you want to use a different Container than Pimple
      *
-     * @return FilterManagerInterface
+     * @return PluginApiRegistryInterface
      * @throws DoesNotImplementInterfaceException
      */
-    function buildPlugin(Config $config, string $registry, string $builder = Builder::class): FilterManagerInterface
+    function buildPlugin(Config $config, string $registry, string $builder = Builder::class): PluginApiRegistryInterface
     {
         if (! is_subclass_of($builder, ContainerBuilderInterface::class)) {
             throw new DoesNotImplementInterfaceException($builder, ContainerBuilderInterface::class);
         }
 
-        if (! is_subclass_of($registry, FilterManagerInterface::class)) {
-            throw new DoesNotImplementInterfaceException($registry, FilterManagerInterface::class);
+        if (! is_subclass_of($registry, PluginApiRegistryInterface::class)) {
+            throw new DoesNotImplementInterfaceException($registry, PluginApiRegistryInterface::class);
         }
 
         /**

@@ -94,7 +94,7 @@ final class ContainerBuilder implements ContainerBuilderInterface
         }
 
         $postTypesArray = [];
-        
+
         foreach ($postTypes as $postType) {
             if (is_array($postType)) {
                 $postTypesArray[$postType[0]] = $postType;

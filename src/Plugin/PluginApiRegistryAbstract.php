@@ -26,7 +26,7 @@ use Symfony\Component\Uid\Uuid;
  *
  * @package Jascha030\PluginLib\Plugin
  */
-abstract class PluginApiRegistryAbstract implements FilterManagerInterface
+abstract class PluginApiRegistryAbstract implements PluginApiRegistryInterface
 {
     /**
      * add_filter
@@ -40,13 +40,15 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
      * Prefixes for Wordpress filter methods
      */
     private const FILTER_TYPES = [
-        self::ACTION => 'action', self::FILTER => 'filter'
+        self::ACTION => 'action',
+        self::FILTER => 'filter'
     ];
     /**
      * See methods defined in LazyHookableInterface.
      */
     private const FILTER_RETRIEVAL_METHODS = [
-        self::ACTION => 'getActions', self::FILTER => 'getFilters'
+        self::ACTION => 'getActions',
+        self::FILTER => 'getFilters'
     ];
 
     /**
@@ -80,7 +82,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     private ContainerInterface $locator;
 
     /**
-     * @var ContainerInterface
+     * @var ContainerInterface|null
      */
     private ContainerInterface $container;
 
@@ -124,9 +126,9 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
      *
      * @param  ContainerInterface  $container
      *
-     * @return $this|FilterManagerInterface
+     * @return $this|PluginApiRegistryInterface
      */
-    final public function setContainer(ContainerInterface $container): FilterManagerInterface
+    final public function setContainer(ContainerInterface $container): PluginApiRegistryInterface
     {
         $this->container = $container;
 
