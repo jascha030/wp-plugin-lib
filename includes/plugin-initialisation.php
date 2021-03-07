@@ -37,10 +37,12 @@ if (! function_exists('buildPlugin')) {
         /**
          * PluginApiRegistryInterface
          */
-        $registry = new $registry($container->get('hookable.locator'),
+        $registry = new $registry(
+            $container->get('hookable.locator'),
             $container->get('hookable.reference'),
             $container->get('hookable.afterInit'),
-            $container->get('plugin.postTypes'));
+            $container->get('plugin.postTypes')
+        );
 
         $registry->setContainer($container);
 

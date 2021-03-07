@@ -109,11 +109,13 @@ final class ContainerBuilder implements ContainerBuilderInterface
         $container['hookable.afterInit'] = $afterInitHookables;
         $container['plugin.postTypes']   = $postTypesArray;
 
-        $container['hookable.locator'] = function (Container $container) {
+        $container['hookable.locator'] = static function (Container $container) {
             $lazyHookables    = array_keys($container['hookable.reference']);
-            $hookableServices = array_merge($lazyHookables,
+            $hookableServices = array_merge(
+                $lazyHookables,
                 $container['hookable.afterInit'],
-                $container['plugin.postTypes']);
+                $container['plugin.postTypes']
+            );
 
             return new ServiceLocator($container, $hookableServices);
         };
