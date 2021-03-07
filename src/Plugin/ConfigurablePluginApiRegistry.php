@@ -37,7 +37,7 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
      * @throws DoesNotImplementHookableInterfaceException
      * @throws DoesNotImplementProviderInterfaceException
      */
-    public function __construct(string $name, ?string $configPath = null)
+    public function __construct(string $name, string $configPath = null)
     {
         $this->name = $name;
 
@@ -45,12 +45,24 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
 
         $container = $this->createContainer();
 
-        parent::__construct($container->get('hookable.locator'),
+        parent::__construct(
+            $container->get('hookable.locator'),
             $container->get('hookable.reference'),
             $container->get('hookable.afterInit'),
-            $container->get('plugin.postTypes'));
+            $container->get('plugin.postTypes')
+        );
 
         $this->setContainer($container);
+    }
+
+    /**
+     * Used to prefix plugin hook tags to prevent collision with other plugins.
+     *
+     * @return string
+     */
+    final public function pluginSlug(): string
+    {
+        return str_replace(' ', '_', strtolower($this->name));
     }
 
     /**
@@ -79,7 +91,7 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
             $path = dirname($this->pluginFile).'/config/plugin.php';
         }
 
-        if (is_readable($path)) {
+        if (is_file($path)) {
             $configArray = include $path;
 
             if (! is_array($configArray)) {
@@ -103,7 +115,6 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
 
         return (new Config($this->name, $this->pluginFile))->setServiceProviders($serviceProviders)
                                                            ->setHookables($hookableServices)
-                                                           ->setPostTypes($postTypes)
-            ;
+                                                           ->setPostTypes($postTypes);
     }
 }
