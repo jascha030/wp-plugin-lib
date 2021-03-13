@@ -22,11 +22,12 @@ Usage
 The easiest way to explain usage is with an example of the main plugin file.
 
 The name of the package might be deceiving, Plugin refers to the WP Plugin API, which means that it can be used for
-either a plugin or a theme.
-In this example we pretend to be building a plugin, but for a theme we would just write our code in the theme's
+either a plugin or a theme. In this example we pretend to be building a plugin, but for a theme we would just write our
+code in the theme's
 `functions.php` file instead of the main plugin file.
 
 `main-plugin-file.php`
+
 ```php
 <?php
 /**
@@ -38,7 +39,7 @@ In this example we pretend to be building a plugin, but for a theme we would jus
  * @license   GPL-2.0+
  *
  * @wordpress-plugin
- *                  
+ *
  * Plugin Name: Package Tester
  * Plugin URI: https://github.com/jascha030/wp-plugin-lib
  * Description: Test plugin for package jascha030/wp-plugin-lib
@@ -55,7 +56,7 @@ use Exception;
 use Jascha030\PackageTest\Hookable\TestingAfterInitHookable;
 use Jascha030\PackageTest\Hookable\TestingHookable;
 use Jascha030\PackageTest\PackageTestPlugin;
-use Jascha030\PluginLib\Container\Config\Config;
+use Jascha030\PluginLib\Container\Config\ConfigInterface;
 
 use function Jascha030\PluginLib\Functions\buildPlugin;
 
@@ -79,29 +80,31 @@ if (! is_readable($autoloaderPath)) {
 include $autoloaderPath;
 
 add_action('plugins_loaded', function () {
-    // Set the hookable classes, ServiceProvider and PostTypes. 
-    $config = (new Config('Package test plugin', __FILE__))->setHookables([
+    // Set the hookable classes, ServiceProvider and PostTypes.
+    $config = (new ConfigInterface('Package test plugin', __FILE__))->setHookables([
         TestingHookable::class,
         TestingAfterInitHookable::class
     ]);
-    
+
     // The main plugin class extends PluginApiRegistryInterface, which implements FilterManagerInterface.
     $plugin = buildPlugin($config, PackageTestPlugin::class);
     // Injected dependencies will be hooked after calling the run() method.
     $plugin->run();
 });
 ```
+
 ### Hookables
 
-The plugin revolves around classes implementing `HookableInterface` or one of it's extended interfaces. Hookables 
-should only contain public methods that are hooked to wordpress' filters or actions.
+The plugin revolves around classes implementing `HookableInterface` or one of it's extended interfaces. Hookables should
+only contain public methods that are hooked to wordpress' filters or actions.
 
-I recommend using the `LazyHookableInterface`, classes implementing this will only be constructed upon the first 
-call to a hook containing one of it's methods.
+I recommend using the `LazyHookableInterface`, classes implementing this will only be constructed upon the first call to
+a hook containing one of it's methods.
 
 Here's an example of a class Implementing `LazyHookableInterface`:
 
 `TestingHookable.php`
+
 ```php
 <?php
 
@@ -128,7 +131,7 @@ class TestingHookable implements LazyHookableInterface
     {
         return static::$filters;
     }
-    
+
     final public function initMethod(): void
     {
         echo 'What\'s up, twitter world?';
@@ -139,5 +142,5 @@ class TestingHookable implements LazyHookableInterface
 
 ### Providers
 
-The standard container used is the Psr11 wrapper from the `pimple/pimple` package.
-Providers follow pimple's `ServiceProviderInterface`.
+The standard container used is the Psr11 wrapper from the `pimple/pimple` package. Providers follow
+pimple's `ServiceProviderInterface`.

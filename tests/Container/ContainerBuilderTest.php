@@ -6,8 +6,6 @@ namespace Jascha030\Tests\Container;
 use Jascha030\PluginLib\Container\Config\Config;
 use Jascha030\PluginLib\Container\ContainerBuilder;
 use Jascha030\PluginLib\Entity\Post\PostType;
-use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceException;
-use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException;
 use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
@@ -17,10 +15,6 @@ use Psr\Container\ContainerInterface;
  */
 class ContainerBuilderTest extends TestCase
 {
-    /**
-     * @throws DoesNotImplementHookableInterfaceException
-     * @throws DoesNotImplementProviderInterfaceException
-     */
     final public function testInvokeMethod(): void
     {
         $config    = new Config('Test Plugin', __FILE__);

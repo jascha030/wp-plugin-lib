@@ -2,10 +2,9 @@
 
 namespace Jascha030\PluginLib\Plugin;
 
-use Jascha030\PluginLib\Container\Config\Config;
+use Jascha030\PluginLib\Container\Config\ConfigInterface;
+use Jascha030\PluginLib\Container\Config\ConfigurableByArrayConfig;
 use Jascha030\PluginLib\Container\ContainerBuilder;
-use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceException;
-use Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException;
 use Psr\Container\ContainerInterface;
 
 /**
@@ -33,9 +32,6 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
      *
      * @param  string       $name
      * @param  string|null  $configPath
-     *
-     * @throws DoesNotImplementHookableInterfaceException
-     * @throws DoesNotImplementProviderInterfaceException
      */
     public function __construct(string $name, string $configPath = null)
     {
@@ -65,10 +61,6 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
         return str_replace(' ', '_', strtolower($this->name));
     }
 
-    /**
-     * @throws DoesNotImplementHookableInterfaceException
-     * @throws DoesNotImplementProviderInterfaceException
-     */
     private function createContainer(): ContainerInterface
     {
         $config = $this->getConfig();
@@ -103,18 +95,15 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
     }
 
     /**
-     * @return Config
+     * @return ConfigInterface
      */
-    private function getConfig(): Config
+    private function getConfig(): ConfigInterface
     {
         $config = $this->getConfigFromFile();
 
         $serviceProviders = \apply_filters('configure_container_service_providers', $config['serviceProviders'] ?? []);
         $hookableServices = \apply_filters('configure_hookable_services', $config['hookableService'] ?? []);
         $postTypes        = \apply_filters('configure_post_types', $config['postTypes'] ?? []);
-
-        return (new Config($this->name, $this->pluginFile))->setServiceProviders($serviceProviders)
-                                                           ->setHookables($hookableServices)
-                                                           ->setPostTypes($postTypes);
+        $config           = new ConfigurableByArrayConfig($config, $this->pluginFile);
     }
 }

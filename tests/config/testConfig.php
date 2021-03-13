@@ -6,20 +6,14 @@ use Pimple\ServiceProviderInterface;
 
 return [
     /**
-     * Service Provider classes
-     *
      * @var array|ServiceProviderInterface[]
      */
     'serviceProviders' => [],
     /**
-     * Hookable classes
-     *
      * @var array|HookableInterface[]|HookableAfterInitInterface[]|LazyHookableInterface[]
      */
-    'hookableService'  => [],
+    'hookableServices' => [],
     /**
-     * Post type definitions
-     *
      * @var array|string[]
      */
     'postTypes'        => [],
