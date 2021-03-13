@@ -23,6 +23,7 @@ final class ContainerBuilder implements ContainerBuilderInterface
     public function __invoke(ConfigInterface $config): Psr11Container
     {
         $container = new Container();
+
         $config->configure($container);
 
         return new Psr11Container($container);
