@@ -2,35 +2,23 @@
 
 namespace Jascha030\PluginLib\Container\Config;
 
-use Pimple\Container as PimpleContainer;
-
-final class ContainerConfig implements ConfigInterface
+final class ContainerConfig extends Config
 {
     private array $config;
 
-    public function __construct(array $config)
+    public function __construct(array $config, string $file)
     {
         $this->config = $config;
+
+        parent::__construct($config['name'], $file);
+
+        $this->setProviders($this->config['providers'] ?? []);
+        $this->setHookables($this->config['hookables'] ?? []);
+        $this->setPostTypes($this->config['postTypes'] ?? []);
     }
 
-    public function configure(PimpleContainer $container): void
+    public function getPluginConfig(): array
     {
-        $container['config'] = $this->config;
-
-        if (isset($config['serviceProviders'])) {
-            $this->injectServiceProviders($container, $config['serviceProviders']);
-        }
-
-        if (isset($config['hookableServices'])) {
-            $this->injectHookableServices($container, $config['hookableServices']);
-        }
-
-        if (isset($config['postTypes'])) {
-            $this->injectPostTypes($container, $config['postTypes']);
-        }
-    }
-
-    private function injectPostTypes(Pimple $pimple): void
-    {
+        return $this->config;
     }
 }
