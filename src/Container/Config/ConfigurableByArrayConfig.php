@@ -2,7 +2,7 @@
 
 namespace Jascha030\PluginLib\Container\Config;
 
-final class ContainerConfig extends Config
+final class ConfigurableByArrayConfig extends Config
 {
     private array $config;
 
