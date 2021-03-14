@@ -19,13 +19,21 @@ use Pimple\ServiceProviderInterface;
 
 /**
  * Class Config
- *
  * @package Jascha030\PluginLib\Container\Config
  */
 class Config extends ConfigAbstract
 {
+    public function __construct(string $name, string $pluginFile)
+    {
+        $this->setPluginName($name);
+
+        $this->setPluginPrefix(str_replace(' ', '', strtolower($name)));
+
+        $this->setPluginFile($pluginFile);
+    }
+
     /**
-     * @param  PimpleContainer  $container
+     * @param PimpleContainer $container
      *
      * @throws DoesNotImplementProviderInterfaceException
      * @throws DoesNotImplementHookableInterfaceException
@@ -85,7 +93,7 @@ class Config extends ConfigAbstract
     }
 
     /**
-     * @param  PimpleContainer  $container
+     * @param PimpleContainer $container
      */
     private function injectPostTypes(PimpleContainer $container): void
     {
@@ -116,7 +124,7 @@ class Config extends ConfigAbstract
     }
 
     /**
-     * @param  PimpleContainer  $container
+     * @param PimpleContainer $container
      *
      * @throws DoesNotImplementProviderInterfaceException
      */

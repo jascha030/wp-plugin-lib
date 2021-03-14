@@ -5,7 +5,7 @@ use Jascha030\PluginLib\Service\Hookable\LazyHookableInterface;
 use Pimple\ServiceProviderInterface;
 
 return [
-    'name' => 'TestPlugin',
+    'name' => 'Example',
     /**
      * @var array|ServiceProviderInterface[]
      */
