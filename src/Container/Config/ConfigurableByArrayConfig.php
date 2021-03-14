@@ -2,7 +2,7 @@
 
 namespace Jascha030\PluginLib\Container\Config;
 
-final class ConfigurableByArrayConfig extends Config
+final class ConfigurableByArrayConfig extends Config implements ConfigFromFileInterface
 {
     private array $config;
 
@@ -12,12 +12,12 @@ final class ConfigurableByArrayConfig extends Config
 
         parent::__construct($config['name'], $pluginFile);
 
-        $this->setProviders($this->config['providers'] ?? []);
+        $this->setServiceProviders($this->config['providers'] ?? []);
         $this->setHookables($this->config['hookables'] ?? []);
         $this->setPostTypes($this->config['postTypes'] ?? []);
     }
 
-    public function getPluginConfig(): array
+    public function getConfigArray(): array
     {
         return $this->config;
     }

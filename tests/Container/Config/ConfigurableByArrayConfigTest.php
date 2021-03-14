@@ -2,6 +2,7 @@
 
 namespace Jascha030\Tests\Container\Config;
 
+use Jascha030\PluginLib\Container\Config\ConfigFromFileInterface;
 use Jascha030\PluginLib\Container\Config\ConfigInterface;
 use Jascha030\PluginLib\Container\Config\ConfigurableByArrayConfig;
 use PHPUnit\Framework\TestCase;
@@ -21,10 +22,10 @@ final class ConfigurableByArrayConfigTest extends TestCase
     /**
      * @depends testConstruct
      *
-     * @param ConfigInterface $config
+     * @param ConfigFromFileInterface $config
      */
-    public function testGetConfig(ConfigInterface $config): void
+    public function testGetConfig(ConfigFromFileInterface $config): void
     {
-        self::assertTrue([], $config->getConfig());
+        self::assertIsArray($config->getConfigArray());
     }
 }

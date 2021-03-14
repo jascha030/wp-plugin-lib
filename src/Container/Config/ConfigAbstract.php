@@ -2,8 +2,6 @@
 
 namespace Jascha030\PluginLib\Container\Config;
 
-use Jascha030\PluginLib\Entity\Post\PostType;
-
 abstract class ConfigAbstract implements ConfigInterface
 {
     private string $pluginName;
@@ -55,7 +53,7 @@ abstract class ConfigAbstract implements ConfigInterface
     }
 
     /**
-     * @return array|PostType|string[]
+     * @return array|string[]
      */
     final public function getPostTypes(): array
     {
