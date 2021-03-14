@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.1.2 - 03-15-2021
+
+* Forgot to implement 1.1.1 fix on `/includes/plugin-initialisation.php`
+
 ### 1.1.1 - 03-15-2021
 
 * Removed a bug which caused an error, requesting `'plugin.postTypes'` from the container instead of just `'postTypes'`
