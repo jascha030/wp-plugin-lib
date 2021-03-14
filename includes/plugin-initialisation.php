@@ -12,9 +12,9 @@ if (! function_exists('buildPlugin')) {
     /**
      * Creates your plugin or theme class and injects all of it's dependencies
      *
-     * @param  ConfigInterface  $config  Config object containing your Hookables, Providers and Post types
-     * @param  string           $registry  Class name of your main plugin or theme class
-     * @param  string           $builder  Custom builder class if you want to use a different Container than Pimple
+     * @param ConfigInterface $config   Config object containing your Hookables, Providers and Post types
+     * @param string          $registry Class name of your main plugin or theme class
+     * @param string          $builder  Custom builder class if you want to use a different Container than Pimple
      *
      * @return PluginApiRegistryInterface
      * @throws DoesNotImplementInterfaceException
@@ -41,7 +41,7 @@ if (! function_exists('buildPlugin')) {
             $container->get('hookable.locator'),
             $container->get('hookable.reference'),
             $container->get('hookable.afterInit'),
-            $container->get('plugin.postTypes')
+            $container->get('postTypes')
         );
 
         $registry->setContainer($container);
