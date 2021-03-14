@@ -1,0 +1,495 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<coverage generated="1615677815">
+  <project timestamp="1615677815">
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Container/Config/Config.php">
+      <class name="Jascha030\PluginLib\Container\Config\Config" namespace="global">
+        <metrics complexity="16" methods="4" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="49" coveredstatements="26" elements="53" coveredelements="27"/>
+      </class>
+      <line num="33" type="method" name="configure" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="35" type="stmt" count="1"/>
+      <line num="36" type="stmt" count="1"/>
+      <line num="37" type="stmt" count="1"/>
+      <line num="38" type="stmt" count="1"/>
+      <line num="45" type="method" name="injectHookables" visibility="private" complexity="6" crap="13.78" count="1"/>
+      <line num="47" type="stmt" count="1"/>
+      <line num="54" type="stmt" count="1"/>
+      <line num="55" type="stmt" count="1"/>
+      <line num="57" type="stmt" count="1"/>
+      <line num="58" type="stmt" count="0"/>
+      <line num="59" type="stmt" count="0"/>
+      <line num="60" type="stmt" count="0"/>
+      <line num="63" type="stmt" count="0"/>
+      <line num="64" type="stmt" count="0"/>
+      <line num="67" type="stmt" count="0"/>
+      <line num="68" type="stmt" count="0"/>
+      <line num="71" type="stmt" count="0"/>
+      <line num="72" type="stmt" count="0"/>
+      <line num="77" type="stmt" count="1"/>
+      <line num="78" type="stmt" count="1"/>
+      <line num="79" type="stmt" count="1"/>
+      <line num="80" type="stmt" count="0"/>
+      <line num="81" type="stmt" count="0"/>
+      <line num="83" type="stmt" count="0"/>
+      <line num="85" type="stmt" count="1"/>
+      <line num="90" type="method" name="injectPostTypes" visibility="private" complexity="4" crap="8.25" count="1"/>
+      <line num="92" type="stmt" count="1"/>
+      <line num="93" type="stmt" count="1"/>
+      <line num="95" type="stmt" count="1"/>
+      <line num="96" type="stmt" count="0"/>
+      <line num="97" type="stmt" count="0"/>
+      <line num="98" type="stmt" count="0"/>
+      <line num="101" type="stmt" count="0"/>
+      <line num="104" type="stmt" count="0"/>
+      <line num="105" type="stmt" count="0"/>
+      <line num="106" type="stmt" count="0"/>
+      <line num="109" type="stmt" count="0"/>
+      <line num="113" type="stmt" count="1"/>
+      <line num="114" type="stmt" count="0"/>
+      <line num="116" type="stmt" count="1"/>
+      <line num="123" type="method" name="injectServiceProviders" visibility="private" complexity="5" crap="5.15" count="1"/>
+      <line num="125" type="stmt" count="1"/>
+      <line num="127" type="stmt" count="1"/>
+      <line num="128" type="stmt" count="1"/>
+      <line num="135" type="stmt" count="1"/>
+      <line num="136" type="stmt" count="1"/>
+      <line num="137" type="stmt" count="0"/>
+      <line num="140" type="stmt" count="1"/>
+      <line num="141" type="stmt" count="1"/>
+      <line num="143" type="stmt" count="1"/>
+      <line num="146" type="stmt" count="0"/>
+      <line num="148" type="stmt" count="1"/>
+      <metrics loc="149" ncloc="125" classes="1" methods="4" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="49" coveredstatements="26" elements="53" coveredelements="27"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Container/Config/ConfigAbstract.php">
+      <class name="Jascha030\PluginLib\Container\Config\ConfigAbstract" namespace="global">
+        <metrics complexity="13" methods="13" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="22" coveredstatements="9" elements="35" coveredelements="15"/>
+      </class>
+      <line num="21" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="23" type="stmt" count="2"/>
+      <line num="25" type="stmt" count="2"/>
+      <line num="27" type="stmt" count="2"/>
+      <line num="28" type="stmt" count="2"/>
+      <line num="30" type="method" name="getPluginName" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="32" type="stmt" count="2"/>
+      <line num="35" type="method" name="setPluginName" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="37" type="stmt" count="0"/>
+      <line num="38" type="stmt" count="0"/>
+      <line num="40" type="method" name="getPluginFile" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="42" type="stmt" count="2"/>
+      <line num="45" type="method" name="setPluginFile" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="47" type="stmt" count="0"/>
+      <line num="48" type="stmt" count="0"/>
+      <line num="50" type="method" name="getPluginPrefix" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="52" type="stmt" count="0"/>
+      <line num="55" type="method" name="setPluginPrefix" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="57" type="stmt" count="0"/>
+      <line num="58" type="stmt" count="0"/>
+      <line num="63" type="method" name="getPostTypes" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="65" type="stmt" count="2"/>
+      <line num="71" type="method" name="setPostTypes" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="73" type="stmt" count="0"/>
+      <line num="74" type="stmt" count="0"/>
+      <line num="79" type="method" name="getHookables" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="81" type="stmt" count="2"/>
+      <line num="87" type="method" name="setHookables" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="89" type="stmt" count="0"/>
+      <line num="90" type="stmt" count="0"/>
+      <line num="95" type="method" name="getServiceProviders" visibility="public" complexity="1" crap="1" count="2"/>
+      <line num="97" type="stmt" count="2"/>
+      <line num="103" type="method" name="setServiceProviders" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="105" type="stmt" count="0"/>
+      <line num="106" type="stmt" count="0"/>
+      <metrics loc="107" ncloc="89" classes="1" methods="13" coveredmethods="6" conditionals="0" coveredconditionals="0" statements="22" coveredstatements="9" elements="35" coveredelements="15"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Container/Config/ConfigInterface.php">
+      <metrics loc="10" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Container/Config/ConfigurableByArrayConfig.php">
+      <class name="Jascha030\PluginLib\Container\Config\ConfigurableByArrayConfig" namespace="global">
+        <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="9" coveredelements="0"/>
+      </class>
+      <line num="9" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="11" type="stmt" count="0"/>
+      <line num="13" type="stmt" count="0"/>
+      <line num="15" type="stmt" count="0"/>
+      <line num="16" type="stmt" count="0"/>
+      <line num="17" type="stmt" count="0"/>
+      <line num="18" type="stmt" count="0"/>
+      <line num="20" type="method" name="getPluginConfig" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="22" type="stmt" count="0"/>
+      <metrics loc="24" ncloc="24" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="9" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Container/ContainerBuilder.php">
+      <class name="Jascha030\PluginLib\Container\ContainerBuilder" namespace="global">
+        <metrics complexity="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="4" coveredelements="4"/>
+      </class>
+      <line num="23" type="method" name="__invoke" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="25" type="stmt" count="1"/>
+      <line num="27" type="stmt" count="1"/>
+      <line num="29" type="stmt" count="1"/>
+      <metrics loc="31" ncloc="19" classes="1" methods="1" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="3" elements="4" coveredelements="4"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Container/ContainerBuilderInterface.php">
+      <metrics loc="22" ncloc="11" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Entity/Notice/AdminNotice.php">
+      <class name="Jascha030\PluginLib\Entity\Notice\AdminNotice" namespace="global">
+        <metrics complexity="6" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="21" coveredelements="0"/>
+      </class>
+      <line num="70" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="72" type="stmt" count="0"/>
+      <line num="74" type="stmt" count="0"/>
+      <line num="76" type="stmt" count="0"/>
+      <line num="77" type="stmt" count="0"/>
+      <line num="85" type="method" name="display" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="87" type="stmt" count="0"/>
+      <line num="88" type="stmt" count="0"/>
+      <line num="91" type="stmt" count="0"/>
+      <line num="92" type="stmt" count="0"/>
+      <line num="93" type="stmt" count="0"/>
+      <line num="94" type="stmt" count="0"/>
+      <line num="104" type="method" name="getNoticeTypeCssClass" visibility="private" complexity="3" crap="12" count="0"/>
+      <line num="107" type="stmt" count="0"/>
+      <line num="108" type="stmt" count="0"/>
+      <line num="109" type="stmt" count="0"/>
+      <line num="111" type="stmt" count="0"/>
+      <line num="112" type="stmt" count="0"/>
+      <line num="113" type="stmt" count="0"/>
+      <line num="114" type="stmt" count="0"/>
+      <line num="115" type="stmt" count="0"/>
+      <metrics loc="117" ncloc="59" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="18" coveredstatements="0" elements="21" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Entity/Post/PostType.php">
+      <class name="Jascha030\PluginLib\Entity\Post\PostType" namespace="global">
+        <metrics complexity="9" methods="9" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="5" elements="26" coveredelements="6"/>
+      </class>
+      <line num="40" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="46" type="stmt" count="1"/>
+      <line num="47" type="stmt" count="1"/>
+      <line num="48" type="stmt" count="1"/>
+      <line num="49" type="stmt" count="1"/>
+      <line num="50" type="stmt" count="1"/>
+      <line num="55" type="method" name="getSlug" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="57" type="stmt" count="0"/>
+      <line num="63" type="method" name="setSlug" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="65" type="stmt" count="0"/>
+      <line num="66" type="stmt" count="0"/>
+      <line num="71" type="method" name="getSingular" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="73" type="stmt" count="0"/>
+      <line num="79" type="method" name="setSingular" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="81" type="stmt" count="0"/>
+      <line num="82" type="stmt" count="0"/>
+      <line num="87" type="method" name="getPlural" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="89" type="stmt" count="0"/>
+      <line num="95" type="method" name="setPlural" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="97" type="stmt" count="0"/>
+      <line num="98" type="stmt" count="0"/>
+      <line num="103" type="method" name="getArguments" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="105" type="stmt" count="0"/>
+      <line num="111" type="method" name="setArguments" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="113" type="stmt" count="0"/>
+      <line num="114" type="stmt" count="0"/>
+      <metrics loc="115" ncloc="66" classes="1" methods="9" coveredmethods="1" conditionals="0" coveredconditionals="0" statements="17" coveredstatements="5" elements="26" coveredelements="6"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Entity/Post/PostTypeAbstract.php">
+      <class name="Jascha030\PluginLib\Entity\Post\PostTypeAbstract" namespace="global">
+        <metrics complexity="9" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="34" coveredstatements="0" elements="40" coveredelements="0"/>
+      </class>
+      <line num="23" type="method" name="register" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="25" type="stmt" count="0"/>
+      <line num="26" type="stmt" count="0"/>
+      <line num="63" type="method" name="query" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="66" type="stmt" count="0"/>
+      <line num="69" type="stmt" count="0"/>
+      <line num="70" type="stmt" count="0"/>
+      <line num="73" type="stmt" count="0"/>
+      <line num="84" type="method" name="create" visibility="public" complexity="3" crap="12" count="0"/>
+      <line num="86" type="stmt" count="0"/>
+      <line num="88" type="stmt" count="0"/>
+      <line num="89" type="stmt" count="0"/>
+      <line num="91" type="stmt" count="0"/>
+      <line num="93" type="stmt" count="0"/>
+      <line num="94" type="stmt" count="0"/>
+      <line num="97" type="stmt" count="0"/>
+      <line num="98" type="stmt" count="0"/>
+      <line num="101" type="stmt" count="0"/>
+      <line num="109" type="method" name="getSupports" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="112" type="stmt" count="0"/>
+      <line num="121" type="method" name="getPostTypeConfiguration" visibility="private" complexity="1" crap="2" count="0"/>
+      <line num="124" type="stmt" count="0"/>
+      <line num="125" type="stmt" count="0"/>
+      <line num="126" type="stmt" count="0"/>
+      <line num="129" type="stmt" count="0"/>
+      <line num="130" type="stmt" count="0"/>
+      <line num="138" type="method" name="getLabels" visibility="private" complexity="1" crap="2" count="0"/>
+      <line num="140" type="stmt" count="0"/>
+      <line num="141" type="stmt" count="0"/>
+      <line num="142" type="stmt" count="0"/>
+      <line num="143" type="stmt" count="0"/>
+      <line num="146" type="stmt" count="0"/>
+      <line num="147" type="stmt" count="0"/>
+      <line num="148" type="stmt" count="0"/>
+      <line num="149" type="stmt" count="0"/>
+      <line num="150" type="stmt" count="0"/>
+      <line num="151" type="stmt" count="0"/>
+      <line num="152" type="stmt" count="0"/>
+      <line num="153" type="stmt" count="0"/>
+      <line num="154" type="stmt" count="0"/>
+      <metrics loc="157" ncloc="97" classes="1" methods="6" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="34" coveredstatements="0" elements="40" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Entity/Post/PostTypeInterface.php">
+      <metrics loc="69" ncloc="22" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Exception/DoesNotImplementInterfaceException.php">
+      <class name="Jascha030\PluginLib\Exception\DoesNotImplementInterfaceException" namespace="global">
+        <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+      </class>
+      <line num="18" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="20" type="stmt" count="0"/>
+      <line num="21" type="stmt" count="0"/>
+      <metrics loc="22" ncloc="11" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Exception/Psr11/DoesNotImplementHookableInterfaceException.php">
+      <class name="Jascha030\PluginLib\Exception\Psr11\DoesNotImplementHookableInterfaceException" namespace="global">
+        <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+      </class>
+      <line num="21" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="23" type="stmt" count="0"/>
+      <line num="24" type="stmt" count="0"/>
+      <metrics loc="25" ncloc="16" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Exception/Psr11/DoesNotImplementProviderInterfaceException.php">
+      <class name="Jascha030\PluginLib\Exception\Psr11\DoesNotImplementProviderInterfaceException" namespace="global">
+        <metrics complexity="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+      </class>
+      <line num="21" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="23" type="stmt" count="0"/>
+      <line num="24" type="stmt" count="0"/>
+      <metrics loc="25" ncloc="16" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="3" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Plugin/ConfigurablePluginApiRegistry.php">
+      <class name="Jascha030\PluginLib\Plugin\ConfigurablePluginApiRegistry" namespace="global">
+        <metrics complexity="9" methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="29" coveredstatements="0" elements="34" coveredelements="0"/>
+      </class>
+      <line num="36" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="38" type="stmt" count="0"/>
+      <line num="40" type="stmt" count="0"/>
+      <line num="42" type="stmt" count="0"/>
+      <line num="44" type="stmt" count="0"/>
+      <line num="45" type="stmt" count="0"/>
+      <line num="46" type="stmt" count="0"/>
+      <line num="47" type="stmt" count="0"/>
+      <line num="48" type="stmt" count="0"/>
+      <line num="51" type="stmt" count="0"/>
+      <line num="52" type="stmt" count="0"/>
+      <line num="59" type="method" name="pluginSlug" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="61" type="stmt" count="0"/>
+      <line num="64" type="method" name="createContainer" visibility="private" complexity="1" crap="2" count="0"/>
+      <line num="66" type="stmt" count="0"/>
+      <line num="68" type="stmt" count="0"/>
+      <line num="74" type="method" name="getConfigFromFile" visibility="private" complexity="5" crap="30" count="0"/>
+      <line num="76" type="stmt" count="0"/>
+      <line num="78" type="stmt" count="0"/>
+      <line num="79" type="stmt" count="0"/>
+      <line num="80" type="stmt" count="0"/>
+      <line num="83" type="stmt" count="0"/>
+      <line num="86" type="stmt" count="0"/>
+      <line num="87" type="stmt" count="0"/>
+      <line num="89" type="stmt" count="0"/>
+      <line num="90" type="stmt" count="0"/>
+      <line num="94" type="stmt" count="0"/>
+      <line num="100" type="method" name="getConfig" visibility="private" complexity="1" crap="2" count="0"/>
+      <line num="102" type="stmt" count="0"/>
+      <line num="104" type="stmt" count="0"/>
+      <line num="105" type="stmt" count="0"/>
+      <line num="106" type="stmt" count="0"/>
+      <line num="107" type="stmt" count="0"/>
+      <line num="108" type="stmt" count="0"/>
+      <metrics loc="109" ncloc="82" classes="1" methods="5" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="29" coveredstatements="0" elements="34" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Plugin/PluginApiRegistryAbstract.php">
+      <class name="Jascha030\PluginLib\Plugin\PluginApiRegistryAbstract" namespace="global">
+        <metrics complexity="33" methods="16" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="73" coveredstatements="0" elements="89" coveredelements="0"/>
+      </class>
+      <line num="94" type="method" name="__construct" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="100" type="stmt" count="0"/>
+      <line num="101" type="stmt" count="0"/>
+      <line num="102" type="stmt" count="0"/>
+      <line num="103" type="stmt" count="0"/>
+      <line num="104" type="stmt" count="0"/>
+      <line num="111" type="method" name="run" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="113" type="stmt" count="0"/>
+      <line num="115" type="stmt" count="0"/>
+      <line num="117" type="stmt" count="0"/>
+      <line num="118" type="stmt" count="0"/>
+      <line num="127" type="method" name="setContainer" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="129" type="stmt" count="0"/>
+      <line num="131" type="stmt" count="0"/>
+      <line num="137" type="method" name="addAction" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="144" type="stmt" count="0"/>
+      <line num="145" type="stmt" count="0"/>
+      <line num="147" type="stmt" count="0"/>
+      <line num="149" type="stmt" count="0"/>
+      <line num="150" type="stmt" count="0"/>
+      <line num="156" type="method" name="generateHookIdentifier" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="158" type="stmt" count="0"/>
+      <line num="159" type="stmt" count="0"/>
+      <line num="165" type="method" name="addFilter" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="172" type="stmt" count="0"/>
+      <line num="173" type="stmt" count="0"/>
+      <line num="175" type="stmt" count="0"/>
+      <line num="177" type="stmt" count="0"/>
+      <line num="178" type="stmt" count="0"/>
+      <line num="183" type="method" name="removeHookedMethodByIdentifier" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="185" type="stmt" count="0"/>
+      <line num="186" type="stmt" count="0"/>
+      <line num="188" type="stmt" count="0"/>
+      <line num="189" type="stmt" count="0"/>
+      <line num="194" type="method" name="removeHookable" visibility="public" complexity="3" crap="12" count="0"/>
+      <line num="196" type="stmt" count="0"/>
+      <line num="197" type="stmt" count="0"/>
+      <line num="198" type="stmt" count="0"/>
+      <line num="201" type="stmt" count="0"/>
+      <line num="203" type="stmt" count="0"/>
+      <line num="210" type="method" name="get" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="212" type="stmt" count="0"/>
+      <line num="220" type="method" name="has" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="222" type="stmt" count="0"/>
+      <line num="228" type="method" name="initPostTypes" visibility="private" complexity="4" crap="20" count="0"/>
+      <line num="230" type="stmt" count="0"/>
+      <line num="231" type="stmt" count="0"/>
+      <line num="232" type="stmt" count="0"/>
+      <line num="235" type="stmt" count="0"/>
+      <line num="236" type="stmt" count="0"/>
+      <line num="239" type="stmt" count="0"/>
+      <line num="241" type="stmt" count="0"/>
+      <line num="256" type="method" name="wrap" visibility="private" complexity="2" crap="6" count="0"/>
+      <line num="258" type="stmt" count="0"/>
+      <line num="259" type="stmt" count="0"/>
+      <line num="260" type="stmt" count="0"/>
+      <line num="262" type="stmt" count="0"/>
+      <line num="273" type="method" name="storeFilterReference" visibility="private" complexity="1" crap="2" count="0"/>
+      <line num="282" type="stmt" count="0"/>
+      <line num="284" type="stmt" count="0"/>
+      <line num="286" type="stmt" count="0"/>
+      <line num="287" type="stmt" count="0"/>
+      <line num="293" type="method" name="hookAfterInitHookables" visibility="private" complexity="3" crap="12" count="0"/>
+      <line num="295" type="stmt" count="0"/>
+      <line num="296" type="stmt" count="0"/>
+      <line num="297" type="stmt" count="0"/>
+      <line num="299" type="stmt" count="0"/>
+      <line num="300" type="stmt" count="0"/>
+      <line num="302" type="stmt" count="0"/>
+      <line num="309" type="method" name="hookLazyReferences" visibility="private" complexity="3" crap="12" count="0"/>
+      <line num="311" type="stmt" count="0"/>
+      <line num="312" type="stmt" count="0"/>
+      <line num="313" type="stmt" count="0"/>
+      <line num="316" type="stmt" count="0"/>
+      <line num="318" type="stmt" count="0"/>
+      <line num="325" type="method" name="hookClassMethods" visibility="private" complexity="8" crap="72" count="0"/>
+      <line num="327" type="stmt" count="0"/>
+      <line num="328" type="stmt" count="0"/>
+      <line num="330" type="stmt" count="0"/>
+      <line num="332" type="stmt" count="0"/>
+      <line num="334" type="stmt" count="0"/>
+      <line num="335" type="stmt" count="0"/>
+      <line num="337" type="stmt" count="0"/>
+      <line num="338" type="stmt" count="0"/>
+      <line num="341" type="stmt" count="0"/>
+      <line num="345" type="stmt" count="0"/>
+      <line num="346" type="stmt" count="0"/>
+      <line num="349" type="stmt" count="0"/>
+      <line num="353" type="stmt" count="0"/>
+      <metrics loc="354" ncloc="228" classes="1" methods="16" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="73" coveredstatements="0" elements="89" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Plugin/PluginApiRegistryInterface.php">
+      <metrics loc="44" ncloc="12" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Plugin/Traits/DisplaysAdminNotices.php">
+      <class name="Jascha030\PluginLib\Plugin\Traits\DisplaysAdminNotices" namespace="global">
+        <metrics complexity="4" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="10" coveredelements="0"/>
+      </class>
+      <line num="25" type="method" name="addNotice" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="27" type="stmt" count="0"/>
+      <line num="28" type="stmt" count="0"/>
+      <line num="35" type="method" name="displayNotices" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="37" type="stmt" count="0"/>
+      <line num="38" type="stmt" count="0"/>
+      <line num="40" type="stmt" count="0"/>
+      <line num="45" type="method" name="fromException" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="47" type="stmt" count="0"/>
+      <line num="48" type="stmt" count="0"/>
+      <metrics loc="49" ncloc="28" classes="1" methods="3" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="7" coveredstatements="0" elements="10" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Plugin/Traits/ReadsPluginData.php">
+      <class name="Jascha030\PluginLib\Plugin\Traits\ReadsPluginData" namespace="global">
+        <metrics complexity="6" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="0" elements="13" coveredelements="0"/>
+      </class>
+      <line num="34" type="method" name="getPluginData" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="36" type="stmt" count="0"/>
+      <line num="37" type="stmt" count="0"/>
+      <line num="40" type="stmt" count="0"/>
+      <line num="48" type="method" name="fetchPluginData" visibility="private" complexity="4" crap="20" count="0"/>
+      <line num="50" type="stmt" count="0"/>
+      <line num="51" type="stmt" count="0"/>
+      <line num="52" type="stmt" count="0"/>
+      <line num="56" type="stmt" count="0"/>
+      <line num="58" type="stmt" count="0"/>
+      <line num="59" type="stmt" count="0"/>
+      <line num="62" type="stmt" count="0"/>
+      <line num="63" type="stmt" count="0"/>
+      <line num="64" type="stmt" count="0"/>
+      <metrics loc="63" ncloc="43" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="11" coveredstatements="0" elements="13" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Plugin/Traits/SingletonTrait.php">
+      <class name="Jascha030\PluginLib\Plugin\Traits\SingletonTrait" namespace="global">
+        <metrics complexity="2" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="4" coveredelements="0"/>
+      </class>
+      <line num="21" type="method" name="getInstance" visibility="public" complexity="2" crap="6" count="0"/>
+      <line num="23" type="stmt" count="0"/>
+      <line num="24" type="stmt" count="0"/>
+      <line num="27" type="stmt" count="0"/>
+      <metrics loc="29" ncloc="17" classes="1" methods="1" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="3" coveredstatements="0" elements="4" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Service/Hookable/HookableAfterInitInterface.php">
+      <metrics loc="8" ncloc="8" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Service/Hookable/HookableInterface.php">
+      <metrics loc="11" ncloc="7" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Service/Hookable/LazyHookableInterface.php">
+      <metrics loc="22" ncloc="10" classes="0" methods="0" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="0" coveredstatements="0" elements="0" coveredelements="0"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Service/Provider/WordpressProvider.php">
+      <class name="Jascha030\PluginLib\Service\Provider\WordpressProvider" namespace="global">
+        <metrics complexity="2" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="14" coveredelements="14"/>
+      </class>
+      <line num="31" type="method" name="__construct" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="33" type="stmt" count="1"/>
+      <line num="34" type="stmt" count="1"/>
+      <line num="35" type="stmt" count="1"/>
+      <line num="40" type="method" name="register" visibility="public" complexity="1" crap="1" count="1"/>
+      <line num="42" type="stmt" count="1"/>
+      <line num="44" type="stmt" count="1"/>
+      <line num="45" type="stmt" count="1"/>
+      <line num="46" type="stmt" count="1"/>
+      <line num="47" type="stmt" count="1"/>
+      <line num="48" type="stmt" count="1"/>
+      <line num="50" type="stmt" count="1"/>
+      <line num="51" type="stmt" count="1"/>
+      <line num="52" type="stmt" count="1"/>
+      <metrics loc="53" ncloc="34" classes="1" methods="2" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="12" coveredstatements="12" elements="14" coveredelements="14"/>
+    </file>
+    <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Service/Traits/LazyHookableTrait.php">
+      <class name="Jascha030\PluginLib\Service\Traits\LazyHookableTrait" namespace="global">
+        <metrics complexity="2" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="4" coveredelements="0"/>
+      </class>
+      <line num="18" type="method" name="getActions" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="20" type="stmt" count="0"/>
+      <line num="26" type="method" name="getFilters" visibility="public" complexity="1" crap="2" count="0"/>
+      <line num="28" type="stmt" count="0"/>
+      <metrics loc="30" ncloc="16" classes="1" methods="2" coveredmethods="0" conditionals="0" coveredconditionals="0" statements="2" coveredstatements="0" elements="4" coveredelements="0"/>
+    </file>
+    <metrics files="24" loc="1645" ncloc="1050" classes="17" methods="72" coveredmethods="11" conditionals="0" coveredconditionals="0" statements="293" coveredstatements="55" elements="365" coveredelements="66"/>
+  </project>
+</coverage>

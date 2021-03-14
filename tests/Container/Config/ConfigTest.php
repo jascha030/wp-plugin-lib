@@ -10,7 +10,7 @@ class ConfigTest extends TestCase
 {
     public const TEST_PLUGIN_NAME = 'TestPlugin';
 
-    final public function testConstruct(): ConfigInterface
+    final public function testConfigConstruction(): ConfigInterface
     {
         $config = new Config(self::TEST_PLUGIN_NAME, __FILE__);
 
@@ -19,10 +19,11 @@ class ConfigTest extends TestCase
         return $config;
     }
 
+
     /**
-     * @depends testConstruct
+     * @depends testConfigConstruction
      *
-     * @param  ConfigInterface  $config
+     * @param ConfigInterface $config
      */
     final public function testAccessMethods(ConfigInterface $config): void
     {
