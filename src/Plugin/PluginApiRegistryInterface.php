@@ -7,7 +7,7 @@ namespace Jascha030\PluginLib\Plugin;
  *
  * @package Jascha030\PluginLib\Plugin
  */
-interface FilterManagerInterface
+interface PluginApiRegistryInterface
 {
     /**
      * Add action lazily.

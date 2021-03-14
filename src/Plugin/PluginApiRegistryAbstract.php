@@ -16,17 +16,14 @@ use Symfony\Component\Uid\Uuid;
 
 /**
  * Class PluginApiRegistryAbstract
- *
  * A class that initializes and keeps track of services that are hooked into the Wordpress Plugin Common API.
  * Typically this is implemented in the form of either a Plugin or a Theme.
- *
  * In this OOP implementation they both essentially, serve the same purpose only with different end goals.
  * Where a Theme is the main implementation of a site's front-end, a Plugin would either implement Back-end
  * functionality and can, in some cases extend or customise, both front and back-end features.
- *
  * @package Jascha030\PluginLib\Plugin
  */
-abstract class PluginApiRegistryAbstract implements FilterManagerInterface
+abstract class PluginApiRegistryAbstract implements PluginApiRegistryInterface
 {
     /**
      * add_filter
@@ -40,13 +37,15 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
      * Prefixes for Wordpress filter methods
      */
     private const FILTER_TYPES = [
-        self::ACTION => 'action', self::FILTER => 'filter'
+        self::ACTION => 'action',
+        self::FILTER => 'filter',
     ];
     /**
      * See methods defined in LazyHookableInterface.
      */
     private const FILTER_RETRIEVAL_METHODS = [
-        self::ACTION => 'getActions', self::FILTER => 'getFilters'
+        self::ACTION => 'getActions',
+        self::FILTER => 'getFilters',
     ];
 
     /**
@@ -72,7 +71,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     /**
      * @var array
      */
-    private array $postTypes = [];
+    private array $postTypes;
 
     /**
      * @var ContainerInterface
@@ -80,17 +79,17 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     private ContainerInterface $locator;
 
     /**
-     * @var ContainerInterface
+     * @var ContainerInterface|null
      */
     private ContainerInterface $container;
 
     /**
      * PluginApiRegistryAbstract constructor.
      *
-     * @param  ContainerInterface  $locator
-     * @param  array               $hookables
-     * @param  array               $afterInitHookables
-     * @param  array               $postTypes
+     * @param ContainerInterface $locator
+     * @param array              $hookables
+     * @param array              $afterInitHookables
+     * @param array              $postTypes
      */
     public function __construct(
         ContainerInterface $locator,
@@ -106,7 +105,6 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
 
     /**
      * Hooks all hookables.
-     *
      * @throws DoesNotImplementHookableInterfaceException
      * @throws DoesNotImplementProviderInterfaceException
      */
@@ -122,11 +120,11 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     /**
      * Set the container responsible for injecting hookables upon
      *
-     * @param  ContainerInterface  $container
+     * @param ContainerInterface $container
      *
-     * @return $this|FilterManagerInterface
+     * @return $this|PluginApiRegistryInterface
      */
-    final public function setContainer(ContainerInterface $container): FilterManagerInterface
+    final public function setContainer(ContainerInterface $container): PluginApiRegistryInterface
     {
         $this->container = $container;
 
@@ -153,12 +151,12 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
 
     /**
      * Generate a string to keep track of methods that are hooked as closures
-     *
      * @return string
      */
     final public function generateHookIdentifier(): string
     {
-        return Uuid::v4()->toRfc4122();
+        return Uuid::v4()
+                   ->toRfc4122();
     }
 
     /**
@@ -180,7 +178,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     }
 
     /**
-     * @param  string  $identifier
+     * @param string $identifier
      */
     final public function removeHookedMethodByIdentifier(string $identifier): void
     {
@@ -205,9 +203,9 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     }
 
     /**
-     * @param  string  $id
+     * @param string $id
      *
-     * @return Locator
+     * @return mixed
      */
     final public function get(string $id)
     {
@@ -215,7 +213,7 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     }
 
     /**
-     * @param  string  $id
+     * @param string $id
      *
      * @return bool
      */
@@ -245,16 +243,14 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     /**
      * Wraps class and method in a Closure that calls our container and checks if our hook identifier still exists,
      * In that case, the Class is retrieved from our container to execute hooked method,
-     *
      * If not, the method  wil not be executed. This is a workaround for newer wordpress versions,
      * in which it is basically impossible to unhook a closure by reference. (It's possible, it's not failsafe)
      *
-     * @param  string  $id
-     * @param  string  $method
-     * @param  string  $uid
+     * @param string $id
+     * @param string $method
+     * @param string $uid
      *
      * @return Closure
-     *
      * @noinspection PhpInconsistentReturnPointsInspection
      */
     private function wrap(string $id, string $method, string $uid): Closure
@@ -267,12 +263,12 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     }
 
     /**
-     * @param  string  $uid
-     * @param  string  $tag
-     * @param  string  $id
-     * @param  string  $method
-     * @param  int     $prio
-     * @param  int     $arguments
+     * @param string $uid
+     * @param string $tag
+     * @param string $id
+     * @param string $method
+     * @param int    $prio
+     * @param int    $arguments
      */
     private function storeFilterReference(
         string $uid,
@@ -292,7 +288,6 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
 
     /**
      * Hooks the (non-lazy) hookable classes.
-     *
      * @throws DoesNotImplementProviderInterfaceException
      */
     private function hookAfterInitHookables(): void
@@ -301,14 +296,14 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
             if (! is_subclass_of($className, HookableAfterInitInterface::class)) {
                 throw new DoesNotImplementProviderInterfaceException($className);
             }
-            $this->locator->get($className)->hookMethods();
+            $this->locator->get($className)
+                          ->hookMethods();
         }
     }
 
     /**
      * Get predefined actions/filters statically
      * Based on this, wrap and hook all methods
-     *
      * @throws DoesNotImplementHookableInterfaceException
      */
     private function hookLazyReferences(): void
@@ -323,14 +318,14 @@ abstract class PluginApiRegistryAbstract implements FilterManagerInterface
     }
 
     /**
-     * @param  string  $serviceClass
+     * @param string $serviceClass
      *
      * @noinspection NotOptimalIfConditionsInspection
      */
     private function hookClassMethods(string $serviceClass): void
     {
         foreach (self::FILTER_RETRIEVAL_METHODS as $key => $method) {
-            $addMethod = 'add'.ucfirst(self::FILTER_TYPES[$key]);
+            $addMethod = 'add' . ucfirst(self::FILTER_TYPES[$key]);
             // calls static::getAction() or static::getFilter() on lazy hookable.
             $hooks = $serviceClass::{$method}();
             // Iterates hook types and checks service for methods to hook.
