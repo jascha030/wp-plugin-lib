@@ -14,6 +14,7 @@ use Jascha030\PluginLib\Service\Hookable\LazyHookableInterface;
 use Jascha030\PluginLib\Service\Provider\WordpressProvider;
 use Pimple\Container as PimpleContainer;
 use Pimple\Psr11\ServiceLocator;
+use Pimple\ServiceIterator;
 use Pimple\ServiceProviderInterface;
 
 /**
@@ -75,8 +76,7 @@ class Config extends ConfigAbstract
 
         $container['hookable.reference'] = $reference;
         $container['hookable.afterInit'] = $afterInitHookables;
-
-        $container['hookable.locator'] = static function (PimpleContainer $container) {
+        $container['hookable.locator']   = static function (PimpleContainer $container) {
             $lazyHookables    = array_keys($container['hookable.reference']);
             $hookableServices = array_merge($lazyHookables, $container['hookable.afterInit']);
 
@@ -89,21 +89,30 @@ class Config extends ConfigAbstract
      */
     private function injectPostTypes(PimpleContainer $container): void
     {
-        $postTypes = $this->getPostTypes();
+        $definitions = [];
+        $postTypes   = $this->getPostTypes();
 
         foreach ($postTypes as $postType) {
             if (is_array($postType)) {
                 $container[$postType[0]] = static function (PimpleContainer $container) use ($postType) {
                     return new PostType(...$postType);
                 };
+
+                $definitions[] = $postTypes[0];
             }
 
             if (is_subclass_of($postType, PostTypeInterface::class)) {
                 $container[$postType] = static function (PimpleContainer $container) use ($postType) {
                     return new $postType();
                 };
+
+                $definitions[] = $postType;
             }
         }
+
+        $container['postTypes'] = static function (PimpleContainer $container) use ($definitions) {
+            return new ServiceIterator($container, $definitions);
+        };
     }
 
     /**

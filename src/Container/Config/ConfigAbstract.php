@@ -18,13 +18,13 @@ abstract class ConfigAbstract implements ConfigInterface
 
     private array $serviceProviders = [];
 
-    public function __construct(string $name, string $file)
+    public function __construct(string $name, string $pluginFile)
     {
         $this->pluginName = $name;
 
         $this->pluginPrefix = str_replace(' ', '', strtolower($name));
 
-        $this->pluginFile = $file;
+        $this->pluginFile = $pluginFile;
     }
 
     final public function getPluginName(): string
@@ -66,7 +66,7 @@ abstract class ConfigAbstract implements ConfigInterface
     }
 
     /**
-     * @param  array  $postTypes
+     * @param array $postTypes
      */
     final public function setPostTypes(array $postTypes): void
     {
@@ -82,7 +82,7 @@ abstract class ConfigAbstract implements ConfigInterface
     }
 
     /**
-     * @param  array  $hookables
+     * @param array $hookables
      */
     final public function setHookables(array $hookables): void
     {
@@ -98,7 +98,7 @@ abstract class ConfigAbstract implements ConfigInterface
     }
 
     /**
-     * @param  array  $serviceProviders
+     * @param array $serviceProviders
      */
     final public function setServiceProviders(array $serviceProviders): void
     {
