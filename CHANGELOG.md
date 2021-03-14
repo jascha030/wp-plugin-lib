@@ -1,4 +1,10 @@
-### 1.1.0
+# Changelog
+
+### 1.1.1 - 03-15-2021
+
+* Removed a bug which caused an error, requesting `'plugin.postTypes'` from the container instead of just `'postTypes'`
+
+### 1.1.0 - 03-15-2021
 
 * Added ability to configure Plugins through (array configurations in) config files.
 * Changes to `.editorconfig` (still adhering to PSR-12).
@@ -15,11 +21,11 @@
 | Methods: | 25.00% | (18/72) |
 | Lines: | 23.21% | (68/293) |
 
-### 1.0.5
+### 1.0.5 02-23-2021
 
 * Fixed issue where `PluginApiRegistryAbstract` returns the hookable locator instead of the main Container object.
 
-### 1.0.4
+### 1.0.4 - 02-23-2021
 
 * Set ContainerInterface instead of Locator in `PluginApiRegistryAbstract`.
 
