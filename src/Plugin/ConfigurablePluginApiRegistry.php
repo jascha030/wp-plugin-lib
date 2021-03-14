@@ -16,11 +16,6 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
     private string $pluginFile;
 
     /**
-     * @var mixed|null
-     */
-    private array $config;
-
-    /**
      * @var string
      */
     private string $name;
@@ -30,8 +25,8 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
     /**
      * ConfigurablePluginApiRegistry constructor.
      *
-     * @param  string       $name
-     * @param  string|null  $configPath
+     * @param string      $name
+     * @param string|null $configPath
      */
     public function __construct(string $name, string $configPath = null)
     {
@@ -45,7 +40,7 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
             $container->get('hookable.locator'),
             $container->get('hookable.reference'),
             $container->get('hookable.afterInit'),
-            $container->get('plugin.postTypes')
+            $container->get('postTypes')
         );
 
         $this->setContainer($container);
@@ -53,7 +48,6 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
 
     /**
      * Used to prefix plugin hook tags to prevent collision with other plugins.
-     *
      * @return string
      */
     final public function pluginSlug(): string
@@ -80,7 +74,7 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
                 throw new \RuntimeException("Invalid plugin path '{$this->pluginFile}'");
             }
 
-            $path = dirname($this->pluginFile).'/config/plugin.php';
+            $path = dirname($this->pluginFile) . '/config/plugin.php';
         }
 
         if (is_file($path)) {

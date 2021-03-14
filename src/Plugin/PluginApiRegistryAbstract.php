@@ -69,9 +69,9 @@ abstract class PluginApiRegistryAbstract implements PluginApiRegistryInterface
     private array $filterTags = [];
 
     /**
-     * @var array
+     * @var iterable
      */
-    private array $postTypes;
+    private iterable $postTypes;
 
     /**
      * @var ContainerInterface
@@ -95,7 +95,7 @@ abstract class PluginApiRegistryAbstract implements PluginApiRegistryInterface
         ContainerInterface $locator,
         array $hookables,
         array $afterInitHookables,
-        array $postTypes = []
+        iterable $postTypes = []
     ) {
         $this->hookableReference  = $hookables;
         $this->afterInitHookables = $afterInitHookables;
@@ -155,8 +155,7 @@ abstract class PluginApiRegistryAbstract implements PluginApiRegistryInterface
      */
     final public function generateHookIdentifier(): string
     {
-        return Uuid::v4()
-                   ->toRfc4122();
+        return Uuid::v4()->toRfc4122();
     }
 
     /**
