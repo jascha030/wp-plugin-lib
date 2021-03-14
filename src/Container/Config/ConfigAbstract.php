@@ -18,23 +18,16 @@ abstract class ConfigAbstract implements ConfigInterface
 
     private array $serviceProviders = [];
 
-    public function __construct(string $name, string $pluginFile)
-    {
-        $this->pluginName = $name;
-
-        $this->pluginPrefix = str_replace(' ', '', strtolower($name));
-
-        $this->pluginFile = $pluginFile;
-    }
-
     final public function getPluginName(): string
     {
         return $this->pluginName;
     }
 
-    final public function setPluginName(string $pluginName): void
+    final public function setPluginName(string $pluginName): ConfigInterface
     {
         $this->pluginName = $pluginName;
+
+        return $this;
     }
 
     final public function getPluginFile(): string
@@ -42,9 +35,11 @@ abstract class ConfigAbstract implements ConfigInterface
         return $this->pluginFile;
     }
 
-    final public function setPluginFile(string $pluginFile): void
+    final public function setPluginFile(string $pluginFile): ConfigInterface
     {
         $this->pluginFile = $pluginFile;
+
+        return $this;
     }
 
     final public function getPluginPrefix(): string
@@ -52,9 +47,11 @@ abstract class ConfigAbstract implements ConfigInterface
         return $this->pluginPrefix;
     }
 
-    final public function setPluginPrefix(string $pluginPrefix): void
+    final public function setPluginPrefix(string $pluginPrefix): ConfigInterface
     {
         $this->pluginPrefix = $pluginPrefix;
+
+        return $this;
     }
 
     /**
@@ -67,10 +64,14 @@ abstract class ConfigAbstract implements ConfigInterface
 
     /**
      * @param array $postTypes
+     *
+     * @return ConfigInterface
      */
-    final public function setPostTypes(array $postTypes): void
+    final public function setPostTypes(array $postTypes): ConfigInterface
     {
         $this->postTypes = $postTypes;
+
+        return $this;
     }
 
     /**
@@ -83,10 +84,14 @@ abstract class ConfigAbstract implements ConfigInterface
 
     /**
      * @param array $hookables
+     *
+     * @return ConfigInterface
      */
-    final public function setHookables(array $hookables): void
+    final public function setHookables(array $hookables): ConfigInterface
     {
         $this->hookables = $hookables;
+
+        return $this;
     }
 
     /**
@@ -99,9 +104,13 @@ abstract class ConfigAbstract implements ConfigInterface
 
     /**
      * @param array $serviceProviders
+     *
+     * @return ConfigInterface
      */
-    final public function setServiceProviders(array $serviceProviders): void
+    final public function setServiceProviders(array $serviceProviders): ConfigInterface
     {
         $this->serviceProviders = $serviceProviders;
+
+        return $this;
     }
 }
