@@ -6,7 +6,7 @@ use Jascha030\PluginLib\Container\Config\ConfigInterface;
 use Jascha030\PluginLib\Container\Config\ConfigurableByArrayConfig;
 use PHPUnit\Framework\TestCase;
 
-class ConfigurableByArrayConfigTest extends TestCase
+final class ConfigurableByArrayConfigTest extends TestCase
 {
     public function testConstruct(): ConfigInterface
     {
@@ -16,5 +16,15 @@ class ConfigurableByArrayConfigTest extends TestCase
         self::assertInstanceOf(ConfigInterface::class, $config);
 
         return $config;
+    }
+
+    /**
+     * @depends testConstruct
+     *
+     * @param ConfigInterface $config
+     */
+    public function testGetConfig(ConfigInterface $config): void
+    {
+        self::assertTrue([], $config->getConfig());
     }
 }
