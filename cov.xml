@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1615764275">
-  <project timestamp="1615764275">
+<coverage generated="1616102528">
+  <project timestamp="1616102528">
     <file name="/Users/jaschavanaalst/.projx/Programming/Projects/wp-plugin-lib/src/Container/Config/Config.php">
       <class name="Jascha030\PluginLib\Container\Config\Config" namespace="global">
         <metrics complexity="17" methods="5" coveredmethods="2" conditionals="0" coveredconditionals="0" statements="53" coveredstatements="30" elements="58" coveredelements="32"/>
