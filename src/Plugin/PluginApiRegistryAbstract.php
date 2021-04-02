@@ -196,7 +196,7 @@ abstract class PluginApiRegistryAbstract implements PluginApiRegistryInterface
             if (isset($this->hookedMethods[$identifier])) {
                 unset($this->hookedMethods[$identifier]);
             }
-
+    
             $this->hookableReference[$id][$identifier] = false;
         }
     }

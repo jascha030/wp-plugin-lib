@@ -10,7 +10,7 @@ final class ConfigurableByArrayConfig extends Config implements ConfigFromFileIn
     {
         $this->config = $config;
 
-        parent::__construct($config['name'], $pluginFile);
+        parent::__construct($this->config['name'] ?? '', $pluginFile);
 
         $this->setServiceProviders($this->config['providers'] ?? []);
         $this->setHookables($this->config['hookables'] ?? []);
