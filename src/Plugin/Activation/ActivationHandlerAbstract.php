@@ -2,23 +2,25 @@
 
 namespace Jascha030\PluginLib\Plugin\Activation;
 
-class ActivationHandler implements OnActivateInterface
+abstract class ActivationHandlerAbstract implements OnActivateInterface
 {
-    public function __construct()
+    private string $pluginFilePath;
+
+    public function __construct(string $pluginFilePath)
     {
+        $this->pluginFilePath = $pluginFilePath;
     }
 
-    public function register(): void
+    public static function activation(string $pluginFilePath, string $pluginPrefix, array $config = []): void
     {
+        $activation = new static($pluginFilePath);
+        $activation = apply_filters($pluginPrefix . '_activation_handlers', $activation);
+
+        $activation->register();
     }
 
-    public function activate(): void
+    final public function register(): void
     {
-        // TODO: Implement activate() method.
-    }
-
-    public function deactivate(): void
-    {
-        // TODO: Implement deactivate() method.
+        \register_activation_hook($this->pluginFilePath, [$this, 'activate']);
     }
 }
