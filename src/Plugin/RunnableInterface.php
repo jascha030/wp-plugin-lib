@@ -2,7 +2,7 @@
 
 namespace Jascha030\PluginLib\Plugin;
 
-class RunnableInterface
+interface RunnableInterface
 {
-
+    public function run(): void;
 }
