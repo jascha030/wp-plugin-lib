@@ -95,9 +95,12 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
     {
         $config = $this->getConfigFromFile();
 
-        $serviceProviders = \apply_filters('configure_container_service_providers', $config['serviceProviders'] ?? []);
-        $hookableServices = \apply_filters('configure_hookable_services', $config['hookableService'] ?? []);
-        $postTypes        = \apply_filters('configure_post_types', $config['postTypes'] ?? []);
+        \apply_filters('configure_container_service_providers', $config['serviceProviders'] ?? []);
+        \apply_filters('configure_hookable_services', $config['hookableService'] ?? []);
+        \apply_filters('configure_post_types', $config['postTypes'] ?? []);
+
         $config           = new ConfigurableByArrayConfig($config, $this->pluginFile);
+
+        return $config;
     }
 }
