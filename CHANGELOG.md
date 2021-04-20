@@ -1,5 +1,11 @@
 # Changelog
 
+### 1.2.0 - 04-20-2021
+
+* Added Wrapper classes for better post querying, wraps WP\_Post class.
+* Added Activation class, for simplified plugin activation handling.
+
+
 ### 1.1.2 - 03-15-2021
 
 * Forgot to implement 1.1.1 fix on `/includes/plugin-initialisation.php`
