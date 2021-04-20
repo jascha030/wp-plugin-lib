@@ -15,6 +15,7 @@ final class ConfigurableByArrayConfigTest extends TestCase
         $config      = new ConfigurableByArrayConfig($configArray, __FILE__);
 
         self::assertInstanceOf(ConfigInterface::class, $config);
+        self::assertEquals(__FILE__, $config->getPluginFile());
 
         return $config;
     }

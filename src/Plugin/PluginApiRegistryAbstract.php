@@ -27,11 +27,9 @@ abstract class PluginApiRegistryAbstract implements PluginApiRegistryInterface
 {
     /**
      * add_filter
-     */
-    public const FILTER = 0;
-    /**
      * add_action
      */
+    public const FILTER = 0;
     public const ACTION = 1;
     /**
      * Prefixes for Wordpress filter methods
@@ -73,14 +71,7 @@ abstract class PluginApiRegistryAbstract implements PluginApiRegistryInterface
      */
     private iterable $postTypes;
 
-    /**
-     * @var ContainerInterface
-     */
     private ContainerInterface $locator;
-
-    /**
-     * @var ContainerInterface|null
-     */
     private ContainerInterface $container;
 
     /**
@@ -196,7 +187,6 @@ abstract class PluginApiRegistryAbstract implements PluginApiRegistryInterface
             if (isset($this->hookedMethods[$identifier])) {
                 unset($this->hookedMethods[$identifier]);
             }
-
             $this->hookableReference[$id][$identifier] = false;
         }
     }
