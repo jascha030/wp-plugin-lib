@@ -83,12 +83,16 @@ abstract class PostTypeAbstract implements PostTypeInterface
      */
     public function create(array $postData, array $postMeta): int
     {
-        $id = \wp_insert_post(array_merge($postData,
+        $id = \wp_insert_post(
+            array_merge(
+            $postData,
             [
                 'post_type'   => $this->getSlug(), 'post_status' => 'publish', 'post_date' => date('Y-m-d H:i:s'),
                 'post_author' => 1
-            ]),
-            true);
+            ]
+        ),
+            true
+        );
 
         if (is_wp_error($id)) {
             throw new RuntimeException($id->get_error_message());
@@ -126,8 +130,10 @@ abstract class PostTypeAbstract implements PostTypeInterface
             'hierarchical' => false, 'menu_position' => null, 'supports' => $this->getSupports(),
         ];
 
-        return array_merge($default,
-            $this->getArguments());
+        return array_merge(
+            $default,
+            $this->getArguments()
+        );
     }
 
     /**
