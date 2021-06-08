@@ -1,0 +1,21 @@
+<?php
+
+use SocialBrothers\WPUtils\Service\Hookable\HookableAfterInitInterface;
+use SocialBrothers\WPUtils\Service\Hookable\LazyHookableInterface;
+use Pimple\ServiceProviderInterface;
+
+return [
+    'name' => 'Example',
+    /**
+     * @var array|ServiceProviderInterface[]
+     */
+    'serviceProviders' => [],
+    /**
+     * @var array|HookableInterface[]|HookableAfterInitInterface[]|LazyHookableInterface[]
+     */
+    'hookableServices' => [],
+    /**
+     * @var array|string[]
+     */
+    'postTypes' => [],
+];

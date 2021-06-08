@@ -33,12 +33,16 @@
     "symfony/uid": "^5.2"
   },
   "require-dev": {
-    "roave/security-advisories": "dev-master",
-    "phpunit/phpunit": "^9.5"
+    "roave/security-advisories": "dev-latest",
+    "phpunit/phpunit": "^9.5",
+    "friendsofphp/php-cs-fixer": "^3.0"
   },
   "extra": {
     "branch-alias": {
       "dev-develop": "1.0.x-dev"
     }
+  },
+  "scripts": {
+      "fix-style": "vendor/bin/php-cs-fixer fix src"
   }
 }
