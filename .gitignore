@@ -128,3 +128,5 @@ dist/
 *.log
 *.sql
 *.sqlite
+
+**.cache
