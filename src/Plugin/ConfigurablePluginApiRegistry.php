@@ -26,11 +26,18 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
      * ConfigurablePluginApiRegistry constructor.
      *
      * @param string      $name
+     * @param string      $pluginFile
      * @param string|null $configPath
      */
-    public function __construct(string $name, string $configPath = null)
+    public function __construct(string $name, string $pluginFile, string $configPath = null)
     {
         $this->name = $name;
+
+        if (!is_file($pluginFile)) {
+            throw new \InvalidArgumentException("Could not read provided \"\$pluginFile\", invalid path: \"{$pluginFile}\"");
+        }
+
+        $this->pluginFile = $pluginFile;
 
         $this->configPath = $configPath;
 
@@ -99,8 +106,11 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
         \apply_filters('configure_hookable_services', $config['hookableService'] ?? []);
         \apply_filters('configure_post_types', $config['postTypes'] ?? []);
 
-        $config           = new ConfigurableByArrayConfig($config, $this->pluginFile);
+        return new ConfigurableByArrayConfig($config, $this->getPluginFile());
+    }
 
-        return $config;
+    public function getPluginFile(): string
+    {
+        return $this->pluginFile;
     }
 }

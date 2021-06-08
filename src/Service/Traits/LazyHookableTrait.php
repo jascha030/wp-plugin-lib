@@ -10,7 +10,7 @@ namespace Jascha030\PluginLib\Service\Traits;
  *
  * @package Jascha030\PluginLib\Service\Traits
  */
-class LazyHookableTrait
+trait LazyHookableTrait
 {
     /**
      * @return array

@@ -46,7 +46,7 @@ class Config extends ConfigAbstract
     }
 
     /**
-     * @param $container
+     * @param PimpleContainer $container
      *
      * @throws DoesNotImplementHookableInterfaceException
      */
@@ -63,7 +63,16 @@ class Config extends ConfigAbstract
         $reference          = [];
 
         if (! empty($hookables)) {
-            foreach ($hookables as $className) {
+            foreach ($hookables as $key => $className) {
+                $closure = static function () use ($className) {
+                    return new $className();
+                };
+
+                if (is_string($key) && $className instanceof \Closure) {
+                    $closure = $className;
+                    $className =  $key;
+                }
+
                 if (! is_subclass_of($className, HookableInterface::class)) {
                     throw new DoesNotImplementHookableInterfaceException($className);
                 }
@@ -76,9 +85,8 @@ class Config extends ConfigAbstract
                     $afterInitHookables[] = $className;
                 }
 
-                $container[$className] = static function () use ($className) {
-                    return new $className();
-                };
+                /** @noinspection PhpArrayUsedOnlyForWriteInspection */
+                $container[$className] = $closure;
             }
         }
 

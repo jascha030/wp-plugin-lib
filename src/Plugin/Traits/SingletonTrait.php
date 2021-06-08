@@ -26,4 +26,16 @@ trait SingletonTrait
 
         return static::$instance;
     }
+
+    /**
+     * These methods are private to prevent any other form of mutability or construction.
+     */
+    private function __construct()
+    {}
+
+    private function __wakeup()
+    {}
+
+    private function __clone()
+    {}
 }
