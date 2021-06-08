@@ -152,8 +152,7 @@ abstract class PostAbstract implements PostInterface
         $data['meta_input'] = $this->postMeta;
 
         if (! count(array_intersect_key(array_flip(self::REQUIRED_POST_DATA), $data))
-            === count(self::REQUIRED_POST_DATA))
-        {
+            === count(self::REQUIRED_POST_DATA)) {
             $requiredKeys = implode(', ', self::REQUIRED_POST_DATA);
             throw new Exception("Couldn't insert post, check required keys ({$requiredKeys})");
         }
