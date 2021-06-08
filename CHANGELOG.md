@@ -1,5 +1,12 @@
 # Changelog
 
+### 1.3.0 - 09-06-2021
+
+* Added php-cs-fixer.
+* Added config.php.example
+* Fix bugs with `ConfigurablePluginApiRegistry` class.
+* Fixed `LazyHookableTrait` accidentally being a class.
+
 ### 1.2.0 - 04-20-2021
 
 * Added Wrapper classes for better post querying, wraps WP\_Post class.
@@ -38,4 +45,3 @@
 ### 1.0.4 - 02-23-2021
 
 * Set ContainerInterface instead of Locator in `PluginApiRegistryAbstract`.
-
