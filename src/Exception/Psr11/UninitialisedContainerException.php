@@ -11,7 +11,7 @@ class UninitialisedContainerException extends Exception implements ContainerExce
     {
         parent::__construct(
             sprintf(
-                "%s not set, make sure %s is not called before initialisation.",
+                '%s not set, make sure %s is not called before initialisation.',
                 "\"{$class}::\$container\"",
                 "{$class}::get()"
             )

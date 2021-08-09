@@ -7,11 +7,9 @@ use Jascha030\PluginLib\Service\Hookable\HookableInterface;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
- * Class DoesNotImplementHookableInterfaceException
- * @package Jascha030\PluginLib\Exception\Psr11
+ * Class DoesNotImplementHookableInterfaceException.
  */
-class DoesNotImplementHookableInterfaceException extends DoesNotImplementInterfaceException implements
-    ContainerExceptionInterface
+class DoesNotImplementHookableInterfaceException extends DoesNotImplementInterfaceException implements ContainerExceptionInterface
 {
     /**
      * DoesNotImplementHookableInterfaceException constructor.

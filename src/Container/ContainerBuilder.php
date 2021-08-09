@@ -7,18 +7,12 @@ use Pimple\Container;
 use Pimple\Psr11\Container as Psr11Container;
 
 /**
- * Class ContainerFactory
- *
- * @package Jascha030\PluginLib\Container
+ * Class ContainerFactory.
  */
 final class ContainerBuilder implements ContainerBuilderInterface
 {
     /**
-     * @inheritDoc
-     *
-     * @param  ConfigInterface  $config
-     *
-     * @return Psr11Container
+     * {@inheritDoc}
      */
     public function __invoke(ConfigInterface $config): Psr11Container
     {

@@ -3,20 +3,17 @@
 namespace Jascha030\PluginLib\Service\Hookable;
 
 /**
- * Interface LazyHookableInterface
- * @package Jascha030\PluginLib\Service\Hookable
+ * Interface LazyHookableInterface.
  */
 interface LazyHookableInterface extends HookableInterface
 {
     /**
-     * Return the predefined actions
-     * @return array
+     * Return the predefined actions.
      */
     public static function getActions(): array;
 
     /**
-     * Return the predefined filters
-     * @return array
+     * Return the predefined filters.
      */
     public static function getFilters(): array;
 }

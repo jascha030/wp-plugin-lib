@@ -1,4 +1,5 @@
 <?php
+
 declare(strict_types=1);
 
 namespace Jascha030\Tests\Container;
@@ -10,8 +11,10 @@ use PHPUnit\Framework\TestCase;
 use Psr\Container\ContainerInterface;
 
 /**
- * Class ContainerBuilderTest
- * @package Jascha030\Tests\Container
+ * Class ContainerBuilderTest.
+ *
+ * @internal
+ * @coversNothing
  */
 class ContainerBuilderTest extends TestCase
 {

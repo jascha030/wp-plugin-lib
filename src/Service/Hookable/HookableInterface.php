@@ -3,8 +3,7 @@
 namespace Jascha030\PluginLib\Service\Hookable;
 
 /**
- * Interface HookableInterface
- * @package Jascha030\PluginLib\Hookable
+ * Interface HookableInterface.
  */
 interface HookableInterface
 {

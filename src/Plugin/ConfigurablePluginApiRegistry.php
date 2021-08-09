@@ -8,26 +8,18 @@ use Jascha030\PluginLib\Container\ContainerBuilder;
 use Psr\Container\ContainerInterface;
 
 /**
- * Class ConfigurablePluginApiRegistry
- * @package Jascha030\PluginLib\Plugin
+ * Class ConfigurablePluginApiRegistry.
  */
 class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
 {
     private string $pluginFile;
 
-    /**
-     * @var string
-     */
     private string $name;
 
     private ?string $configPath;
 
     /**
      * ConfigurablePluginApiRegistry constructor.
-     *
-     * @param string      $name
-     * @param string      $pluginFile
-     * @param string|null $configPath
      */
     public function __construct(string $name, string $pluginFile, string $configPath = null)
     {
@@ -55,7 +47,6 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
 
     /**
      * Used to prefix plugin hook tags to prevent collision with other plugins.
-     * @return string
      */
     final public function pluginSlug(): string
     {
@@ -69,25 +60,22 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
         return (new ContainerBuilder())($config);
     }
 
-    /**
-     * @return array
-     */
     private function getConfigFromFile(): array
     {
         $path = $this->configPath;
 
-        if (! isset($this->configPath)) {
-            if (! is_readable($this->pluginFile)) {
+        if (!isset($this->configPath)) {
+            if (!is_readable($this->pluginFile)) {
                 throw new \RuntimeException("Invalid plugin path '{$this->pluginFile}'");
             }
 
-            $path = dirname($this->pluginFile) . '/config/plugin.php';
+            $path = \dirname($this->pluginFile).'/config/plugin.php';
         }
 
         if (is_file($path)) {
             $configArray = include $path;
 
-            if (! is_array($configArray)) {
+            if (!\is_array($configArray)) {
                 throw new \RuntimeException('Invalid config data, should be of type array.');
             }
         }
@@ -95,16 +83,13 @@ class ConfigurablePluginApiRegistry extends PluginApiRegistryAbstract
         return $configArray ?? [];
     }
 
-    /**
-     * @return ConfigInterface
-     */
     private function getConfig(): ConfigInterface
     {
         $config = $this->getConfigFromFile();
 
-        \apply_filters('configure_container_service_providers', $config['serviceProviders'] ?? []);
-        \apply_filters('configure_hookable_services', $config['hookableService'] ?? []);
-        \apply_filters('configure_post_types', $config['postTypes'] ?? []);
+        apply_filters('configure_container_service_providers', $config['serviceProviders'] ?? []);
+        apply_filters('configure_hookable_services', $config['hookableService'] ?? []);
+        apply_filters('configure_post_types', $config['postTypes'] ?? []);
 
         return new ConfigurableByArrayConfig($config, $this->getPluginFile());
     }
