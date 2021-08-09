@@ -116,3 +116,7 @@ dist/
 *.sqlite
 
 **.cache
+
+.idea/php.xml
+.idea/php.xml
+.idea/wp-plugin-lib.iml
