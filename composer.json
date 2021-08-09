@@ -29,7 +29,7 @@
   },
   "require": {
     "pimple/pimple": "^3.3",
-    "psr/container": "1.0.0",
+    "psr/container": "^1.1",
     "symfony/uid": "^5.2"
   },
   "require-dev": {
@@ -37,12 +37,8 @@
     "phpunit/phpunit": "^9.5",
     "friendsofphp/php-cs-fixer": "^3.0"
   },
-  "extra": {
-    "branch-alias": {
-      "dev-develop": "1.0.x-dev"
-    }
-  },
   "scripts": {
-      "fix-style": "vendor/bin/php-cs-fixer fix src"
+      "phpunit": "vendor/bin/phpunit",
+      "format": "vendor/bin/php-cs-fixer fix --config=.php-cs-fixer.dist.php --allow-risky=yes"
   }
 }
