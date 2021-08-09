@@ -1,7 +1,7 @@
 <?php
 
-use SocialBrothers\WPUtils\Service\Hookable\HookableAfterInitInterface;
-use SocialBrothers\WPUtils\Service\Hookable\LazyHookableInterface;
+use Jascha030\PluginLib\Service\Hookable\HookableAfterInitInterface;
+use Jascha030\PluginLib\Service\Hookable\LazyHookableInterface;
 use Pimple\ServiceProviderInterface;
 
 return [
@@ -9,11 +9,11 @@ return [
     /**
      * @var array|ServiceProviderInterface[]
      */
-    'serviceProviders' => [],
+    'providers' => [],
     /**
      * @var array|HookableInterface[]|HookableAfterInitInterface[]|LazyHookableInterface[]
      */
-    'hookableServices' => [],
+    'hookables' => [],
     /**
      * @var array|string[]
      */
