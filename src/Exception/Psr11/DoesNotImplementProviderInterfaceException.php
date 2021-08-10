@@ -7,16 +7,12 @@ use Pimple\ServiceProviderInterface;
 use Psr\Container\ContainerExceptionInterface;
 
 /**
- * Class DoesNotImplementProviderInterfaceException
- * @package Jascha030\PluginLib\Exception\Psr11
+ * Class DoesNotImplementProviderInterfaceException.
  */
-class DoesNotImplementProviderInterfaceException extends DoesNotImplementInterfaceException implements
-    ContainerExceptionInterface
+class DoesNotImplementProviderInterfaceException extends DoesNotImplementInterfaceException implements ContainerExceptionInterface
 {
     /**
      * DoesNotImplementProviderInterfaceException constructor.
-     *
-     * @param  string  $className
      */
     public function __construct(string $className)
     {

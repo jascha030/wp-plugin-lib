@@ -6,21 +6,17 @@ use Exception;
 use Jascha030\PluginLib\Entity\Notice\AdminNotice;
 
 /**
- * Trait DisplaysAdminNotices
- * @package Jascha030\PluginLib\Plugin\Traits
+ * Trait DisplaysAdminNotices.
  */
 trait DisplaysAdminNotices
 {
     /**
-     * @var array|AdminNotice[]
+     * @var AdminNotice[]|array
      */
     private array $notices = [];
 
     /**
-     * Add notice for display in wp-admin
-     *
-     * @param  string  $message
-     * @param  int     $type
+     * Add notice for display in wp-admin.
      */
     final public function addNotice(string $message, int $type = AdminNotice::INFO): void
     {
@@ -28,7 +24,7 @@ trait DisplaysAdminNotices
     }
 
     /**
-     * Display added notices after load
+     * Display added notices after load.
      *
      * @throws Exception
      */
@@ -39,9 +35,6 @@ trait DisplaysAdminNotices
         }
     }
 
-    /**
-     * @param  Exception  $exception
-     */
     final public function fromException(Exception $exception): void
     {
         $this->notices[] = new AdminNotice($exception->getMessage(), AdminNotice::ERROR, false);

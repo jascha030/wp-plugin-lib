@@ -7,16 +7,10 @@ use Pimple\ServiceProviderInterface;
 
 return [
     'name' => 'TestPlugin',
-    /**
-     * @var array|ServiceProviderInterface[]
-     */
+    // @var array|ServiceProviderInterface[]
     'serviceProviders' => [],
-    /**
-     * @var array|HookableInterface[]|HookableAfterInitInterface[]|LazyHookableInterface[]
-     */
+    // @var array|HookableInterface[]|HookableAfterInitInterface[]|LazyHookableInterface[]
     'hookableServices' => [],
-    /**
-     * @var array|string[]
-     */
+    // @var array|string[]
     'postTypes' => [],
 ];

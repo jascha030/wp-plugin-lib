@@ -7,8 +7,7 @@ use Jascha030\PluginLib\Entity\Post\PostInterface;
 use Jascha030\PluginLib\Plugin\Traits\DisplaysAdminNotices;
 
 /**
- * Class ActivationHandlerAbstract
- * @package Jascha030\PluginLib\Plugin\Activation
+ * Class ActivationHandlerAbstract.
  */
 abstract class ActivationHandlerAbstract implements OnActivateInterface
 {
@@ -28,40 +27,30 @@ abstract class ActivationHandlerAbstract implements OnActivateInterface
     }
 
     /**
-     * Create an instance and apply filters added through the `static::add()` method
-     *
-     * @param string $pluginFilePath
-     *
-     * @return OnActivateInterface
+     * Create an instance and apply filters added through the `static::add()` method.
      */
     public static function activation(string $pluginFilePath): OnActivateInterface
     {
         $activation = new static($pluginFilePath);
-        $activation = apply_filters(self::sanitizePluginPath($pluginFilePath) . '_activation_filters', $activation);
+        $activation = apply_filters(self::sanitizePluginPath($pluginFilePath).'_activation_filters', $activation);
 
         return $activation;
     }
 
     /**
-     * Add filter callbacks to be applied to the PluginActivation object
-     *
-     * @param string  $pluginFilePath
-     * @param Closure $closure
+     * Add filter callbacks to be applied to the PluginActivation object.
      */
     final public static function addActivationFilter(string $pluginFilePath, Closure $closure): void
     {
-        \add_filter(self::sanitizePluginPath($pluginFilePath) . '_activation_filters', $closure);
+        add_filter(self::sanitizePluginPath($pluginFilePath).'_activation_filters', $closure);
     }
 
     /**
-     * Add action callbacks to be executed on activation
-     *
-     * @param string  $pluginFilePath
-     * @param Closure $closure
+     * Add action callbacks to be executed on activation.
      */
     final public static function addActivationAction(string $pluginFilePath, Closure $closure): void
     {
-        \add_action(self::sanitizePluginPath($pluginFilePath) . '_activation_actions', $closure);
+        add_action(self::sanitizePluginPath($pluginFilePath).'_activation_actions', $closure);
     }
 
     private static function sanitizePluginPath(string $pluginFilePath): string
@@ -70,22 +59,17 @@ abstract class ActivationHandlerAbstract implements OnActivateInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public function register(): void
     {
-        \register_activation_hook($this->pluginFilePath, [$this, 'activate']);
+        register_activation_hook($this->pluginFilePath, [$this, 'activate']);
     }
 
-    /**
-     * @param array $posts
-     *
-     * @return OnActivateInterface
-     */
     final public function createOnActivation(array $posts): OnActivateInterface
     {
         foreach ($posts as $post) {
-            if (! is_array($post) && ! is_subclass_of($post, PostInterface::class)) {
+            if (!\is_array($post) && !is_subclass_of($post, PostInterface::class)) {
                 continue;
             }
 
@@ -96,7 +80,7 @@ abstract class ActivationHandlerAbstract implements OnActivateInterface
     }
 
     /**
-     * Define wether rewrite rules need to be flushed after activation
+     * Define wether rewrite rules need to be flushed after activation.
      */
     final public function flushAfterActivation(): void
     {
@@ -115,7 +99,7 @@ abstract class ActivationHandlerAbstract implements OnActivateInterface
     private function flush(): void
     {
         if ($this->flush) {
-            \flush_rewrite_rules();
+            flush_rewrite_rules();
         }
     }
 }

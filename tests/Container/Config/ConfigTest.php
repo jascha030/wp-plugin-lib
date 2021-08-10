@@ -6,6 +6,10 @@ use Jascha030\PluginLib\Container\Config\Config;
 use Jascha030\PluginLib\Container\Config\ConfigInterface;
 use PHPUnit\Framework\TestCase;
 
+/**
+ * @internal
+ * @coversNothing
+ */
 class ConfigTest extends TestCase
 {
     public const TEST_PLUGIN_NAME = 'Test Plugin';
@@ -25,12 +29,10 @@ class ConfigTest extends TestCase
     /**
      * @depends testConfigConstruction
      * @depends testSetters
-     *
-     * @param ConfigInterface $config
      */
     final public function testAccessMethods(ConfigInterface $config): void
     {
-        self::assertEquals(self::TEST_PLUGIN_NAME . '_SET', $config->getPluginName());
+        self::assertEquals(self::TEST_PLUGIN_NAME.'_SET', $config->getPluginName());
         self::assertEquals(__FILE__, $config->getPluginFile());
         self::assertEquals(str_replace(' ', '', strtolower(self::TEST_PLUGIN_NAME)), $config->getPluginPrefix());
         self::assertEquals([], $config->getHookables());
@@ -41,15 +43,13 @@ class ConfigTest extends TestCase
     /**
      * @depends      testConfigConstruction
      *
-     * @param ConfigInterface $config
-     *
      * @noinspection UnnecessaryAssertionInspection
      */
     final public function testSetters(ConfigInterface $config): void
     {
         $prefix = str_replace(' ', '', strtolower(self::TEST_PLUGIN_NAME));
 
-        self::assertInstanceOf(ConfigInterface::class, $config->setPluginName(self::TEST_PLUGIN_NAME . '_SET'));
+        self::assertInstanceOf(ConfigInterface::class, $config->setPluginName(self::TEST_PLUGIN_NAME.'_SET'));
         self::assertInstanceOf(ConfigInterface::class, $config->setPluginFile(__FILE__));
         self::assertInstanceOf(ConfigInterface::class, $config->setPluginPrefix($prefix));
         self::assertInstanceOf(ConfigInterface::class, $config->setPostTypes([]));

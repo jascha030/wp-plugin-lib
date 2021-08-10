@@ -3,39 +3,20 @@
 namespace Jascha030\PluginLib\Entity\Post;
 
 /**
- * Class PostType
- * @package Jascha030\PluginLib\Entity\Post
+ * Class PostType.
  */
 class PostType extends PostTypeAbstract
 {
-    /**
-     * @var string|null
-     */
     private ?string $slug;
 
-    /**
-     * @var string|null
-     */
     private ?string $singular;
 
-    /**
-     * @var string|null
-     */
     private ?string $plural;
 
-    /**
-     * @var array
-     */
     private array $arguments;
 
     /**
      * PostType constructor.
-     *
-     * @param  string|null  $slug
-     * @param  string|null  $singular
-     * @param  string|null  $plural
-     *
-     * @param  array        $arguments
      */
     public function __construct(
         ?string $slug = null,
@@ -50,7 +31,7 @@ class PostType extends PostTypeAbstract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public function getSlug(): string
     {
@@ -58,7 +39,7 @@ class PostType extends PostTypeAbstract
     }
 
     /**
-     * @param  string|null  $slug
+     * @param null|string $slug
      */
     final public function setSlug(string $slug): void
     {
@@ -66,7 +47,7 @@ class PostType extends PostTypeAbstract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public function getSingular(): string
     {
@@ -74,7 +55,7 @@ class PostType extends PostTypeAbstract
     }
 
     /**
-     * @param  string|null  $singular
+     * @param null|string $singular
      */
     final public function setSingular(string $singular): void
     {
@@ -82,7 +63,7 @@ class PostType extends PostTypeAbstract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public function getPlural(): string
     {
@@ -90,7 +71,7 @@ class PostType extends PostTypeAbstract
     }
 
     /**
-     * @param  string|null  $plural
+     * @param null|string $plural
      */
     final public function setPlural(string $plural): void
     {
@@ -98,16 +79,13 @@ class PostType extends PostTypeAbstract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public function getArguments(): array
     {
         return $this->arguments;
     }
 
-    /**
-     * @param  array  $arguments
-     */
     final public function setArguments(array $arguments): void
     {
         $this->arguments = $arguments;

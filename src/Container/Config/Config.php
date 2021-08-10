@@ -18,8 +18,7 @@ use Pimple\ServiceIterator;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class Config
- * @package Jascha030\PluginLib\Container\Config
+ * Class Config.
  */
 class Config extends ConfigAbstract
 {
@@ -33,8 +32,6 @@ class Config extends ConfigAbstract
     }
 
     /**
-     * @param PimpleContainer $container
-     *
      * @throws DoesNotImplementProviderInterfaceException
      * @throws DoesNotImplementHookableInterfaceException
      */
@@ -46,8 +43,6 @@ class Config extends ConfigAbstract
     }
 
     /**
-     * @param PimpleContainer $container
-     *
      * @throws DoesNotImplementHookableInterfaceException
      */
     private function injectHookables(PimpleContainer $container): void
@@ -62,18 +57,18 @@ class Config extends ConfigAbstract
         $afterInitHookables = [];
         $reference          = [];
 
-        if (! empty($hookables)) {
+        if (!empty($hookables)) {
             foreach ($hookables as $key => $className) {
                 $closure = static function () use ($className) {
                     return new $className();
                 };
 
-                if (is_string($key) && $className instanceof \Closure) {
-                    $closure = $className;
+                if (\is_string($key) && $className instanceof \Closure) {
+                    $closure   = $className;
                     $className =  $key;
                 }
 
-                if (! is_subclass_of($className, HookableInterface::class)) {
+                if (!is_subclass_of($className, HookableInterface::class)) {
                     throw new DoesNotImplementHookableInterfaceException($className);
                 }
 
@@ -85,7 +80,7 @@ class Config extends ConfigAbstract
                     $afterInitHookables[] = $className;
                 }
 
-                /** @noinspection PhpArrayUsedOnlyForWriteInspection */
+                // @noinspection PhpArrayUsedOnlyForWriteInspection
                 $container[$className] = $closure;
             }
         }
@@ -100,16 +95,13 @@ class Config extends ConfigAbstract
         };
     }
 
-    /**
-     * @param PimpleContainer $container
-     */
     private function injectPostTypes(PimpleContainer $container): void
     {
         $definitions = [];
         $postTypes   = $this->getPostTypes();
 
         foreach ($postTypes as $postType) {
-            if (is_array($postType)) {
+            if (\is_array($postType)) {
                 $container[$postType[0]] = static function (PimpleContainer $container) use ($postType) {
                     return new PostType(...$postType);
                 };
@@ -132,28 +124,26 @@ class Config extends ConfigAbstract
     }
 
     /**
-     * @param PimpleContainer $container
-     *
      * @throws DoesNotImplementProviderInterfaceException
      */
     private function injectServiceProviders(PimpleContainer $container): void
     {
         $serviceProviders = $this->getServiceProviders();
 
-        if (! in_array(WordpressProvider::class, $serviceProviders, true)) {
+        if (!\in_array(WordpressProvider::class, $serviceProviders, true)) {
             $serviceProviders[WordpressProvider::class] = [];
         }
 
-        /**
+        /*
          * These service providers should add dependencies and methods that need to be globally available,
          * they should not be hooked directly to WordPress' actions or filters.
          */
         foreach ($serviceProviders as $provider => $arguments) {
-            if (! is_subclass_of($provider, ServiceProviderInterface::class)) {
+            if (!is_subclass_of($provider, ServiceProviderInterface::class)) {
                 throw new DoesNotImplementProviderInterfaceException($provider);
             }
 
-            if ($provider === WordpressProvider::class) {
+            if (WordpressProvider::class === $provider) {
                 $container->register(new $provider($this->getPluginName(), $this->getPluginFile()), $arguments);
 
                 continue;

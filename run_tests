@@ -1,5 +1,0 @@
-#!/usr/bin/env bash
-
-# Run the local composer phpunit with our phpunit.xml (standard)
-# You can edit the --configuration flag (Useful when it's located elsewhere)
-./vendor/bin/phpunit --configuration phpunit.xml

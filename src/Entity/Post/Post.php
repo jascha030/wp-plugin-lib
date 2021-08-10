@@ -4,17 +4,13 @@
 
 namespace Jascha030\PluginLib\Entity\Post;
 
-use WP_Post;
-
 /**
- * Generic Post class
- *
- * @package Jascha030\PluginLib\Entity\Post
+ * Generic Post class.
  */
 class Post extends PostAbstract
 {
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public function getPostTypeSlug(): string
     {
@@ -22,7 +18,7 @@ class Post extends PostAbstract
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public function getPostTypeClass(): ?PostTypeInterface
     {

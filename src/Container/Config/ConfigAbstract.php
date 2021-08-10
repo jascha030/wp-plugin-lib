@@ -60,11 +60,6 @@ abstract class ConfigAbstract implements ConfigInterface
         return $this->postTypes;
     }
 
-    /**
-     * @param array $postTypes
-     *
-     * @return ConfigInterface
-     */
     final public function setPostTypes(array $postTypes): ConfigInterface
     {
         $this->postTypes = $postTypes;
@@ -72,19 +67,11 @@ abstract class ConfigAbstract implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return array
-     */
     final public function getHookables(): array
     {
         return $this->hookables;
     }
 
-    /**
-     * @param array $hookables
-     *
-     * @return ConfigInterface
-     */
     final public function setHookables(array $hookables): ConfigInterface
     {
         $this->hookables = $hookables;
@@ -92,19 +79,11 @@ abstract class ConfigAbstract implements ConfigInterface
         return $this;
     }
 
-    /**
-     * @return array
-     */
     final public function getServiceProviders(): array
     {
         return $this->serviceProviders;
     }
 
-    /**
-     * @param array $serviceProviders
-     *
-     * @return ConfigInterface
-     */
     final public function setServiceProviders(array $serviceProviders): ConfigInterface
     {
         $this->serviceProviders = $serviceProviders;

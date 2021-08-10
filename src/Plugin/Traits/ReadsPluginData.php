@@ -5,35 +5,25 @@ declare(strict_types=1);
 namespace Jascha030\PluginLib\Plugin\Traits;
 
 use Exception;
-
 use function get_plugin_data;
 
 /**
- * Trait ReadsPluginData
- * @package Jascha030\PluginLib\Plugin\Traits
+ * Trait ReadsPluginData.
  */
 trait ReadsPluginData
 {
-    /**
-     * @var string|null
-     */
     private ?string $pluginFile;
 
-    /**
-     * @var array
-     */
     private array $pluginData = [];
 
     /**
-     * Get data from the Plugin header by key
+     * Get data from the Plugin header by key.
      *
-     * @param  string  $key
-     * @return null|string
      * @throws Exception
      */
     final public function getPluginData(string $key): ?string
     {
-        if (! isset($this->pluginData[$key])) {
+        if (!isset($this->pluginData[$key])) {
             $this->fetchPluginData();
         }
 
@@ -47,15 +37,13 @@ trait ReadsPluginData
      */
     private function fetchPluginData(): void
     {
-        if (! defined('ABSPATH')) {
-            throw new \RuntimeException(
-                'Couldn\'t get Plugin data, ABSPATH not defined, make sure you are using this in an active Wordpress install'
-            );
+        if (!\defined('ABSPATH')) {
+            throw new \RuntimeException('Couldn\'t get Plugin data, ABSPATH not defined, make sure you are using this in an active Wordpress install');
         }
 
         $path = ABSPATH.'wp-admin/includes/plugin.php';
 
-        if (! function_exists('get_plugin_data') || is_readable($path)) {
+        if (!\function_exists('get_plugin_data') || is_readable($path)) {
             require_once $path;
         }
 

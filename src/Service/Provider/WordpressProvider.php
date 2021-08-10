@@ -7,26 +7,19 @@ use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
 /**
- * Class WordpressProvider
- * @package Jascha030\PluginLib\Service\Provider
+ * Class WordpressProvider.
  */
 final class WordpressProvider implements ServiceProviderInterface
 {
-    /**
-     * @var string
-     */
     private string $pluginFile;
 
     /**
-     * @var string|null
+     * @var null|string
      */
     private string $prefix;
 
     /**
      * WordpressProvider constructor.
-     *
-     * @param  string  $prefix
-     * @param  string  $file
      */
     public function __construct(string $prefix, string $file)
     {
@@ -35,7 +28,7 @@ final class WordpressProvider implements ServiceProviderInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function register(Container $pimple): void
     {
@@ -48,6 +41,6 @@ final class WordpressProvider implements ServiceProviderInterface
         });
 
         $pimple['plugin.file'] = $this->pluginFile;
-        $pimple['plugin.root'] = dirname($this->pluginFile);
+        $pimple['plugin.root'] = \dirname($this->pluginFile);
     }
 }

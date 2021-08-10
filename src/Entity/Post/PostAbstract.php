@@ -55,7 +55,7 @@ abstract class PostAbstract implements PostInterface
     /**
      * PostAbstract constructor.
      *
-     * @param mixed|WP_Post|int|null $post
+     * @param null|int|mixed|WP_Post $post
      */
     public function __construct($post = null)
     {
@@ -63,13 +63,13 @@ abstract class PostAbstract implements PostInterface
         $this->postData = [];
         $this->postMeta = [];
 
-        if ($post !== null) {
+        if (null !== $post) {
             $this->setPost(WP_Post::get_instance($post));
         }
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     final public static function new(): PostInterface
     {
@@ -77,13 +77,13 @@ abstract class PostAbstract implements PostInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function find(int $id): ?PostInterface
     {
         $post = WP_Post::get_instance($id);
 
-        if ($post === false) {
+        if (false === $post) {
             return null;
         }
 
@@ -91,17 +91,17 @@ abstract class PostAbstract implements PostInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function exists(int $id): bool
     {
         // WP_Post class is final, get_post always returns WP_Post,
         // long as `get_post()` is called without 2nd argument
-        return WP_Post::get_instance($id) !== false;
+        return false !== WP_Post::get_instance($id);
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public static function create(array $data, array $meta = []): ?PostInterface
     {
@@ -122,7 +122,7 @@ abstract class PostAbstract implements PostInterface
 
     public function getPostData(): array
     {
-        if (! $this->post) {
+        if (!$this->post) {
             return $this->postData;
         }
 
@@ -130,34 +130,36 @@ abstract class PostAbstract implements PostInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
+     *
      * @throws Exception
      */
     final public function insert(): ?PostInterface
     {
-        if (isset($this->post) && $this->post !== null) {
+        if (isset($this->post) && null !== $this->post) {
             $this->postData = $this->post->to_array();
         }
 
         $data = $this->postData;
 
-        if (! isset($data['post_type'])) {
+        if (!isset($data['post_type'])) {
             $data['post_type'] = $this->getPostTypeSlug();
         }
 
-        if (! isset($data['post_author'])) {
+        if (!isset($data['post_author'])) {
             $data['post_author'] = wp_get_current_user()->ID;
         }
 
         $data['meta_input'] = $this->postMeta;
 
-        if (! count(array_intersect_key(array_flip(self::REQUIRED_POST_DATA), $data))
-            === count(self::REQUIRED_POST_DATA)) {
+        if (!\count(array_intersect_key(array_flip(self::REQUIRED_POST_DATA), $data))
+            === \count(self::REQUIRED_POST_DATA)) {
             $requiredKeys = implode(', ', self::REQUIRED_POST_DATA);
+
             throw new Exception("Couldn't insert post, check required keys ({$requiredKeys})");
         }
 
-        $id = \wp_insert_post($data);
+        $id         = wp_insert_post($data);
         $this->post = null;
 
         $this->setPost(WP_Post::get_instance($id));
@@ -167,8 +169,8 @@ abstract class PostAbstract implements PostInterface
 
     public function getMeta(string $key, bool $single = true)
     {
-        if (! $this->post) {
-            if (!array_key_exists($key, $this->postMeta)) {
+        if (!$this->post) {
+            if (!\array_key_exists($key, $this->postMeta)) {
                 return null;
             }
 
@@ -179,16 +181,16 @@ abstract class PostAbstract implements PostInterface
     }
 
     /**
-     * @inheritDoc
+     * {@inheritDoc}
      */
     public function setMeta(string $key, $value): bool
     {
-        if (! $this->post) {
+        if (!$this->post) {
             $this->postMeta[$key] = $value;
         }
 
-        if (! add_post_meta($this->post->ID, $key, $value, true)) {
-            \update_post_meta($this->post->ID, $key, $value);
+        if (!add_post_meta($this->post->ID, $key, $value, true)) {
+            update_post_meta($this->post->ID, $key, $value);
         }
     }
 
@@ -200,11 +202,11 @@ abstract class PostAbstract implements PostInterface
     private function setPostData(array $postData): void
     {
         foreach ($postData as $key => $value) {
-            if (! in_array($key, self::POST_DATA, true)) {
+            if (!\in_array($key, self::POST_DATA, true)) {
                 continue;
             }
 
-            if (! $this->post) {
+            if (!$this->post) {
                 $this->postData[$key] = $value;
             } else {
                 $this->post->{$key} = $value;
