@@ -3,9 +3,10 @@
 ### 1.3.1 - 10-08-2021
 
 * Minor (non bug)fixes in config example
-* New php cs fixer config; `.php-cs-fixer.dist.php` (replacing old `.php-cs-fixer.php`)
-* Ran new format
+* Added and ran new php cs fixer config; `.php-cs-fixer.dist.php` (replacing old `.php-cs-fixer.php`).
 * Added `phpunit` and `format` composer script commands
+* Minor formatting changes for README.md
+* Updated README with new Testing, Formatting and license sections.
 
 ### 1.3.0 - 09-06-2021
 
