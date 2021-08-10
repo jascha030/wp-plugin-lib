@@ -1,29 +1,32 @@
-WP Plugin Library for OOP
-=========================
+# WP Plugin Library for OOP
 
-A backbone for utilising the [Wordpress Plugin API](https://codex.wordpress.org/Plugin_API#Introduction),
-using `php@7.4` and OOP.
+A backbone for utilizing
+the [Wordpress Plugin API](https://codex.wordpress.org/Plugin_API#Introduction)
+, using `php@7.4` and OOP.
 
-Requirements
-============
+## Getting started
 
-* PHP 7.4.*
-* Wordpress >= 5.5.0
+## Prerequisites
 
-Installation
-============
+* Php `^7.4.*`
+* Composer `^2`
+* WordPress >= 5.5.0
+
+### Installation
 
 ```shell
 composer require jascha030/wp-plugin-lib
 ```
 
-Usage
-=====
-The easiest way to explain usage is with an example of the main plugin file.
+## Usage
 
-The name of the package might be deceiving, Plugin refers to the WP Plugin API, which means that it can be used for
-either a plugin or a theme. In this example we pretend to be building a plugin, but for a theme we would just write our
-code in the theme's
+The easiest way to explain usage is with an example of the main plugin
+file.
+
+The name of the package might be deceiving, Plugin refers to the WP
+Plugin API, which means that it can be used for either a plugin or a
+theme. In this example we pretend to be building a plugin, but for a
+theme we would just write our code in the theme's
 `functions.php` file instead of the main plugin file.
 
 `main-plugin-file.php`
@@ -46,8 +49,6 @@ code in the theme's
  * Version: 1.0.0
  * Author: Jascha030
  * Author URI: https://github.com/jascha030.
- * License: GPL-2.0+
- * License URI: http://www.gnu.org/licenses/gpl-2.0.txt
  */
 
 namespace Jascha030;
@@ -61,7 +62,7 @@ use Jascha030\PluginLib\Container\Config\ConfigInterface;
 use function Jascha030\PluginLib\Functions\buildPlugin;
 
 /**
- * Check if Wordpress' ABSPATH const is loaded
+ * Check if WordPress' ABSPATH const is loaded
  */
 if (! defined('ABSPATH')) {
     die('Forbidden');
@@ -95,11 +96,13 @@ add_action('plugins_loaded', function () {
 
 ### Hookables
 
-The plugin revolves around classes implementing `HookableInterface` or one of it's extended interfaces. Hookables should
-only contain public methods that are hooked to wordpress' filters or actions.
+The plugin revolves around classes implementing `HookableInterface` or
+one of it's extended interfaces. Hookables should only contain public
+methods that are hooked to WordPress' filters or actions.
 
-I recommend using the `LazyHookableInterface`, classes implementing this will only be constructed upon the first call to
-a hook containing one of it's methods.
+I recommend using the `LazyHookableInterface`, classes implementing this
+will only be constructed upon the first call to a hook containing one of
+its methods.
 
 Here's an example of a class Implementing `LazyHookableInterface`:
 
@@ -142,5 +145,39 @@ class TestingHookable implements LazyHookableInterface
 
 ### Providers
 
-The standard container used is the Psr11 wrapper from the `pimple/pimple` package. Providers follow
+The standard container used is the Psr11 wrapper from
+the `pimple/pimple` package. Providers follow
 pimple's `ServiceProviderInterface`.
+
+## Testing
+
+Included with the package are a set of Unit tests
+using `phpunit/phpunit`. For ease of use a composer script command is
+defined to run the tests.
+
+```shell
+composer run phpunit
+```
+
+A code coverage report is generated in the project's root as `cov.xml`.
+The `cov.xml` file is not ignored in the
+`.gitignore` by default. You are encouraged to commit the latest code
+coverage report, when deploying new features.
+
+## Code style & Formatting
+
+A code style configuration for `friendsofphp/php-cs-fixer` is included,
+defined in `.php-cs-fixer.dist.php`.
+
+To use php-cs-fixer without having it necessarily installed globally, a
+composer script command is also included to format php code using the
+provided config file and the vendor binary of php-cs-fixer.
+
+```shell
+composer run format
+```
+
+## License
+
+This composer package is an open-sourced software licensed under
+the [MIT License](https://github.com/jascha030/wp-plugin-lib/blob/master/LICENSE.md)
