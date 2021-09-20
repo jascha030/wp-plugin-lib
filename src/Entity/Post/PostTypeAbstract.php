@@ -62,12 +62,12 @@ abstract class PostTypeAbstract implements PostTypeInterface
     {
         $id = wp_insert_post(
             array_merge(
-            $postData,
-            [
-                'post_type'   => $this->getSlug(), 'post_status' => 'publish', 'post_date' => date('Y-m-d H:i:s'),
-                'post_author' => 1,
-            ]
-        ),
+                $postData,
+                [
+                    'post_type'   => $this->getSlug(), 'post_status' => 'publish', 'post_date' => date('Y-m-d H:i:s'),
+                    'post_author' => 1,
+                ]
+            ),
             true
         );
 

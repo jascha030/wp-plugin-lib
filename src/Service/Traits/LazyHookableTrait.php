@@ -5,8 +5,8 @@ namespace Jascha030\PluginLib\Service\Traits;
 /**
  * Class LazyHookableTrait.
  *
- * @property  $actions array
- * @property  $filters array
+ * @property $actions array
+ * @property $filters array
  */
 trait LazyHookableTrait
 {
