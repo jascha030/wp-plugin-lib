@@ -1,5 +1,10 @@
 # Changelog
 
+### 1.4.0 - 20-09-2021
+
+* Added SettingsSubMenu class.
+* Ran formatter.
+
 ### 1.3.1 - 10-08-2021
 
 * Minor (non bug)fixes in config example
