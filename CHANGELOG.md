@@ -1,5 +1,9 @@
 # Changelog
 
+### 1.5.0 - 10-10-2021
+
+* Added option to overwrite settings-field callback.
+
 ### 1.4.0 - 20-09-2021
 
 * Added SettingsSubMenu class.
