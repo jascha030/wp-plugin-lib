@@ -68,7 +68,11 @@ class SettingsSubMenu implements LazyHookableInterface
             // e.g. if $key = 'user', $option_id = 'carerix_user'.
             $option_id = $this->id.'_'.$key;
 
-            register_setting($this->id, $option_id);
+            if (isset($value['callback'])) {
+                register_setting($this->id, $option_id, $value['callback']);
+            } else {
+                register_setting($this->id, $option_id);
+            }
 
             add_settings_field(
                 $option_id,
