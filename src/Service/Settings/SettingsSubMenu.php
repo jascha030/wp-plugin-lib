@@ -115,7 +115,7 @@ class SettingsSubMenu implements LazyHookableInterface
         settings_errors($this->id.'_messages');
 
         echo sprintf(
-            '<h1>%s</h1><div class="wrap"><form action="options.php" method="post">',
+            '<h1>%s</h1><div class="wrap"><form action="options.php" method="post" enctype="multipart/form-data">',
             ucfirst(esc_html(get_admin_page_title()))
         );
 
